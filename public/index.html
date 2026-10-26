@@ -4,10 +4,10 @@
   <meta charset="utf-8"/>
   <meta content="width=device-width,initial-scale=1" name="viewport"/>
   <title>
-   YvyShop - Vòng Tái Sinh
+   Yvy Shop - Vòng Tái Sinh
   </title>
 <style>
-
+/* NOVA Green — styles preserved in original cascade order */
 
 :root {
     --ink: #171717;
@@ -1410,6 +1410,275 @@ footer {
 
 
 
+
+.product-detail-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+}
+
+.product-detail-modal[hidden] {
+    display: none;
+}
+
+.product-detail-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, .65);
+}
+
+.product-detail-box {
+    position: relative;
+    background: white;
+    border-radius: 20px;
+    width: min(850px, 100%);
+    max-height: 90dvh;
+    overflow-y: auto;
+    padding: 25px;
+}
+
+.product-detail-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 2;
+    width: 36px;
+    height: 36px;
+    border: 0;
+    border-radius: 50%;
+    background: #f0f3f0;
+}
+
+.product-detail-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+}
+
+.product-detail-main {
+    height: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f7faf7;
+    border-radius: 14px;
+}
+
+.product-detail-main img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.product-detail-thumbnails {
+    display: flex;
+    gap: 9px;
+    margin-top: 12px;
+    overflow-x: auto;
+}
+
+.product-detail-thumbnails button {
+    width: 68px;
+    height: 68px;
+    flex-shrink: 0;
+    padding: 4px;
+    border: 2px solid #e0e9e0;
+    border-radius: 9px;
+    background: white;
+}
+
+.product-detail-thumbnails button.active {
+    border-color: #168546;
+}
+
+.product-detail-thumbnails img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.product-detail-info {
+    padding-top: 25px;
+}
+
+.product-detail-info h2 {
+    color: #173a29;
+}
+
+.product-detail-price {
+    font-size: 25px;
+    font-weight: 800;
+    color: #168546;
+    margin: 16px 0;
+}
+
+.product-detail-info p {
+    white-space: pre-wrap;
+    line-height: 1.7;
+    color: #607366;
+}
+
+.grid .product .visual,
+.grid .product .info h3 {
+    cursor: pointer;
+}
+
+@media (max-width: 600px) {
+    .product-detail-layout {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .product-detail-box {
+        padding: 18px;
+    }
+
+    .product-detail-main {
+        height: 260px;
+    }
+
+    .product-detail-info {
+        padding-top: 0;
+    }
+
+    .product-detail-thumbnails button {
+        width: 58px;
+        height: 58px;
+    }
+}
+
+
+
+
+/* =========================================
+   MODAL THÔNG BÁO Yvy SHOP
+========================================= */
+
+.shop-alert {
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 18px;
+    background: rgba(12, 35, 23, .60);
+    backdrop-filter: blur(5px);
+    animation: shopAlertFade .2s ease;
+}
+
+.shop-alert[hidden] {
+    display: none;
+}
+
+.shop-alert-box {
+    width: min(420px, 100%);
+    max-height: 90dvh;
+    overflow-y: auto;
+    background: white;
+    border-radius: 22px;
+    padding: 30px 25px 25px;
+    text-align: center;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, .22);
+    animation: shopAlertPop .25s ease;
+}
+
+.shop-alert-icon {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 18px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 34px;
+    font-weight: 800;
+}
+
+.shop-alert.success .shop-alert-icon {
+    color: #15803d;
+    background: #dcfce7;
+}
+
+.shop-alert.error .shop-alert-icon {
+    color: #dc2626;
+    background: #fee2e2;
+}
+
+.shop-alert.warning .shop-alert-icon {
+    color: #d97706;
+    background: #fef3c7;
+}
+
+.shop-alert.info .shop-alert-icon {
+    color: #2563eb;
+    background: #dbeafe;
+}
+
+.shop-alert-title {
+    margin: 0 0 12px;
+    font-size: 22px;
+    color: #173a29;
+    font-weight: 800;
+}
+
+.shop-alert-message {
+    margin: 0 0 24px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: #607366;
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+}
+
+.shop-alert-button {
+    width: 100%;
+    padding: 14px;
+    border: 0;
+    border-radius: 12px;
+    color: white;
+    background: linear-gradient(135deg, #20a45a, #087b3c);
+    font-size: 15px;
+    font-weight: 750;
+    cursor: pointer;
+}
+
+.shop-alert-button:hover {
+    filter: brightness(.95);
+}
+
+.shop-alert-button:focus-visible {
+    outline: 3px solid #86efac;
+    outline-offset: 3px;
+}
+
+@keyframes shopAlertFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes shopAlertPop {
+    from {
+        opacity: 0;
+        transform: translateY(16px) scale(.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .shop-alert,
+    .shop-alert-box {
+        animation: none;
+    }
+}
+
+
 </style>
  </head>
  <body>
@@ -1477,12 +1746,12 @@ footer {
       VÒNG TÁI SINH &middot; SHOP ONLINE
      </div>
      <h1>
-      Khởi nguồn năng lượng,
+      Khởi nguồn năng lượng.
       <br/>
-      cân bằng cuộc sống.
+      Cân bằng cuộc sống.
      </h1>
      <p>
-      Khám phá sản phẩm yêu thích với trải nghiệm mua sắm nhanh chóng, dễ dàng.
+      Khám phá sản phẩm yêu thích với trải nghiệm mua sắm nhanh chóng, dễ dàng và thuận lợi.
      </p>
      <button class="primary" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">
       Khám phá ngay &rarr;
@@ -1712,6 +1981,79 @@ footer {
 
 
 
+<div id="productDetailModal" class="product-detail-modal"
+     role="dialog" aria-modal="true"
+     aria-label="Chi tiết sản phẩm" hidden>
+
+    <div class="product-detail-backdrop"
+         onclick="closeProductDetail()"></div>
+
+    <div class="product-detail-box">
+        <button class="product-detail-close"
+                onclick="closeProductDetail()"
+                aria-label="Đóng">✕</button>
+
+        <div class="product-detail-layout">
+            <div>
+                <div class="product-detail-main">
+                    <img id="detailMainImage" alt="Ảnh sản phẩm">
+                </div>
+                <div id="detailThumbnails"
+                     class="product-detail-thumbnails"></div>
+            </div>
+
+            <div class="product-detail-info">
+                <small id="detailCategory"></small>
+                <h2 id="detailName"></h2>
+                <div id="detailPrice"
+                     class="product-detail-price"></div>
+                <p id="detailDescription"></p>
+
+                <button id="detailAddButton"
+                        class="checkout"
+                        type="button">
+                    + Thêm vào giỏ
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- MODAL THÔNG BÁO CỬA HÀNG -->
+<div id="shopAlert" class="shop-alert info"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="shopAlertTitle"
+     aria-describedby="shopAlertMessage"
+     hidden>
+
+    <div class="shop-alert-box">
+
+        <div id="shopAlertIcon"
+             class="shop-alert-icon"
+             aria-hidden="true">i</div>
+
+        <h3 id="shopAlertTitle"
+            class="shop-alert-title">
+            Thông báo
+        </h3>
+
+        <p id="shopAlertMessage"
+           class="shop-alert-message"></p>
+
+        <button id="shopAlertButton"
+                class="shop-alert-button"
+                type="button">
+            Đã hiểu
+        </button>
+
+    </div>
+</div>
+
+
   <script >
 "use strict";
 
@@ -1751,6 +2093,93 @@ const ORDER_STORAGE_KEY = "bc3d_orders";
 function $(id) {
     return document.getElementById(id);
 }
+
+
+/* =========================================
+   HỆ THỐNG MODAL THÔNG BÁO
+========================================= */
+
+const shopAlertQueue = [];
+let shopAlertActive = false;
+
+function showShopAlert(message, type = "info") {
+    return new Promise(resolve => {
+        shopAlertQueue.push({
+            message: String(message),
+            type,
+            resolve
+        });
+
+        processShopAlertQueue();
+    });
+}
+
+function processShopAlertQueue() {
+    if (shopAlertActive || shopAlertQueue.length === 0) {
+        return;
+    }
+
+    shopAlertActive = true;
+
+    const current = shopAlertQueue.shift();
+    const modal = $("shopAlert");
+    const icon = $("shopAlertIcon");
+    const title = $("shopAlertTitle");
+    const message = $("shopAlertMessage");
+    const button = $("shopAlertButton");
+
+    const types = {
+        success: ["✓", "Thành công!"],
+        error: ["✕", "Có lỗi xảy ra"],
+        warning: ["!", "Thông báo"],
+        info: ["i", "Thông báo"]
+    };
+
+    const selectedType = types[current.type]
+        ? current.type
+        : "info";
+
+    const [symbol, heading] = types[selectedType];
+
+    modal.className = "shop-alert " + selectedType;
+    icon.textContent = symbol;
+    title.textContent = heading;
+    message.textContent = current.message;
+
+    const previousFocus = document.activeElement;
+
+    function close() {
+        modal.hidden = true;
+        button.removeEventListener("click", close);
+        document.removeEventListener("keydown", onKey);
+
+        if (previousFocus &&
+            typeof previousFocus.focus === "function" &&
+            previousFocus.isConnected) {
+            previousFocus.focus();
+        }
+
+        shopAlertActive = false;
+        current.resolve();
+        processShopAlertQueue();
+    }
+
+    function onKey(event) {
+        if (event.key === "Escape" ||
+            event.key === "Enter") {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            close();
+        }
+    }
+
+    button.addEventListener("click", close);
+    document.addEventListener("keydown", onKey, true);
+
+    modal.hidden = false;
+    button.focus();
+}
+
 
 // Định dạng tiền Việt Nam
 function money(value) {
@@ -1979,7 +2408,8 @@ function createProductCard(product) {
         : "";
 
     return `
-        <article class="product">
+        <article class="product"
+         data-product-id="${escapeHTML(product.id)}">
 
             <div class="visual">
                 ${tag}
@@ -2240,7 +2670,7 @@ function add(id) {
 
     // Kiểm tra sản phẩm có tồn tại không
     if (!product) {
-        alert("Sản phẩm không tồn tại.");
+        showShopAlert("Sản phẩm không tồn tại.", "error");
         return;
     }
 
@@ -2396,7 +2826,10 @@ function closeCart() {
 // Mở form thanh toán
 function checkout() {
     if (getCartProducts().length === 0) {
-        alert("Vui lòng thêm sản phẩm vào giỏ hàng.");
+        showShopAlert(
+    "Vui lòng chọn ít nhất một sản phẩm trước khi thanh toán.",
+    "warning"
+);
         return;
     }
 
@@ -2469,7 +2902,10 @@ async function handleOrderSubmit(event) {
     }));
 
     if (items.length === 0) {
-        alert("Giỏ hàng đang trống.");
+        await showShopAlert(
+    "Giỏ hàng của bạn đang trống. Vui lòng chọn sản phẩm để tiếp tục.",
+    "warning"
+);
         return;
     }
 
@@ -2506,21 +2942,23 @@ async function handleOrderSubmit(event) {
 
         form.reset();
 
-        alert(
-            "✅ Đặt hàng thành công!\n\n" +
-            "Mã đơn: " + result.orderId + "\n" +
-            "Tổng tiền: " + money(result.total) + "\n\n" +
-            "Cửa hàng đã nhận được thông báo."
-        );
+await showShopAlert(
+    "Đơn hàng của bạn đã được ghi nhận!\n\n" +
+    "Mã đơn hàng: " + result.orderId + "\n" +
+    "Tổng thanh toán: " + money(result.total) + "\n\n" +
+    "Cửa hàng sẽ liên hệ với bạn để xác nhận và giao hàng.",
+    "success"
+);
 
     } catch (error) {
         console.error("Lỗi đặt hàng:", error);
 
-        alert(
-            "❌ " + error.message + "\n\n" +
-            "Giỏ hàng vẫn được giữ lại. " +
-            "Vui lòng kiểm tra trước khi thử lại."
-        );
+await showShopAlert(
+    error.message + "\n\n" +
+    "Giỏ hàng của bạn vẫn được giữ nguyên.\n" +
+    "Vui lòng kiểm tra thông tin hoặc thử lại sau.",
+    "error"
+);
 
     } finally {
         submitButton.disabled = false;
@@ -2534,6 +2972,7 @@ async function handleOrderSubmit(event) {
    12. KHỞI TẠO VÀ GẮN SỰ KIỆN
 ========================================================= */
 
+
 function initializeShop() {
 
     // Đọc giỏ hàng đã lưu
@@ -2546,31 +2985,58 @@ function initializeShop() {
     );
 
 
-/* =========================================================
-   THÊM SẢN PHẨM + HIỆU ỨNG BAY VÀO GIỎ
-========================================================= */
+    /* =========================================================
+       XỬ LÝ CLICK SẢN PHẨM VÀ THÊM VÀO GIỎ HÀNG
+    ========================================================= */
 
-$("grid").addEventListener("click", (event) => {
+    $("grid").addEventListener("click", (event) => {
 
-    const button = event.target.closest("[data-add-id]");
+        // Kiểm tra khách có bấm nút Thêm vào giỏ không
+        const addButton = event.target.closest("[data-add-id]");
 
-    if (!button) {
-        return;
-    }
+        if (addButton) {
 
-    // Lấy ID sản phẩm
-    const productId = button.dataset.addId;
+            const productId = addButton.dataset.addId;
 
-    // Thêm sản phẩm vào giỏ như bình thường
-    add(productId);
+            // Thêm sản phẩm vào giỏ
+            add(productId);
 
-    // Kích hoạt hiệu ứng bay từ sản phẩm vào giỏ
-    flyToCart(button);
-});
+            // Hiệu ứng sản phẩm bay vào giỏ
+            flyToCart(addButton);
+
+            // Không mở chi tiết sản phẩm
+            return;
+        }
 
 
-    // Xử lý tăng giảm số lượng trong giỏ
+        /* =====================================================
+           MỞ CHI TIẾT SẢN PHẨM
+        ===================================================== */
+
+        // Tìm thẻ sản phẩm được bấm
+        const productCard = event.target.closest(
+            "[data-product-id]"
+        );
+
+        if (!productCard) {
+            return;
+        }
+
+        // Lấy ID sản phẩm
+        const productId = productCard.dataset.productId;
+
+        // Mở giao diện chi tiết có ảnh chính và ảnh phụ
+        openProductDetail(productId);
+
+    });
+
+
+    /* =========================================================
+       XỬ LÝ TĂNG GIẢM SỐ LƯỢNG TRONG GIỎ
+    ========================================================= */
+
     $("cartItems").addEventListener("click", (event) => {
+
         const button = event.target.closest("[data-change-id]");
 
         if (!button) {
@@ -2581,20 +3047,28 @@ $("grid").addEventListener("click", (event) => {
             button.dataset.changeId,
             Number(button.dataset.delta)
         );
+
     });
 
-    // Xử lý xác nhận đặt hàng
+
+    /* =========================================================
+       XỬ LÝ XÁC NHẬN ĐẶT HÀNG
+    ========================================================= */
+
     $("orderForm").addEventListener(
         "submit",
         handleOrderSubmit
     );
 
+
     // Cập nhật số lượng giỏ hàng
     updateCount();
 
-    // Lấy sản phẩm từ máy chủ
+    // Lấy danh sách sản phẩm từ máy chủ
     loadProducts();
+
 }
+
 
 // Chạy khi trang HTML đã sẵn sàng
 if (document.readyState === "loading") {
@@ -2605,6 +3079,83 @@ if (document.readyState === "loading") {
 } else {
     initializeShop();
 }
+
+
+
+
+function openProductDetail(productId) {
+    const product = products.find(p =>
+        String(p.id) === String(productId)
+    );
+
+    if (!product) return;
+
+    const images = Array.isArray(product.images) &&
+                   product.images.length
+        ? product.images
+        : product.image ? [product.image] : [];
+
+    const mainImage = $("detailMainImage");
+    const thumbnails = $("detailThumbnails");
+
+    $("detailName").textContent = product.name;
+    $("detailCategory").textContent = product.category;
+    $("detailPrice").textContent = money(product.price);
+    $("detailDescription").textContent =
+        product.description || "Chưa có mô tả sản phẩm.";
+
+    mainImage.hidden = images.length === 0;
+    mainImage.src = images[0] || "";
+    mainImage.alt = product.name;
+
+    thumbnails.replaceChildren();
+
+    images.forEach((src, index) => {
+        const button = document.createElement("button");
+        button.type = "button";
+
+        if (index === 0) {
+            button.classList.add("active");
+        }
+
+        const img = document.createElement("img");
+        img.src = src;
+        img.alt = `Ảnh ${index + 1}`;
+
+        button.appendChild(img);
+
+        button.onclick = () => {
+            mainImage.src = src;
+
+            thumbnails.querySelectorAll("button")
+                .forEach(b => b.classList.remove("active"));
+
+            button.classList.add("active");
+        };
+
+        thumbnails.appendChild(button);
+    });
+
+    $("detailAddButton").onclick = () => {
+        add(product.id);
+    };
+
+    $("productDetailModal").hidden = false;
+    document.body.style.overflow = "hidden";
+}
+
+function closeProductDetail() {
+    $("productDetailModal").hidden = true;
+    document.body.style.overflow = "";
+}
+
+document.addEventListener("keydown", event => {
+    if (event.key === "Escape") {
+        closeProductDetail();
+    }
+});
+
+
 
   </script>
 

@@ -195,13 +195,16 @@
             border: 0;
         }
 
-        .item img {
-            width: 90px;
-            height: 90px;
-            object-fit: cover;
-            border-radius: 10px;
-            background: #f1f5f9;
+
+         .item img {
+           width: 90px;
+           height: 90px;
+           object-fit: contain;
+           padding: 5px;
+           border-radius: 10px;
+           background: #f1f5f9;
         }
+
 
         .item-content {
             flex: 1;
@@ -252,6 +255,193 @@
                 padding: 18px;
             }
         }
+
+
+        
+.image-previews {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.image-preview-item {
+    position: relative;
+    padding: 6px;
+    border: 1px solid #dce7df;
+    border-radius: 10px;
+    background: #f7faf7;
+}
+
+.image-preview-item img {
+    width: 100%;
+    height: 95px;
+    object-fit: contain;
+}
+
+.image-preview-item button {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    border: 0;
+    border-radius: 50%;
+    background: #dc2626;
+    color: white;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}
+
+.image-preview-item small {
+    display: block;
+    text-align: center;
+    font-size: 11px;
+    color: #64748b;
+}
+
+
+
+
+
+/* =========================================
+   MODAL THÔNG BÁO ADMIN
+========================================= */
+
+.admin-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(15, 23, 42, .55);
+    backdrop-filter: blur(5px);
+    animation: modalFade .2s ease;
+}
+
+.admin-modal[hidden] {
+    display: none;
+}
+
+.admin-modal-box {
+    width: 100%;
+    max-width: 400px;
+    padding: 30px 25px 24px;
+    border-radius: 20px;
+    background: #fff;
+    text-align: center;
+    box-shadow: 0 25px 80px rgba(0,0,0,.2);
+    animation: modalPop .25s ease;
+}
+
+.admin-modal-icon {
+    width: 66px;
+    height: 66px;
+    margin: 0 auto 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.admin-modal.success .admin-modal-icon {
+    background: #dcfce7;
+    color: #16a34a;
+}
+
+.admin-modal.error .admin-modal-icon {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.admin-modal.warning .admin-modal-icon {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.admin-modal.info .admin-modal-icon {
+    background: #dbeafe;
+    color: #2563eb;
+}
+
+.admin-modal-box h3 {
+    margin: 0 0 10px;
+    font-size: 21px;
+    color: #111827;
+}
+
+.admin-modal-box p {
+    margin: 0 0 22px;
+    font-size: 14px;
+    color: #64748b;
+    line-height: 1.6;
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+}
+
+.admin-modal-input {
+    width: 100%;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.admin-modal-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.admin-modal-actions button {
+    flex: 1;
+    padding: 12px;
+    border: 0;
+    border-radius: 10px;
+    font-weight: 650;
+    cursor: pointer;
+}
+
+.admin-modal-cancel {
+    background: #e5e7eb;
+    color: #374151;
+}
+
+.admin-modal-ok {
+    background: #16a34a;
+    color: white;
+}
+
+.admin-modal.error .admin-modal-ok,
+.admin-modal.warning .admin-modal-ok {
+    background: #dc2626;
+}
+
+@keyframes modalFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes modalPop {
+    from {
+        opacity: 0;
+        transform: translateY(15px) scale(.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .admin-modal,
+    .admin-modal-box {
+        animation: none;
+    }
+}
+
+
+
     </style>
 </head>
 
@@ -262,7 +452,7 @@
     ========================================== -->
 
     <header>
-        <strong>Yvy Shop · ADMIN</strong>
+        <strong>Yvy SHOP · ADMIN</strong>
         <a href="index.html">← Cửa hàng</a>
     </header>
 
@@ -301,7 +491,7 @@
                         id="name"
                         maxlength="120"
                         required
-                        placeholder="Ví dụ: Vòng Phong Thủy"
+                        placeholder="Ví dụ: Vòng phong thủy..."
                     >
 
                     <!-- Giá bán -->
@@ -315,7 +505,7 @@
                         min="0"
                         step="1000"
                         required
-                        placeholder="Ví dụ: 100000"
+                        placeholder="199000"
                     >
 
                     <!-- Danh mục -->
@@ -325,13 +515,13 @@
 
                     <select id="category" required>
                         <option value="">Chọn danh mục</option>
+                        <option>Phong thủy</option>
                         <option>Thời trang</option>
                         <option>Phụ kiện</option>
                         <option>Điện tử</option>
                         <option>Gia dụng</option>
                         <option>Mỹ phẩm</option>
                         <option>Thú cưng</option>
-                        <option>Phong thủy</option>
                         <option>Khác</option>
                     </select>
 
@@ -361,26 +551,25 @@
                     ></textarea>
 
                     <!-- Hình ảnh -->
-                    <label for="image">
-                        Hình ảnh sản phẩm
-                    </label>
 
-                    <input
-                        id="image"
-                        type="file"
-                        accept="image/png,image/jpeg,image/webp"
-                    >
+<label for="image">Hình ảnh sản phẩm (tối đa 5 ảnh)</label>
 
-                    <img
-                        id="preview"
-                        class="preview"
-                        alt="Ảnh xem trước"
-                        hidden
-                    >
+<input
+    id="image"
+    type="file"
+    accept="image/png,image/jpeg,image/webp"
+    multiple
+>
 
-                    <p class="note">
-                        Chọn ảnh JPG, PNG hoặc WebP tối đa 1,5 MB.
-                    </p>
+<div id="imagePreviews" class="image-previews"></div>
+
+<p class="note">
+    Chọn tối đa 5 ảnh JPG, PNG hoặc WebP.
+    Có thể chọn ảnh gốc dung lượng tối đa 10 MB/ảnh.
+    Hệ thống sẽ tự động tối ưu ảnh trước khi đăng.
+    Ảnh đầu tiên là ảnh đại diện.
+</p>
+
 
                     <!-- Nút thao tác -->
                     <div class="actions">
@@ -440,6 +629,53 @@
          13. JAVASCRIPT QUẢN LÝ SẢN PHẨM
     ========================================== -->
 
+
+
+<!-- MODAL THÔNG BÁO ADMIN -->
+<div id="adminModal" class="admin-modal info"
+     role="dialog" aria-modal="true"
+     aria-labelledby="adminModalTitle" hidden>
+
+    <div class="admin-modal-box">
+
+        <div id="adminModalIcon"
+             class="admin-modal-icon">i</div>
+
+        <h3 id="adminModalTitle">Thông báo</h3>
+
+        <p id="adminModalMessage"></p>
+
+        <input
+            id="adminModalInput"
+            class="admin-modal-input"
+            type="password"
+            placeholder="Nhập mật khẩu Admin"
+            hidden
+        >
+
+        <div class="admin-modal-actions">
+
+            <button
+                id="adminModalCancel"
+                class="admin-modal-cancel"
+                type="button"
+                hidden>
+                Hủy
+            </button>
+
+            <button
+                id="adminModalOK"
+                class="admin-modal-ok"
+                type="button">
+                Đồng ý
+            </button>
+
+        </div>
+    </div>
+</div>
+
+
+
     <script>
         "use strict";
 
@@ -449,12 +685,114 @@
 
         let products = [];
         let editing = null;
-        let imageData = "";
+        let imagesData = [];
 
         let password =
             sessionStorage.getItem("shop3d_admin_password") || "";
 
         const $ = (id) => document.getElementById(id);
+
+
+        
+/* =========================================
+   HỆ THỐNG MODAL ADMIN
+========================================= */
+
+function showModal(message, type = "info", mode = "alert") {
+
+    return new Promise((resolve) => {
+
+        const modal = $("adminModal");
+        const icon = $("adminModalIcon");
+        const title = $("adminModalTitle");
+        const text = $("adminModalMessage");
+        const input = $("adminModalInput");
+        const ok = $("adminModalOK");
+        const cancel = $("adminModalCancel");
+
+        const types = {
+            success: ["✓", "Thành công"],
+            error: ["✕", "Có lỗi xảy ra"],
+            warning: ["!", "Xác nhận thao tác"],
+            info: ["i", "Thông báo"]
+        };
+
+        const [symbol, heading] = types[type] || types.info;
+
+        modal.className = "admin-modal " + type;
+        icon.textContent = symbol;
+        title.textContent = heading;
+        text.textContent = String(message);
+
+        input.hidden = mode !== "prompt";
+        input.value = "";
+
+        cancel.hidden = mode === "alert";
+        ok.textContent = mode === "alert" ? "Đã hiểu" : "Đồng ý";
+
+        let settled = false;
+
+        function finish(value) {
+            if (settled) return;
+            settled = true;
+
+            modal.hidden = true;
+            ok.onclick = null;
+            cancel.onclick = null;
+            document.removeEventListener("keydown", onKey);
+
+            resolve(value);
+        }
+
+        function onKey(event) {
+            if (event.key === "Escape") {
+                event.preventDefault();
+                finish(mode === "prompt" ? null : false);
+            }
+
+            if (event.key === "Enter") {
+                event.preventDefault();
+                accept();
+            }
+        }
+
+        function accept() {
+            if (mode === "prompt") {
+                finish(input.value);
+            } else {
+                finish(true);
+            }
+        }
+
+        ok.onclick = accept;
+        cancel.onclick = () => finish(
+            mode === "prompt" ? null : false
+        );
+
+        modal.hidden = false;
+        document.addEventListener("keydown", onKey);
+
+        if (mode === "prompt") {
+            input.focus();
+        } else {
+            ok.focus();
+        }
+    });
+}
+
+function modalAlert(message, type = "info") {
+    return showModal(message, type, "alert");
+}
+
+function modalConfirm(message) {
+    return showModal(message, "warning", "confirm");
+}
+
+function modalPrompt(message) {
+    return showModal(message, "info", "prompt");
+}
+
+
 
         const money = (value) => {
             return new Intl.NumberFormat("vi-VN", {
@@ -496,7 +834,7 @@
                 products = await api("/api/products");
                 render();
             } catch (error) {
-                alert(error.message);
+                await modalAlert(error.message, "error");
             }
         }
 
@@ -504,89 +842,289 @@
            17. ĐẶT LẠI FORM
         ========================================== */
 
-        function reset() {
-            editing = null;
-            imageData = "";
 
-            $("productForm").reset();
-            $("stock").value = 1;
+function reset() {
+    editing = null;
+    imagesData = [];
 
-            $("preview").hidden = true;
-            $("preview").removeAttribute("src");
+    $("productForm").reset();
+    $("stock").value = 1;
+    $("image").value = "";
 
-            $("formTitle").textContent = "Thêm sản phẩm mới";
-            $("submitBtn").textContent = "Đăng sản phẩm";
+    renderImagePreviews();
+
+    $("formTitle").textContent = "Thêm sản phẩm mới";
+    $("submitBtn").textContent = "Đăng sản phẩm";
+}
+
+
+
+$("resetBtn").onclick = reset;
+
+/* =========================================
+   18. CHỌN VÀ XEM TRƯỚC TỐI ĐA 5 ẢNH
+========================================= */
+
+// Hiển thị danh sách ảnh đã chọn
+function renderImagePreviews() {
+
+    const container = $("imagePreviews");
+    container.replaceChildren();
+
+    imagesData.forEach((src, index) => {
+
+        const item = document.createElement("div");
+        item.className = "image-preview-item";
+
+        const img = document.createElement("img");
+        img.src = src;
+        img.alt = "Ảnh sản phẩm " + (index + 1);
+
+        const label = document.createElement("small");
+        label.textContent = index === 0
+            ? "Ảnh chính"
+            : "Ảnh phụ " + index;
+
+        // Nút xóa từng ảnh
+        const removeButton = document.createElement("button");
+        removeButton.type = "button";
+        removeButton.textContent = "×";
+        removeButton.title = "Xóa ảnh";
+
+        removeButton.onclick = () => {
+
+            imagesData.splice(index, 1);
+
+            // Ảnh đầu tiên còn lại trở thành ảnh chính
+            renderImagePreviews();
+        };
+
+        item.append(img, label, removeButton);
+        container.appendChild(item);
+    });
+}
+
+
+/* =========================================================
+   ĐỌC + TỰ ĐỘNG TỐI ƯU ẢNH
+========================================================= */
+
+function optimizeImage(file) {
+
+    return new Promise((resolve, reject) => {
+
+        const reader = new FileReader();
+
+        reader.onerror = () => {
+            reject(new Error("Không thể đọc ảnh"));
+        };
+
+        reader.onload = () => {
+
+            const img = new Image();
+
+            img.onerror = () => {
+                reject(new Error("Không thể xử lý ảnh"));
+            };
+
+            img.onload = () => {
+
+                // Kích thước tối đa của ảnh sau khi xử lý
+                const MAX_WIDTH = 1600;
+                const MAX_HEIGHT = 1600;
+
+                let width = img.width;
+                let height = img.height;
+
+                // Thu nhỏ nhưng giữ nguyên tỷ lệ
+                const ratio = Math.min(
+                    MAX_WIDTH / width,
+                    MAX_HEIGHT / height,
+                    1
+                );
+
+                width = Math.round(width * ratio);
+                height = Math.round(height * ratio);
+
+                const canvas = document.createElement("canvas");
+
+                canvas.width = width;
+                canvas.height = height;
+
+                const ctx = canvas.getContext("2d");
+
+                // Nền trắng để xử lý ảnh PNG có trong suốt
+                ctx.fillStyle = "#ffffff";
+                ctx.fillRect(
+                    0,
+                    0,
+                    width,
+                    height
+                );
+
+                ctx.drawImage(
+                    img,
+                    0,
+                    0,
+                    width,
+                    height
+                );
+
+                // Chuyển thành WebP để giảm dung lượng
+                const optimized = canvas.toDataURL(
+                    "image/webp",
+                    0.82
+                );
+
+                resolve(optimized);
+            };
+
+            img.src = reader.result;
+        };
+
+        reader.readAsDataURL(file);
+    });
+}
+
+
+/* =========================================================
+   CHỌN TỐI ĐA 5 ẢNH
+========================================================= */
+
+$("image").onchange = async (event) => {
+
+    const files = Array.from(event.target.files);
+
+    // Cho phép chọn thêm ảnh sau đó
+    event.target.value = "";
+
+    if (files.length === 0) {
+        return;
+    }
+
+
+    /* ================================
+       KIỂM TRA SỐ LƯỢNG
+    ================================= */
+
+    if (imagesData.length + files.length > 5) {
+
+await modalAlert(
+    "Mỗi sản phẩm chỉ được tối đa 5 ảnh.\n" +
+    "Hiện tại đã có " +
+    imagesData.length +
+    " ảnh.",
+    "warning"
+);
+
+        return;
+    }
+
+
+    /* ================================
+       KIỂM TRA ĐỊNH DẠNG
+    ================================= */
+
+    const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/webp"
+    ];
+
+    // Cho phép ảnh gốc tối đa 10 MB
+    const MAX_ORIGINAL_SIZE =
+        10 * 1024 * 1024;
+
+
+    for (const file of files) {
+
+        if (!allowedTypes.includes(file.type)) {
+
+await modalAlert(
+    'Ảnh "' +
+    file.name +
+    '" không đúng định dạng.\n' +
+    "Chỉ hỗ trợ JPG, PNG và WebP.",
+    "error"
+);
+
+            return;
         }
 
-        $("resetBtn").onclick = reset;
 
-        /* =========================================
-           18. CHỌN VÀ XEM TRƯỚC HÌNH ẢNH
-        ========================================== */
+        if (file.size > MAX_ORIGINAL_SIZE) {
 
-        $("image").onchange = async (event) => {
-            const file = event.target.files[0];
+await modalAlert(
+    'Ảnh "' +
+    file.name +
+    '" vượt quá 10 MB.\n' +
+    "Vui lòng chọn ảnh có dung lượng nhỏ hơn.",
+    "warning"
+);
 
-            if (!file) {
-                return;
-            }
+            return;
+        }
+    }
 
-            const allowedTypes = [
-                "image/jpeg",
-                "image/png",
-                "image/webp"
-            ];
 
-            const maxSize = 1.5 * 1024 * 1024;
+    /* ================================
+       TỐI ƯU ẢNH
+    ================================= */
 
-            if (
-                !allowedTypes.includes(file.type) ||
-                file.size > maxSize
-            ) {
-                alert("Ảnh JPG, PNG, WebP tối đa 1,5MB");
-                event.target.value = "";
-                return;
-            }
+    try {
 
-            try {
-                imageData = await new Promise((resolve, reject) => {
-                    const reader = new FileReader();
+        const newImages = [];
 
-                    reader.onload = () => resolve(reader.result);
-                    reader.onerror = reject;
+        for (const file of files) {
 
-                    reader.readAsDataURL(file);
-                });
+            const optimized =
+                await optimizeImage(file);
 
-                $("preview").src = imageData;
-                $("preview").hidden = false;
+            newImages.push(optimized);
+        }
 
-            } catch (error) {
-                alert("Không thể đọc hình ảnh.");
-            }
-        };
+
+        imagesData.push(...newImages);
+
+        renderImagePreviews();
+
+
+    } catch (error) {
+
+        console.error(error);
+
+await modalAlert("Không thể xử lý hình ảnh.", "error");
+    }
+};
 
         /* =========================================
            19. YÊU CẦU MẬT KHẨU ADMIN
         ========================================== */
 
-        function requireAdminPassword() {
-            if (!password) {
-                password =
-                    prompt("Nhập mật khẩu Admin (ADMIN_PASSWORD trên Render)") || "";
 
-                if (!password) {
-                    return false;
-                }
+async function requireAdminPassword() {
 
-                sessionStorage.setItem(
-                    "shop3d_admin_password",
-                    password
-                );
-            }
+    if (!password) {
 
-            return true;
+        const entered = await modalPrompt(
+            "Vui lòng nhập mật khẩu quản trị để tiếp tục."
+        );
+
+        if (!entered) {
+            return false;
         }
+
+        password = entered;
+
+        sessionStorage.setItem(
+            "shop3d_admin_password",
+            password
+        );
+    }
+
+    return true;
+}
+
 
         /* =========================================
            20. ĐĂNG / CẬP NHẬT SẢN PHẨM
@@ -595,9 +1133,9 @@
         $("productForm").onsubmit = async (event) => {
             event.preventDefault();
 
-            if (!requireAdminPassword()) {
-                return;
-            }
+if (!(await requireAdminPassword())) {
+    return;
+}
 
             const product = {
                 name: $("name").value.trim(),
@@ -605,7 +1143,8 @@
                 category: $("category").value,
                 stock: Number($("stock").value),
                 description: $("description").value.trim(),
-                image: imageData
+                image: imagesData[0] || "",
+                images: imagesData
             };
 
             const isEditing = Boolean(editing);
@@ -625,14 +1164,15 @@
                 reset();
                 await load();
 
-                alert(
-                    isEditing
-                        ? "Đã cập nhật sản phẩm!"
-                        : "Đã đăng sản phẩm lên máy chủ!"
-                );
+await modalAlert(
+    isEditing
+        ? "Đã cập nhật sản phẩm!"
+        : "Đã đăng sản phẩm lên cửa hàng!",
+    "success"
+);
 
             } catch (error) {
-                alert(error.message);
+                await modalAlert(error.message, "error");
             }
         };
 
@@ -640,52 +1180,61 @@
            21. ĐƯA SẢN PHẨM LÊN FORM ĐỂ SỬA
         ========================================== */
 
-        function editProduct(product) {
-            editing = product.id;
-            imageData = product.image || "";
 
-            $("name").value = product.name;
-            $("price").value = product.price;
-            $("category").value = product.category;
-            $("stock").value = product.stock;
-            $("description").value = product.description || "";
+function editProduct(product) {
 
-            $("preview").hidden = !product.image;
+    editing = product.id;
 
-            if (product.image) {
-                $("preview").src = product.image;
-            } else {
-                $("preview").removeAttribute("src");
-            }
+    // Nạp tối đa 5 ảnh đã lưu
+    imagesData = Array.isArray(product.images) &&
+                 product.images.length
+        ? [...product.images].slice(0, 5)
+        : product.image
+            ? [product.image]
+            : [];
 
-            $("image").value = "";
+    // Nạp thông tin sản phẩm
+    $("name").value = product.name;
+    $("price").value = product.price;
+    $("category").value = product.category;
+    $("stock").value = product.stock;
+    $("description").value = product.description || "";
 
-            $("formTitle").textContent = "Chỉnh sửa sản phẩm";
-            $("submitBtn").textContent = "Lưu thay đổi";
+    // Xóa lựa chọn tệp trước đó
+    $("image").value = "";
 
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            });
-        }
+    // Hiển thị ảnh chính và các ảnh phụ
+    renderImagePreviews();
+
+    // Cập nhật tiêu đề và nút lưu
+    $("formTitle").textContent = "Chỉnh sửa sản phẩm";
+    $("submitBtn").textContent = "Lưu thay đổi";
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
 
         /* =========================================
            22. XÓA SẢN PHẨM
         ========================================== */
 
         async function deleteProduct(product) {
-            const confirmed = confirm(
-                'Xóa sản phẩm "' + product.name + '"?'
-            );
+            const confirmed = await modalConfirm(
+    'Bạn có chắc chắn muốn xóa sản phẩm "' +
+    product.name +
+    '" không?'
+);
 
             if (!confirmed) {
                 return;
             }
 
-            if (!requireAdminPassword()) {
-                return;
-            }
-
+if (!(await requireAdminPassword())) {
+    return;
+}
             try {
                 await api(
                     "/api/products/" + encodeURIComponent(product.id),
@@ -701,7 +1250,7 @@
                 await load();
 
             } catch (error) {
-                alert(error.message);
+                await modalAlert(error.message, "error");
             }
         }
 
@@ -816,6 +1365,12 @@
         $("search").oninput = render;
 
         load();
+
+
+
+        
+
+
 
     </script>
 
