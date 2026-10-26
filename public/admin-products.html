@@ -442,6 +442,598 @@
 
 
 
+/* ===== ADMIN DASHBOARD REDESIGN ===== */
+
+:root {
+    --brand: #16834a;
+    --brand-dark: #116239;
+    --surface: #ffffff;
+    --canvas: #f3f6f5;
+    --line: #e4eae6;
+    --ink: #192b24;
+    --muted: #77867d;
+    --shadow: 0 8px 30px rgba(23, 55, 38, .045);
+}
+
+body {
+    background: var(--canvas);
+    color: var(--ink);
+    font-family: Inter, system-ui, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+header {
+    background: #16834a;
+    color: white;
+    padding: 17px max(24px, calc((100vw - 1360px)/2));
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 2px 12px rgba(0,0,0,.02);
+}
+
+header strong {
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: .3px;
+}
+
+header a {
+    color: var(--brand);
+    font-size: 13px;
+    font-weight: 700;
+    background: #ecf8f0;
+    border-radius: 10px;
+    padding: 10px 15px;
+}
+
+main {
+    max-width: 1360px;
+    margin: 35px auto;
+    padding: 0 24px;
+}
+
+h1 {
+    font-size: clamp(25px, 3vw, 32px);
+    font-weight: 800;
+    letter-spacing: -.8px;
+}
+
+.sub {
+    color: var(--muted);
+    font-size: 14px;
+    margin: 8px 0 25px;
+}
+
+.layout {
+    grid-template-columns: minmax(340px, 440px) minmax(0, 1fr);
+    align-items: start;
+    gap: 24px;
+}
+
+.panel {
+    padding: 27px;
+    border-radius: 20px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    box-shadow: var(--shadow);
+    min-width: 0;
+}
+
+.panel h2 {
+    font-size: 18px;
+    font-weight: 800;
+    margin-bottom: 24px;
+    padding-bottom: 17px;
+    border-bottom: 1px solid var(--line);
+}
+
+label {
+    margin: 17px 0 8px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #33483d;
+}
+
+input, textarea, select {
+    border: 1px solid #dce5df;
+    background: #fcfdfc;
+    border-radius: 11px;
+    padding: 13px 14px;
+    font-size: 14px;
+    transition: border-color .2s, box-shadow .2s;
+}
+
+input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: var(--brand);
+    box-shadow: 0 0 0 4px rgba(22,131,74,.09);
+    background: white;
+}
+
+textarea {
+    min-height: 120px;
+    line-height: 1.6;
+}
+
+.btn {
+    padding: 12px 18px;
+    border-radius: 11px;
+    background: var(--brand);
+    font-size: 13px;
+    transition: background .2s, transform .2s;
+}
+
+.btn:hover {
+    background: var(--brand-dark);
+    transform: translateY(-1px);
+}
+
+.btn.secondary {
+    background: #eef2ef;
+    color: #405248;
+}
+
+.btn.secondary:hover {
+    background: #e0e9e2;
+}
+
+.btn.danger {
+    background: #fff0f0;
+    color: #dc3545;
+}
+
+.btn.danger:hover {
+    background: #ffe1e1;
+}
+
+#productForm > .actions {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+#submitBtn {
+    min-height: 46px;
+}
+
+#image {
+    padding: 14px;
+    background: #f7faf8;
+    border: 1.5px dashed #a9cbb6;
+    cursor: pointer;
+}
+
+#image::file-selector-button {
+    background: #e2f4e8;
+    color: #167b43;
+    border: none;
+    border-radius: 8px;
+    padding: 9px 12px;
+    margin-right: 10px;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.note {
+    background: #f2faf5;
+    border: 1px solid #e1f0e5;
+    border-radius: 11px;
+    padding: 12px;
+    color: #658071;
+    margin-top: 12px;
+}
+
+.image-previews {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.image-preview-item {
+    padding: 8px;
+    border-radius: 12px;
+    background: white;
+}
+
+.image-preview-item img {
+    height: 105px;
+}
+
+.image-preview-item small {
+    font-weight: 700;
+    padding: 5px 0 2px;
+}
+
+.toolbar {
+    gap: 14px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--line);
+}
+
+.toolbar input {
+    background: #f7faf8;
+}
+
+.count {
+    padding: 8px 12px;
+    background: #eaf7ee;
+    border-radius: 30px;
+    color: var(--brand);
+    font-weight: 750;
+}
+
+.item {
+    padding: 19px 0;
+    align-items: center;
+    gap: 17px;
+}
+
+.item img {
+    width: 100px;
+    height: 100px;
+    flex-shrink: 0;
+    border-radius: 13px;
+    background: #f6f8f6;
+    border: 1px solid #edf0ed;
+    object-fit: contain;
+    padding: 8px;
+}
+
+.item h3 {
+    font-size: 15px;
+    font-weight: 750;
+    line-height: 1.5;
+}
+
+.item .price {
+    color: var(--brand);
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.item .actions {
+    margin-top: 12px;
+}
+
+.item .actions .btn {
+    padding: 9px 15px;
+    font-size: 12px;
+}
+
+.empty {
+    padding: 65px 15px;
+    background: #fbfdfb;
+    border-radius: 12px;
+    margin-top: 18px;
+}
+
+.admin-modal-box {
+    border-radius: 22px;
+    border: 1px solid var(--line);
+}
+
+.admin-modal-ok {
+    background: var(--brand);
+}
+
+/* ===== THỐNG KÊ ===== */
+
+.admin-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 25px;
+}
+
+.admin-stat {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 17px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+}
+
+.admin-stat-label {
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 650;
+}
+
+.admin-stat-value {
+    display: block;
+    font-size: 29px;
+    font-weight: 850;
+    margin-top: 7px;
+    line-height: 1.2;
+}
+
+.admin-stat:nth-child(1) .admin-stat-value {
+    color: var(--brand);
+}
+
+.admin-stat:nth-child(3) .admin-stat-value {
+    color: #d97706;
+}
+
+@media (max-width: 950px) {
+    .layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    header {
+        padding: 15px 16px;
+    }
+
+    header strong {
+        font-size: 12px;
+    }
+
+    header a {
+        font-size: 11px;
+        padding: 9px;
+    }
+
+    main {
+        padding: 0 14px;
+        margin: 22px auto;
+    }
+
+    .panel {
+        padding: 19px;
+    }
+
+    .admin-stats {
+        gap: 8px;
+    }
+
+    .admin-stat {
+        padding: 13px 10px;
+    }
+
+    .admin-stat-label {
+        font-size: 10px;
+    }
+
+    .admin-stat-value {
+        font-size: 22px;
+    }
+
+    .item {
+        gap: 11px;
+    }
+
+    .item img {
+        width: 75px;
+        height: 75px;
+    }
+
+    .toolbar {
+        flex-wrap: wrap;
+    }
+
+    .image-previews {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+
+
+/* =========================================
+   GIAO DIỆN DANH SÁCH SẢN PHẨM
+========================================= */
+
+.layout {
+    display: block;
+}
+
+.product-list-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.product-list-heading h2 {
+    margin: 0 0 5px;
+    padding: 0;
+    border: 0;
+}
+
+.product-list-heading p {
+    margin: 0;
+    font-size: 13px;
+    color: #64748b;
+}
+
+#openProductModal {
+    background: #16834a;
+    white-space: nowrap;
+    padding: 13px 20px;
+    border-radius: 11px;
+}
+
+/* =========================================
+   MODAL THÊM / CHỈNH SỬA SẢN PHẨM
+========================================= */
+
+.product-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 90000;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+    background: rgba(15, 23, 42, .65);
+    backdrop-filter: blur(6px);
+}
+
+.product-modal[hidden] {
+    display: none;
+}
+
+.product-modal-box {
+    width: 100%;
+    max-width: 680px;
+    max-height: min(90vh, 900px);
+    max-height: min(90dvh, 900px);
+
+    display: flex;
+    flex-direction: column;
+
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 30px 90px rgba(0,0,0,.25);
+
+    overflow: hidden;
+    animation: modalPop .25s ease;
+}
+
+.product-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+
+    padding: 24px 28px;
+    border-bottom: 1px solid #e5e7eb;
+    background: #fff;
+}
+
+.product-modal-header h2 {
+    margin: 0 0 6px;
+    padding: 0;
+    border: 0;
+    font-size: 21px;
+    color: #172b20;
+}
+
+.product-modal-header p {
+    margin: 0;
+    color: #64748b;
+    font-size: 13px;
+}
+
+.product-modal-close {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+
+    display: grid;
+    place-items: center;
+
+    border: 0;
+    border-radius: 10px;
+
+    background: #f1f5f9;
+    color: #334155;
+    font-size: 26px;
+    cursor: pointer;
+}
+
+.product-modal-close:hover {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.product-modal-body {
+    overflow-y: auto;
+    padding: 25px 28px 30px;
+    overscroll-behavior: contain;
+}
+
+.product-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.product-modal label {
+    margin-top: 17px;
+}
+
+.product-modal input,
+.product-modal select,
+.product-modal textarea {
+    width: 100%;
+}
+
+.product-modal-actions {
+    position: sticky;
+    bottom: -30px;
+
+    display: flex;
+    gap: 12px;
+
+    padding: 18px 0;
+    margin-top: 20px;
+
+    background: white;
+    border-top: 1px solid #e5e7eb;
+}
+
+.product-modal-actions .btn {
+    min-height: 45px;
+}
+
+.product-modal-actions #submitBtn {
+    flex: 1;
+    background: #16834a;
+}
+
+.product-modal-actions #resetBtn {
+    min-width: 110px;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 600px) {
+
+    .product-list-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    #openProductModal {
+        width: 100%;
+    }
+
+    .product-modal {
+        padding: 10px;
+    }
+
+    .product-modal-box {
+        max-height: 96vh;
+        max-height: 96dvh;
+        border-radius: 16px;
+    }
+
+    .product-modal-header {
+        padding: 18px;
+    }
+
+    .product-modal-body {
+        padding: 18px;
+    }
+
+    .product-form-grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .product-modal-actions {
+        bottom: -18px;
+    }
+}
+
+
+
     </style>
 </head>
 
@@ -452,7 +1044,7 @@
     ========================================== -->
 
     <header>
-        <strong>Yvy SHOP · ADMIN</strong>
+        <strong>YVY SHOP · ADMIN</strong>
         <a href="index.html">← Cửa hàng</a>
     </header>
 
@@ -463,166 +1055,211 @@
     <main>
 
         <h1>Quản lý sản phẩm</h1>
+        
+<!-- THỐNG KÊ SẢN PHẨM -->
+<div class="admin-stats">
 
-        <p class="sub">
-            Bước 1 — Đăng tải, chỉnh sửa và xóa sản phẩm.
-        </p>
+    <div class="admin-stat">
+        <span class="admin-stat-label">
+            Tổng sản phẩm
+        </span>
+        <strong class="admin-stat-value"
+                id="statTotal">0</strong>
+    </div>
 
-        <div class="layout">
+    <div class="admin-stat">
+        <span class="admin-stat-label">
+            Sản phẩm còn hàng
+        </span>
+        <strong class="admin-stat-value"
+                id="statAvailable">0</strong>
+    </div>
 
-            <!-- =================================
-                 11. FORM QUẢN LÝ SẢN PHẨM
-            ================================== -->
+    <div class="admin-stat">
+        <span class="admin-stat-label">
+            Sản phẩm hết hàng
+        </span>
+        <strong class="admin-stat-value"
+                id="statOutOfStock">0</strong>
+    </div>
 
-            <section class="panel">
-
-                <h2 id="formTitle">
-                    Thêm sản phẩm mới
-                </h2>
-
-                <form id="productForm">
-
-                    <!-- Tên sản phẩm -->
-                    <label for="name">
-                        Tên sản phẩm *
-                    </label>
-
-                    <input
-                        id="name"
-                        maxlength="120"
-                        required
-                        placeholder="Ví dụ: Vòng phong thủy..."
-                    >
-
-                    <!-- Giá bán -->
-                    <label for="price">
-                        Giá bán (VNĐ) *
-                    </label>
-
-                    <input
-                        id="price"
-                        type="number"
-                        min="0"
-                        step="1000"
-                        required
-                        placeholder="199000"
-                    >
-
-                    <!-- Danh mục -->
-                    <label for="category">
-                        Danh mục *
-                    </label>
-
-                    <select id="category" required>
-                        <option value="">Chọn danh mục</option>
-                        <option>Phong thủy</option>
-                        <option>Thời trang</option>
-                        <option>Phụ kiện</option>
-                        <option>Điện tử</option>
-                        <option>Gia dụng</option>
-                        <option>Mỹ phẩm</option>
-                        <option>Thú cưng</option>
-                        <option>Khác</option>
-                    </select>
-
-                    <!-- Số lượng tồn kho -->
-                    <label for="stock">
-                        Số lượng trong kho *
-                    </label>
-
-                    <input
-                        id="stock"
-                        type="number"
-                        min="0"
-                        step="1"
-                        value="1"
-                        required
-                    >
-
-                    <!-- Mô tả -->
-                    <label for="description">
-                        Mô tả sản phẩm
-                    </label>
-
-                    <textarea
-                        id="description"
-                        maxlength="2000"
-                        placeholder="Thông tin chi tiết..."
-                    ></textarea>
-
-                    <!-- Hình ảnh -->
-
-<label for="image">Hình ảnh sản phẩm (tối đa 5 ảnh)</label>
-
-<input
-    id="image"
-    type="file"
-    accept="image/png,image/jpeg,image/webp"
-    multiple
->
-
-<div id="imagePreviews" class="image-previews"></div>
-
-<p class="note">
-    Chọn tối đa 5 ảnh JPG, PNG hoặc WebP.
-    Có thể chọn ảnh gốc dung lượng tối đa 10 MB/ảnh.
-    Hệ thống sẽ tự động tối ưu ảnh trước khi đăng.
-    Ảnh đầu tiên là ảnh đại diện.
-</p>
+</div>
 
 
-                    <!-- Nút thao tác -->
-                    <div class="actions">
 
-                        <button
-                            class="btn"
-                            id="submitBtn"
-                            type="submit"
+
+<!-- KHU VỰC QUẢN LÝ SẢN PHẨM -->
+<div class="layout">
+
+    <section class="panel">
+
+        <div class="product-list-heading">
+            <div>
+                <h2>Danh sách sản phẩm</h2>        
+            </div>
+
+            <button
+                id="openProductModal"
+                type="button"
+                class="btn">
+                + Thêm sản phẩm
+            </button>
+        </div>
+
+        <div class="toolbar">
+            <input
+                id="search"
+                placeholder="Tìm theo tên sản phẩm..."
+            >
+
+            <span id="count" class="count">
+                0 sản phẩm
+            </span>
+        </div>
+
+        <div id="list"></div>
+
+    </section>
+
+</div>
+
+
+<!-- MODAL THÊM / CHỈNH SỬA SẢN PHẨM -->
+<div
+    id="productModal"
+    class="product-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="formTitle"
+    hidden>
+
+    <div class="product-modal-box">
+
+        <div class="product-modal-header">
+            <div>
+                <h2 id="formTitle">Thêm sản phẩm mới</h2>
+                <p>Điền thông tin sản phẩm bên dưới</p>
+            </div>
+
+            <button
+                type="button"
+                id="closeProductModal"
+                class="product-modal-close"
+                aria-label="Đóng">
+                &times;
+            </button>
+        </div>
+
+        <div class="product-modal-body">
+
+            <form id="productForm">
+
+                <label for="name">Tên sản phẩm *</label>
+                <input
+                    id="name"
+                    maxlength="120"
+                    required
+                    placeholder="Ví dụ: Vòng phong thủy..."
+                >
+
+                <div class="product-form-grid">
+
+                    <div>
+                        <label for="price">Giá bán (VNĐ) *</label>
+                        <input
+                            id="price"
+                            type="number"
+                            min="0"
+                            step="1000"
+                            required
+                            placeholder="199000"
                         >
-                            Đăng sản phẩm
-                        </button>
-
-                        <button
-                            class="btn secondary"
-                            id="resetBtn"
-                            type="button"
-                        >
-                            Làm mới
-                        </button>
-
                     </div>
 
-                </form>
-
-            </section>
-
-            <!-- =================================
-                 12. DANH SÁCH SẢN PHẨM
-            ================================== -->
-
-            <section class="panel">
-
-                <h2>Danh sách sản phẩm</h2>
-
-                <div class="toolbar">
-
-                    <input
-                        id="search"
-                        placeholder="Tìm theo tên sản phẩm..."
-                    >
-
-                    <span id="count" class="count">
-                        0 sản phẩm
-                    </span>
+                    <div>
+                        <label for="stock">Số lượng tồn kho *</label>
+                        <input
+                            id="stock"
+                            type="number"
+                            min="0"
+                            step="1"
+                            value="1"
+                            required
+                        >
+                    </div>
 
                 </div>
 
-                <div id="list"></div>
+                <label for="category">Danh mục *</label>
+                <select id="category" required>
+                    <option value="">Chọn danh mục</option>
+                    <option>Phong thủy</option>
+                    <option>Thời trang</option>
+                    <option>Phụ kiện</option>
+                    <option>Điện tử</option>
+                    <option>Gia dụng</option>
+                    <option>Mỹ phẩm</option>
+                    <option>Thú cưng</option>
+                    <option>Khác</option>
+                </select>
 
-            </section>
+                <label for="description">Mô tả sản phẩm</label>
+                <textarea
+                    id="description"
+                    maxlength="2000"
+                    placeholder="Thông tin chi tiết..."
+                ></textarea>
+
+                <label for="image">
+                    Hình ảnh sản phẩm (tối đa 5 ảnh)
+                </label>
+
+                <input
+                    id="image"
+                    type="file"
+                    accept="image/png,image/jpeg,image/webp"
+                    multiple
+                >
+
+                <div
+                    id="imagePreviews"
+                    class="image-previews">
+                </div>
+
+                <p class="note">
+                    Chọn tối đa 5 ảnh JPG, PNG hoặc WebP.
+                    Ảnh gốc tối đa 10 MB/ảnh.
+                    Hệ thống tự động tối ưu ảnh.
+                    Ảnh đầu tiên là ảnh đại diện.
+                </p>
+
+                <div class="actions product-modal-actions">
+
+                    <button
+                        class="btn"
+                        id="submitBtn"
+                        type="submit">
+                        Đăng sản phẩm
+                    </button>
+
+                    <button
+                        class="btn secondary"
+                        id="resetBtn"
+                        type="button">
+                        Làm mới
+                    </button>
+
+                </div>
+
+            </form>
 
         </div>
 
+    </div>
+
+</div>
+
+        
     </main>
 
     <!-- =========================================
@@ -692,6 +1329,59 @@
 
         const $ = (id) => document.getElementById(id);
 
+
+/* =========================================
+   ĐIỀU KHIỂN MODAL SẢN PHẨM
+========================================= */
+
+let productModalPreviousFocus = null;
+
+function openProductModal() {
+    const modal = $("productModal");
+
+    productModalPreviousFocus = document.activeElement;
+
+    modal.hidden = false;
+    document.body.style.overflow = "hidden";
+
+    $("name").focus();
+}
+
+function closeProductModal() {
+    $("productModal").hidden = true;
+    document.body.style.overflow = "";
+
+    if (
+        productModalPreviousFocus &&
+        productModalPreviousFocus.isConnected &&
+        typeof productModalPreviousFocus.focus === "function"
+    ) {
+        productModalPreviousFocus.focus();
+    }
+}
+
+$("openProductModal").onclick = () => {
+    reset();
+    openProductModal();
+};
+
+$("closeProductModal").onclick = closeProductModal;
+
+$("productModal").addEventListener("click", (event) => {
+    if (event.target === $("productModal")) {
+        closeProductModal();
+    }
+});
+
+document.addEventListener("keydown", (event) => {
+    if (
+        event.key === "Escape" &&
+        !$("productModal").hidden &&
+        $("adminModal").hidden
+    ) {
+        closeProductModal();
+    }
+});
 
         
 /* =========================================
@@ -1162,9 +1852,9 @@ if (!(await requireAdminPassword())) {
                 });
 
                 reset();
+                closeProductModal();
                 await load();
-
-await modalAlert(
+                await modalAlert(
     isEditing
         ? "Đã cập nhật sản phẩm!"
         : "Đã đăng sản phẩm lên cửa hàng!",
@@ -1210,10 +1900,7 @@ function editProduct(product) {
     $("formTitle").textContent = "Chỉnh sửa sản phẩm";
     $("submitBtn").textContent = "Lưu thay đổi";
 
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
+openProductModal();
 }
 
 
@@ -1339,6 +2026,16 @@ if (!(await requireAdminPassword())) {
 
             $("count").textContent =
                 products.length + " sản phẩm";
+
+
+$("statTotal").textContent = products.length;
+
+$("statAvailable").textContent =
+    products.filter(product => Number(product.stock) > 0).length;
+
+$("statOutOfStock").textContent =
+    products.filter(product => Number(product.stock) === 0).length;
+
 
             const list = $("list");
             list.replaceChildren();
