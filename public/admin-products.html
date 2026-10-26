@@ -1034,6 +1034,62 @@ textarea {
 
 
 
+/* =========================================
+   FIX MODAL MOBILE - KHÔNG TỰ ĐỘNG ZOOM
+========================================= */
+
+@media (max-width: 768px) {
+
+    .product-modal {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100dvh;
+        padding: 10px;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+    .product-modal-box {
+        width: 100%;
+        max-width: 100%;
+        max-height: calc(100dvh - 20px);
+        border-radius: 16px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    .product-modal-body {
+        flex: 1;
+        min-height: 0;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Safari không tự zoom khi nhập liệu */
+    .product-modal input,
+    .product-modal select,
+    .product-modal textarea {
+        font-size: 16px !important;
+    }
+
+    .product-modal input[type="file"] {
+        font-size: 14px !important;
+    }
+
+    .product-modal-header {
+        flex-shrink: 0;
+    }
+
+    .product-modal-actions {
+        flex-shrink: 0;
+    }
+}
+
+
+
     </style>
 </head>
 
@@ -1336,16 +1392,23 @@ textarea {
 
 let productModalPreviousFocus = null;
 
+
 function openProductModal() {
     const modal = $("productModal");
 
     productModalPreviousFocus = document.activeElement;
 
+    // Bỏ focus ở nút trước khi mở modal
+    if (document.activeElement instanceof HTMLElement) {
+        document.activeElement.blur();
+    }
+
     modal.hidden = false;
     document.body.style.overflow = "hidden";
 
-    $("name").focus();
+    // Không tự động focus vào ô nhập liệu trên mobile
 }
+
 
 function closeProductModal() {
     $("productModal").hidden = true;
