@@ -1,0 +1,822 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <!-- =========================================
+         1. CẤU HÌNH TRANG WEB
+    ========================================== -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Quản lý sản phẩm | Ban Công 3D Shop</title>
+
+    <style>
+        /* =========================================
+           2. CÀI ĐẶT CHUNG
+        ========================================== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #f5f6f8;
+            color: #17202b;
+            font-family: system-ui, Arial, sans-serif;
+        }
+
+        /* =========================================
+           3. THANH HEADER
+        ========================================== */
+
+        header {
+            background: #111827;
+            color: white;
+            padding: 20px max(20px, calc((100vw - 1100px) / 2));
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        /* =========================================
+           4. BỐ CỤC CHÍNH
+        ========================================== */
+
+        main {
+            max-width: 1100px;
+            margin: 32px auto;
+            padding: 0 18px;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 22px;
+        }
+
+        .panel {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 22px;
+            box-shadow: 0 3px 15px #11182708;
+        }
+
+        h1 {
+            font-size: 26px;
+            margin: 0 0 6px;
+        }
+
+        h2 {
+            font-size: 19px;
+            margin: 0 0 20px;
+        }
+
+        .sub {
+            color: #64748b;
+            margin: 0 0 25px;
+        }
+
+        /* =========================================
+           5. FORM THÊM / SỬA SẢN PHẨM
+        ========================================== */
+
+        label {
+            display: block;
+            font-weight: 600;
+            font-size: 13px;
+            margin: 14px 0 6px;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d5dae2;
+            border-radius: 9px;
+            font: inherit;
+            background: #fff;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        .preview {
+            width: 100%;
+            height: 180px;
+            object-fit: contain;
+            background: #f8fafc;
+            border: 1px dashed #cbd5e1;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+
+        .preview[hidden] {
+            display: none;
+        }
+
+        .note {
+            font-size: 12px;
+            color: #64748b;
+            line-height: 1.5;
+        }
+
+        /* =========================================
+           6. NÚT BẤM
+        ========================================== */
+
+        .btn {
+            border: 0;
+            border-radius: 9px;
+            padding: 11px 15px;
+            background: #111827;
+            color: #fff;
+            cursor: pointer;
+            font-weight: 650;
+        }
+
+        .secondary {
+            background: #e9edf2;
+            color: #17202b;
+        }
+
+        .danger {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 18px;
+            flex-wrap: wrap;
+        }
+
+        /* =========================================
+           7. DANH SÁCH SẢN PHẨM
+        ========================================== */
+
+        .toolbar {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .toolbar input {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .count {
+            font-size: 13px;
+            color: #64748b;
+            white-space: nowrap;
+        }
+
+        .item {
+            display: flex;
+            gap: 14px;
+            padding: 15px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .item:last-child {
+            border: 0;
+        }
+
+        .item img {
+            width: 90px;
+            height: 90px;
+            object-fit: cover;
+            border-radius: 10px;
+            background: #f1f5f9;
+        }
+
+        .item-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .item h3 {
+            font-size: 16px;
+            margin: 0 0 5px;
+            overflow-wrap: anywhere;
+        }
+
+        .item p {
+            margin: 4px 0;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        .price {
+            font-weight: 700;
+            color: #0f766e;
+        }
+
+        .empty {
+            padding: 45px 12px;
+            text-align: center;
+            color: #64748b;
+        }
+
+        /* =========================================
+           8. GIAO DIỆN ĐIỆN THOẠI
+        ========================================== */
+
+        @media (max-width: 760px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+
+            main {
+                margin: 22px auto;
+            }
+
+            header {
+                padding: 16px 20px;
+            }
+
+            .panel {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================================
+         9. HEADER ADMIN
+    ========================================== -->
+
+    <header>
+        <strong>BAN CÔNG 3D SHOP · ADMIN</strong>
+        <a href="index.html">← Cửa hàng</a>
+    </header>
+
+    <!-- =========================================
+         10. NỘI DUNG CHÍNH
+    ========================================== -->
+
+    <main>
+
+        <h1>Quản lý sản phẩm</h1>
+
+        <p class="sub">
+            Bước 1 — Đăng tải, chỉnh sửa và xóa sản phẩm.
+        </p>
+
+        <div class="layout">
+
+            <!-- =================================
+                 11. FORM QUẢN LÝ SẢN PHẨM
+            ================================== -->
+
+            <section class="panel">
+
+                <h2 id="formTitle">
+                    Thêm sản phẩm mới
+                </h2>
+
+                <form id="productForm">
+
+                    <!-- Tên sản phẩm -->
+                    <label for="name">
+                        Tên sản phẩm *
+                    </label>
+
+                    <input
+                        id="name"
+                        maxlength="120"
+                        required
+                        placeholder="Ví dụ: Áo thun cotton"
+                    >
+
+                    <!-- Giá bán -->
+                    <label for="price">
+                        Giá bán (VNĐ) *
+                    </label>
+
+                    <input
+                        id="price"
+                        type="number"
+                        min="0"
+                        step="1000"
+                        required
+                        placeholder="199000"
+                    >
+
+                    <!-- Danh mục -->
+                    <label for="category">
+                        Danh mục *
+                    </label>
+
+                    <select id="category" required>
+                        <option value="">Chọn danh mục</option>
+                        <option>Thời trang</option>
+                        <option>Phụ kiện</option>
+                        <option>Điện tử</option>
+                        <option>Gia dụng</option>
+                        <option>Mỹ phẩm</option>
+                        <option>Thú Cưng</option>
+                        <option>Khác</option>
+                    </select>
+
+                    <!-- Số lượng tồn kho -->
+                    <label for="stock">
+                        Số lượng trong kho *
+                    </label>
+
+                    <input
+                        id="stock"
+                        type="number"
+                        min="0"
+                        step="1"
+                        value="1"
+                        required
+                    >
+
+                    <!-- Mô tả -->
+                    <label for="description">
+                        Mô tả sản phẩm
+                    </label>
+
+                    <textarea
+                        id="description"
+                        maxlength="2000"
+                        placeholder="Thông tin chi tiết..."
+                    ></textarea>
+
+                    <!-- Hình ảnh -->
+                    <label for="image">
+                        Hình ảnh sản phẩm
+                    </label>
+
+                    <input
+                        id="image"
+                        type="file"
+                        accept="image/png,image/jpeg,image/webp"
+                    >
+
+                    <img
+                        id="preview"
+                        class="preview"
+                        alt="Ảnh xem trước"
+                        hidden
+                    >
+
+                    <p class="note">
+                        Chọn ảnh JPG, PNG hoặc WebP tối đa 1,5 MB.
+                    </p>
+
+                    <!-- Nút thao tác -->
+                    <div class="actions">
+
+                        <button
+                            class="btn"
+                            id="submitBtn"
+                            type="submit"
+                        >
+                            Đăng sản phẩm
+                        </button>
+
+                        <button
+                            class="btn secondary"
+                            id="resetBtn"
+                            type="button"
+                        >
+                            Làm mới
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+            <!-- =================================
+                 12. DANH SÁCH SẢN PHẨM
+            ================================== -->
+
+            <section class="panel">
+
+                <h2>Danh sách sản phẩm</h2>
+
+                <div class="toolbar">
+
+                    <input
+                        id="search"
+                        placeholder="Tìm theo tên sản phẩm..."
+                    >
+
+                    <span id="count" class="count">
+                        0 sản phẩm
+                    </span>
+
+                </div>
+
+                <div id="list"></div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+    <!-- =========================================
+         13. JAVASCRIPT QUẢN LÝ SẢN PHẨM
+    ========================================== -->
+
+    <script>
+        "use strict";
+
+        /* =========================================
+           14. BIẾN TOÀN CỤC VÀ HÀM HỖ TRỢ
+        ========================================== */
+
+        let products = [];
+        let editing = null;
+        let imageData = "";
+
+        let password =
+            sessionStorage.getItem("shop3d_admin_password") || "";
+
+        const $ = (id) => document.getElementById(id);
+
+        const money = (value) => {
+            return new Intl.NumberFormat("vi-VN", {
+                style: "currency",
+                currency: "VND"
+            }).format(value);
+        };
+
+        /* =========================================
+           15. GỌI API MÁY CHỦ
+        ========================================== */
+
+        async function api(url, options = {}) {
+            const response = await fetch(url, {
+                ...options,
+
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-admin-password": password,
+                    ...options.headers
+                }
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || "Lỗi máy chủ");
+            }
+
+            return data;
+        }
+
+        /* =========================================
+           16. TẢI DANH SÁCH SẢN PHẨM
+        ========================================== */
+
+        async function load() {
+            try {
+                products = await api("/api/products");
+                render();
+            } catch (error) {
+                alert(error.message);
+            }
+        }
+
+        /* =========================================
+           17. ĐẶT LẠI FORM
+        ========================================== */
+
+        function reset() {
+            editing = null;
+            imageData = "";
+
+            $("productForm").reset();
+            $("stock").value = 1;
+
+            $("preview").hidden = true;
+            $("preview").removeAttribute("src");
+
+            $("formTitle").textContent = "Thêm sản phẩm mới";
+            $("submitBtn").textContent = "Đăng sản phẩm";
+        }
+
+        $("resetBtn").onclick = reset;
+
+        /* =========================================
+           18. CHỌN VÀ XEM TRƯỚC HÌNH ẢNH
+        ========================================== */
+
+        $("image").onchange = async (event) => {
+            const file = event.target.files[0];
+
+            if (!file) {
+                return;
+            }
+
+            const allowedTypes = [
+                "image/jpeg",
+                "image/png",
+                "image/webp"
+            ];
+
+            const maxSize = 1.5 * 1024 * 1024;
+
+            if (
+                !allowedTypes.includes(file.type) ||
+                file.size > maxSize
+            ) {
+                alert("Ảnh JPG, PNG, WebP tối đa 1,5MB");
+                event.target.value = "";
+                return;
+            }
+
+            try {
+                imageData = await new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+
+                    reader.onload = () => resolve(reader.result);
+                    reader.onerror = reject;
+
+                    reader.readAsDataURL(file);
+                });
+
+                $("preview").src = imageData;
+                $("preview").hidden = false;
+
+            } catch (error) {
+                alert("Không thể đọc hình ảnh.");
+            }
+        };
+
+        /* =========================================
+           19. YÊU CẦU MẬT KHẨU ADMIN
+        ========================================== */
+
+        function requireAdminPassword() {
+            if (!password) {
+                password =
+                    prompt("Nhập mật khẩu Admin (ADMIN_PASSWORD trên Render)") || "";
+
+                if (!password) {
+                    return false;
+                }
+
+                sessionStorage.setItem(
+                    "shop3d_admin_password",
+                    password
+                );
+            }
+
+            return true;
+        }
+
+        /* =========================================
+           20. ĐĂNG / CẬP NHẬT SẢN PHẨM
+        ========================================== */
+
+        $("productForm").onsubmit = async (event) => {
+            event.preventDefault();
+
+            if (!requireAdminPassword()) {
+                return;
+            }
+
+            const product = {
+                name: $("name").value.trim(),
+                price: Number($("price").value),
+                category: $("category").value,
+                stock: Number($("stock").value),
+                description: $("description").value.trim(),
+                image: imageData
+            };
+
+            const isEditing = Boolean(editing);
+
+            const url = isEditing
+                ? "/api/products/" + encodeURIComponent(editing)
+                : "/api/products";
+
+            const method = isEditing ? "PUT" : "POST";
+
+            try {
+                await api(url, {
+                    method: method,
+                    body: JSON.stringify(product)
+                });
+
+                reset();
+                await load();
+
+                alert(
+                    isEditing
+                        ? "Đã cập nhật sản phẩm!"
+                        : "Đã đăng sản phẩm lên máy chủ!"
+                );
+
+            } catch (error) {
+                alert(error.message);
+            }
+        };
+
+        /* =========================================
+           21. ĐƯA SẢN PHẨM LÊN FORM ĐỂ SỬA
+        ========================================== */
+
+        function editProduct(product) {
+            editing = product.id;
+            imageData = product.image || "";
+
+            $("name").value = product.name;
+            $("price").value = product.price;
+            $("category").value = product.category;
+            $("stock").value = product.stock;
+            $("description").value = product.description || "";
+
+            $("preview").hidden = !product.image;
+
+            if (product.image) {
+                $("preview").src = product.image;
+            } else {
+                $("preview").removeAttribute("src");
+            }
+
+            $("image").value = "";
+
+            $("formTitle").textContent = "Chỉnh sửa sản phẩm";
+            $("submitBtn").textContent = "Lưu thay đổi";
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        }
+
+        /* =========================================
+           22. XÓA SẢN PHẨM
+        ========================================== */
+
+        async function deleteProduct(product) {
+            const confirmed = confirm(
+                'Xóa sản phẩm "' + product.name + '"?'
+            );
+
+            if (!confirmed) {
+                return;
+            }
+
+            if (!requireAdminPassword()) {
+                return;
+            }
+
+            try {
+                await api(
+                    "/api/products/" + encodeURIComponent(product.id),
+                    {
+                        method: "DELETE"
+                    }
+                );
+
+                if (editing === product.id) {
+                    reset();
+                }
+
+                await load();
+
+            } catch (error) {
+                alert(error.message);
+            }
+        }
+
+        /* =========================================
+           23. TẠO GIAO DIỆN MỘT SẢN PHẨM
+        ========================================== */
+
+        function createProductItem(product) {
+            const item = document.createElement("div");
+            item.className = "item";
+
+            // Hình ảnh
+            const img = document.createElement("img");
+            img.alt = product.name;
+
+            if (product.image) {
+                img.src = product.image;
+            }
+
+            // Thông tin
+            const content = document.createElement("div");
+            content.className = "item-content";
+
+            const title = document.createElement("h3");
+            title.textContent = product.name;
+
+            const price = document.createElement("div");
+            price.className = "price";
+            price.textContent = money(product.price);
+
+            const meta = document.createElement("p");
+            meta.textContent =
+                product.category + " · Tồn kho: " + product.stock;
+
+            // Nút thao tác
+            const actions = document.createElement("div");
+            actions.className = "actions";
+
+            const editButton = document.createElement("button");
+            editButton.className = "btn secondary";
+            editButton.textContent = "Sửa";
+            editButton.type = "button";
+
+            editButton.onclick = () => {
+                editProduct(product);
+            };
+
+            const deleteButton = document.createElement("button");
+            deleteButton.className = "btn danger";
+            deleteButton.textContent = "Xóa";
+            deleteButton.type = "button";
+
+            deleteButton.onclick = () => {
+                deleteProduct(product);
+            };
+
+            actions.append(editButton, deleteButton);
+
+            content.append(
+                title,
+                price,
+                meta,
+                actions
+            );
+
+            item.append(img, content);
+
+            return item;
+        }
+
+        /* =========================================
+           24. HIỂN THỊ DANH SÁCH SẢN PHẨM
+        ========================================== */
+
+        function render() {
+            const keyword = $("search")
+                .value
+                .trim()
+                .toLocaleLowerCase("vi");
+
+            const filteredProducts = products.filter((product) => {
+                return product.name
+                    .toLocaleLowerCase("vi")
+                    .includes(keyword);
+            });
+
+            $("count").textContent =
+                products.length + " sản phẩm";
+
+            const list = $("list");
+            list.replaceChildren();
+
+            if (filteredProducts.length === 0) {
+                const empty = document.createElement("div");
+
+                empty.className = "empty";
+                empty.textContent = "Chưa có sản phẩm phù hợp.";
+
+                list.append(empty);
+                return;
+            }
+
+            for (const product of filteredProducts) {
+                list.append(createProductItem(product));
+            }
+        }
+
+        /* =========================================
+           25. KHỞI TẠO TRANG ADMIN
+        ========================================== */
+
+        $("search").oninput = render;
+
+        load();
+
+    </script>
+
+</body>
+</html>
