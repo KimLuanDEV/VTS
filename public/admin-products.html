@@ -1257,6 +1257,99 @@ textarea {
 
 
 
+/* ===== TIẾN TRÌNH TẢI DANH SÁCH SẢN PHẨM ===== */
+
+.product-loading {
+    padding: 26px;
+    margin: 15px 0;
+    background: #f7fbf8;
+    border: 1px solid #dcebe1;
+    border-radius: 15px;
+}
+
+.product-loading[hidden],
+#list[hidden] {
+    display: none;
+}
+
+.product-loading-top {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.product-loading-top strong {
+    display: block;
+    color: #193b29;
+    font-size: 14px;
+    font-weight: 750;
+}
+
+.product-loading-top p {
+    margin: 6px 0 0;
+    color: #718579;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.product-loading-spinner {
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    border: 3px solid #d7eddf;
+    border-top-color: #16834a;
+    border-radius: 50%;
+    animation: productLoadingSpin .8s linear infinite;
+}
+
+.product-loading-track {
+    position: relative;
+    height: 7px;
+    margin-top: 22px;
+    overflow: hidden;
+    border-radius: 20px;
+    background: #e1eee5;
+}
+
+.product-loading-bar {
+    position: absolute;
+    height: 100%;
+    width: 35%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #16a34a, #4ade80);
+    animation: productLoadingMove 1.5s ease-in-out infinite;
+}
+
+#retryProductLoad {
+    margin-top: 18px;
+}
+
+.product-loading.is-error {
+    background: #fff8f8;
+    border-color: #fecaca;
+}
+
+.product-loading.is-error .product-loading-spinner,
+.product-loading.is-error .product-loading-track {
+    display: none;
+}
+
+@keyframes productLoadingSpin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes productLoadingMove {
+    from { left: -35%; }
+    to { left: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .product-loading-spinner,
+    .product-loading-bar {
+        animation-duration: 3s;
+    }
+}
+
 
 
     </style>
@@ -1342,7 +1435,26 @@ textarea {
             </span>
         </div>
 
-        <div id="list"></div>
+<div id="productLoading" class="product-loading" role="status" aria-live="polite">
+    <div class="product-loading-top">
+        <span class="product-loading-spinner"></span>
+        <div>
+            <strong id="productLoadingTitle">Đang tải danh sách sản phẩm...</strong>
+            <p id="productLoadingDescription">Đang kết nối và lấy dữ liệu từ máy chủ.</p>
+        </div>
+    </div>
+
+    <div class="product-loading-track">
+        <div class="product-loading-bar"></div>
+    </div>
+
+    <button id="retryProductLoad" class="btn secondary"
+            type="button" hidden>
+        Thử lại
+    </button>
+</div>
+
+<div id="list" hidden></div>
 
 <div id="productPagination" class="product-pagination" hidden></div>
 
@@ -1923,14 +2035,69 @@ function modalPrompt(message) {
            16. TẢI DANH SÁCH SẢN PHẨM
         ========================================== */
 
-        async function load() {
-            try {
-                products = await api("/api/products");
-                render();
-            } catch (error) {
-                await modalAlert(error.message, "error");
-            }
+
+let productLoadInProgress = false;
+
+async function load() {
+    if (productLoadInProgress) return;
+
+    productLoadInProgress = true;
+
+    const loading = $("productLoading");
+    const list = $("list");
+    const pagination = $("productPagination");
+    const retryButton = $("retryProductLoad");
+
+    // Hiện trạng thái đang tải
+    loading.hidden = false;
+    loading.classList.remove("is-error");
+
+    $("productLoadingTitle").textContent =
+        "Đang tải danh sách sản phẩm...";
+
+    $("productLoadingDescription").textContent =
+        "Đang kết nối và lấy dữ liệu từ máy chủ.";
+
+    retryButton.hidden = true;
+    list.hidden = true;
+    pagination.hidden = true;
+
+    try {
+        const data = await api("/api/products");
+
+        if (!Array.isArray(data)) {
+            throw new Error("Dữ liệu sản phẩm không hợp lệ.");
         }
+
+        products = data;
+
+        // Render 5 sản phẩm theo phân trang hiện có
+        render();
+
+        // Hiện danh sách sau khi xử lý xong
+        list.hidden = false;
+        loading.hidden = true;
+
+    } catch (error) {
+        console.error("Lỗi tải sản phẩm:", error);
+
+        loading.classList.add("is-error");
+
+        $("productLoadingTitle").textContent =
+            "Không thể tải danh sách sản phẩm";
+
+        $("productLoadingDescription").textContent =
+            error.message || "Vui lòng kiểm tra kết nối mạng.";
+
+        retryButton.hidden = false;
+        list.hidden = true;
+        pagination.hidden = true;
+
+    } finally {
+        productLoadInProgress = false;
+    }
+}
+
 
         /* =========================================
            17. ĐẶT LẠI FORM
@@ -2613,6 +2780,9 @@ function render() {
     currentProductPage = 1;
     render();
 };
+
+
+$("retryProductLoad").onclick = load;
 
         load();
 
