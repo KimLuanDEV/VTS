@@ -1189,6 +1189,76 @@ textarea {
 
 
 
+/* PHÂN TRANG DANH SÁCH SẢN PHẨM */
+
+.product-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-top: 24px;
+    margin-top: 15px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.product-pagination[hidden] {
+    display: none;
+}
+
+.product-page-btn {
+    min-width: 39px;
+    height: 39px;
+    padding: 0 12px;
+    border: 1px solid #dce7df;
+    border-radius: 10px;
+    background: #fff;
+    color: #405248;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.product-page-btn:hover:not(:disabled) {
+    background: #eaf7ee;
+    border-color: #16834a;
+    color: #16834a;
+}
+
+.product-page-btn.active {
+    background: #16834a;
+    border-color: #16834a;
+    color: #fff;
+}
+
+.product-page-btn:disabled {
+    opacity: .4;
+    cursor: not-allowed;
+}
+
+.product-page-dots {
+    color: #94a3b8;
+    padding: 0 3px;
+}
+
+@media (max-width: 600px) {
+    .product-pagination {
+        gap: 5px;
+    }
+
+    .product-page-btn {
+        min-width: 35px;
+        height: 36px;
+        padding: 0 9px;
+        font-size: 12px;
+    }
+}
+
+
+
+
+
     </style>
 </head>
 
@@ -1273,6 +1343,8 @@ textarea {
         </div>
 
         <div id="list"></div>
+
+<div id="productPagination" class="product-pagination" hidden></div>
 
     </section>
 
@@ -2368,54 +2440,179 @@ if (!(await requireAdminPassword())) {
            24. HIỂN THỊ DANH SÁCH SẢN PHẨM
         ========================================== */
 
-        function render() {
-            const keyword = $("search")
-                .value
-                .trim()
-                .toLocaleLowerCase("vi");
+      
+/* =========================================
+   PHÂN TRANG SẢN PHẨM - 5 SẢN PHẨM / TRANG
+========================================= */
 
-            const filteredProducts = products.filter((product) => {
-                return product.name
-                    .toLocaleLowerCase("vi")
-                    .includes(keyword);
-            });
+const PRODUCTS_PER_PAGE = 5;
+let currentProductPage = 1;
 
-            $("count").textContent =
-                products.length + " sản phẩm";
+function changeProductPage(page) {
+    currentProductPage = page;
+    render();
+}
 
+function render() {
+    const keyword = $("search")
+        .value
+        .trim()
+        .toLocaleLowerCase("vi");
 
-$("statTotal").textContent = products.length;
+    const filteredProducts = products.filter((product) =>
+        product.name
+            .toLocaleLowerCase("vi")
+            .includes(keyword)
+    );
 
-$("statAvailable").textContent =
-    products.filter(product => Number(product.stock) > 0).length;
+    // Tổng số sản phẩm
+    $("count").textContent =
+        products.length + " sản phẩm";
 
-$("statOutOfStock").textContent =
-    products.filter(product => Number(product.stock) === 0).length;
+    // Giữ nguyên thống kê
+    $("statTotal").textContent = products.length;
 
+    $("statAvailable").textContent =
+        products.filter(
+            product => Number(product.stock) > 0
+        ).length;
 
-            const list = $("list");
-            list.replaceChildren();
+    $("statOutOfStock").textContent =
+        products.filter(
+            product => Number(product.stock) === 0
+        ).length;
 
-            if (filteredProducts.length === 0) {
-                const empty = document.createElement("div");
+    const list = $("list");
+    const pagination = $("productPagination");
 
-                empty.className = "empty";
-                empty.textContent = "Chưa có sản phẩm phù hợp.";
+    list.replaceChildren();
+    pagination.replaceChildren();
 
-                list.append(empty);
-                return;
-            }
+    // Không có kết quả
+    if (filteredProducts.length === 0) {
+        const empty = document.createElement("div");
+        empty.className = "empty";
+        empty.textContent = "Chưa có sản phẩm phù hợp.";
 
-            for (const product of filteredProducts) {
-                list.append(createProductItem(product));
-            }
+        list.append(empty);
+        pagination.hidden = true;
+        currentProductPage = 1;
+        return;
+    }
+
+    // Tính số trang
+    const totalPages = Math.ceil(
+        filteredProducts.length / PRODUCTS_PER_PAGE
+    );
+
+    // Giữ trang hiện tại trong giới hạn hợp lệ
+    currentProductPage = Math.max(
+        1,
+        Math.min(currentProductPage, totalPages)
+    );
+
+    // Chỉ lấy 5 sản phẩm của trang hiện tại
+    const startIndex =
+        (currentProductPage - 1) * PRODUCTS_PER_PAGE;
+
+    const pageProducts = filteredProducts.slice(
+        startIndex,
+        startIndex + PRODUCTS_PER_PAGE
+    );
+
+    pageProducts.forEach(product => {
+        list.append(createProductItem(product));
+    });
+
+    // Chỉ hiển thị phân trang nếu có hơn 1 trang
+    pagination.hidden = totalPages <= 1;
+
+    if (totalPages <= 1) return;
+
+    function addPageButton(label, page, disabled = false, active = false) {
+        const button = document.createElement("button");
+
+        button.type = "button";
+        button.className =
+            "product-page-btn" + (active ? " active" : "");
+
+        button.textContent = label;
+        button.disabled = disabled;
+
+        if (active) {
+            button.setAttribute("aria-current", "page");
         }
+
+        button.onclick = () => changeProductPage(page);
+
+        pagination.append(button);
+    }
+
+    function addDots() {
+        const dots = document.createElement("span");
+        dots.className = "product-page-dots";
+        dots.textContent = "…";
+        pagination.append(dots);
+    }
+
+    // Nút trang trước
+    addPageButton(
+        "‹ Trước",
+        currentProductPage - 1,
+        currentProductPage === 1
+    );
+
+    // Chỉ hiển thị một số trang gần trang hiện tại
+    const visiblePages = new Set([
+        1,
+        totalPages,
+        currentProductPage - 1,
+        currentProductPage,
+        currentProductPage + 1
+    ]);
+
+    const pages = [...visiblePages]
+        .filter(page => page >= 1 && page <= totalPages)
+        .sort((a, b) => a - b);
+
+    let previousPage = 0;
+
+    pages.forEach(page => {
+        if (page - previousPage === 2) {
+            addPageButton(
+                String(previousPage + 1),
+                previousPage + 1
+            );
+        } else if (page - previousPage > 2) {
+            addDots();
+        }
+
+        addPageButton(
+            String(page),
+            page,
+            false,
+            page === currentProductPage
+        );
+
+        previousPage = page;
+    });
+
+    // Nút trang sau
+    addPageButton(
+        "Sau ›",
+        currentProductPage + 1,
+        currentProductPage === totalPages
+    );
+}
 
         /* =========================================
            25. KHỞI TẠO TRANG ADMIN
         ========================================== */
 
-        $("search").oninput = render;
+        $("search").oninput = () => {
+    currentProductPage = 1;
+    render();
+};
 
         load();
 
