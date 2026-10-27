@@ -1090,6 +1090,105 @@ textarea {
 
 
 
+
+/* MODAL TIẾN TRÌNH ĐĂNG TẢI */
+
+.upload-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 100001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(15, 23, 42, .65);
+    backdrop-filter: blur(6px);
+}
+
+.upload-modal[hidden] {
+    display: none;
+}
+
+.upload-modal-box {
+    width: 100%;
+    max-width: 410px;
+    background: white;
+    padding: 32px 26px;
+    border-radius: 22px;
+    text-align: center;
+    box-shadow: 0 25px 80px rgba(0,0,0,.2);
+    animation: modalPop .25s ease;
+}
+
+.upload-icon {
+    width: 65px;
+    height: 65px;
+    margin: 0 auto 18px;
+    border-radius: 50%;
+    background: #e4f7eb;
+    color: #16834a;
+    display: grid;
+    place-items: center;
+    font-size: 35px;
+    font-weight: bold;
+}
+
+.upload-modal-box h3 {
+    margin: 0 0 10px;
+    font-size: 21px;
+    color: #172b20;
+}
+
+.upload-modal-box > p {
+    color: #64748b;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.upload-progress-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 25px 0 10px;
+    font-size: 13px;
+    color: #64748b;
+}
+
+#uploadPercent {
+    font-size: 17px;
+    color: #16834a;
+}
+
+.upload-progress-track {
+    height: 11px;
+    background: #e5eee8;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.upload-progress-bar {
+    width: 0%;
+    height: 100%;
+    border-radius: 20px;
+    background: linear-gradient(90deg, #16a34a, #4ade80);
+    transition: width .25s ease;
+}
+
+.upload-note {
+    margin-top: 22px;
+    font-size: 12px !important;
+    color: #94a3b8 !important;
+}
+
+#submitBtn:disabled,
+#resetBtn:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+}
+
+
+
+
     </style>
 </head>
 
@@ -1324,6 +1423,40 @@ textarea {
 
 
 
+<!-- MODAL TIẾN TRÌNH ĐĂNG SẢN PHẨM -->
+<div id="uploadModal" class="upload-modal" hidden>
+    <div class="upload-modal-box">
+
+        <div class="upload-icon">↑</div>
+
+        <h3 id="uploadTitle">
+            Đang đăng sản phẩm
+        </h3>
+
+        <p id="uploadDescription">
+            Vui lòng chờ trong khi hệ thống xử lý...
+        </p>
+
+        <div class="upload-progress-info">
+            <span id="uploadStatus">Đang chuẩn bị...</span>
+            <strong id="uploadPercent">0%</strong>
+        </div>
+
+        <div class="upload-progress-track">
+            <div id="uploadProgressBar"
+                 class="upload-progress-bar"></div>
+        </div>
+
+        <p class="upload-note">
+            Vui lòng không đóng trang trong quá trình đăng tải.
+        </p>
+
+    </div>
+</div>
+
+
+
+
 <!-- MODAL THÔNG BÁO ADMIN -->
 <div id="adminModal" class="admin-modal info"
      role="dialog" aria-modal="true"
@@ -1386,6 +1519,141 @@ textarea {
         const $ = (id) => document.getElementById(id);
 
 
+
+/* =========================================
+   TIẾN TRÌNH ĐĂNG TẢI SẢN PHẨM
+========================================= */
+
+let uploadInProgress = false;
+
+function updateUploadProgress(percent, status) {
+    const value = Math.max(
+        0,
+        Math.min(100, Math.round(percent))
+    );
+
+    $("uploadPercent").textContent = value + "%";
+    $("uploadProgressBar").style.width = value + "%";
+
+    if (status) {
+        $("uploadStatus").textContent = status;
+    }
+}
+
+function startUploadProgress(isEditing = false) {
+    uploadInProgress = true;
+
+    $("uploadTitle").textContent = isEditing
+        ? "Đang cập nhật sản phẩm"
+        : "Đang đăng sản phẩm";
+
+    $("uploadDescription").textContent =
+        "Hệ thống đang gửi dữ liệu lên máy chủ.";
+
+    updateUploadProgress(0, "Đang chuẩn bị dữ liệu...");
+
+    $("submitBtn").disabled = true;
+    $("resetBtn").disabled = true;
+    $("closeProductModal").disabled = true;
+
+    $("uploadModal").hidden = false;
+}
+
+function finishUploadProgress() {
+    $("uploadModal").hidden = true;
+
+    $("submitBtn").disabled = false;
+    $("resetBtn").disabled = false;
+    $("closeProductModal").disabled = false;
+
+    uploadInProgress = false;
+}
+
+/* GỬI DỮ LIỆU VÀ THEO DÕI TIẾN TRÌNH THỰC TẾ */
+
+function apiUpload(url, method, product) {
+    return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+
+        xhr.open(method, url, true);
+
+        xhr.setRequestHeader(
+            "Content-Type",
+            "application/json"
+        );
+
+        xhr.setRequestHeader(
+            "x-admin-password",
+            password
+        );
+
+        xhr.upload.onprogress = (event) => {
+            if (!event.lengthComputable) {
+                updateUploadProgress(
+                    0,
+                    "Đang gửi dữ liệu..."
+                );
+                return;
+            }
+
+            const percent =
+                (event.loaded / event.total) * 100;
+
+            updateUploadProgress(
+                percent,
+                percent < 100
+                    ? "Đang tải dữ liệu..."
+                    : "Đã gửi xong, đang lưu sản phẩm..."
+            );
+        };
+
+        xhr.onload = () => {
+            let data;
+
+            try {
+                data = JSON.parse(xhr.responseText);
+            } catch {
+                reject(new Error(
+                    "Phản hồi máy chủ không hợp lệ."
+                ));
+                return;
+            }
+
+            if (xhr.status < 200 || xhr.status >= 300) {
+                reject(new Error(
+                    data.error || "Không thể lưu sản phẩm."
+                ));
+                return;
+            }
+
+            updateUploadProgress(
+                100,
+                "Đã lưu sản phẩm thành công!"
+            );
+
+            resolve(data);
+        };
+
+        xhr.onerror = () => {
+            reject(new Error(
+                "Mất kết nối máy chủ. Vui lòng thử lại."
+            ));
+        };
+
+        xhr.ontimeout = () => {
+            reject(new Error(
+                "Quá thời gian chờ đăng sản phẩm."
+            ));
+        };
+
+        xhr.timeout = 120000;
+
+        xhr.send(JSON.stringify(product));
+    });
+}
+
+
+
 /* =========================================
    ĐIỀU KHIỂN MODAL SẢN PHẨM
 ========================================= */
@@ -1411,6 +1679,7 @@ function openProductModal() {
 
 
 function closeProductModal() {
+if (uploadInProgress) return;
     $("productModal").hidden = true;
     document.body.style.overflow = "";
 
@@ -1883,51 +2152,75 @@ async function requireAdminPassword() {
            20. ĐĂNG / CẬP NHẬT SẢN PHẨM
         ========================================== */
 
-        $("productForm").onsubmit = async (event) => {
-            event.preventDefault();
+ 
+$("productForm").onsubmit = async (event) => {
+    event.preventDefault();
 
-if (!(await requireAdminPassword())) {
-    return;
-}
+    // Chặn nhấn đăng nhiều lần
+    if (uploadInProgress) return;
 
-            const product = {
-                name: $("name").value.trim(),
-                price: Number($("price").value),
-                category: $("category").value,
-                stock: Number($("stock").value),
-                description: $("description").value.trim(),
-                image: imagesData[0] || "",
-                images: imagesData
-            };
+    if (!(await requireAdminPassword())) {
+        return;
+    }
 
-            const isEditing = Boolean(editing);
+    const product = {
+        name: $("name").value.trim(),
+        price: Number($("price").value),
+        category: $("category").value,
+        stock: Number($("stock").value),
+        description: $("description").value.trim(),
+        image: imagesData[0] || "",
+        images: imagesData
+    };
 
-            const url = isEditing
-                ? "/api/products/" + encodeURIComponent(editing)
-                : "/api/products";
+    const isEditing = Boolean(editing);
 
-            const method = isEditing ? "PUT" : "POST";
+    const url = isEditing
+        ? "/api/products/" + encodeURIComponent(editing)
+        : "/api/products";
 
-            try {
-                await api(url, {
-                    method: method,
-                    body: JSON.stringify(product)
-                });
+    const method = isEditing ? "PUT" : "POST";
 
-                reset();
-                closeProductModal();
-                await load();
-                await modalAlert(
-    isEditing
-        ? "Đã cập nhật sản phẩm!"
-        : "Đã đăng sản phẩm lên cửa hàng!",
-    "success"
-);
+    startUploadProgress(isEditing);
 
-            } catch (error) {
-                await modalAlert(error.message, "error");
-            }
-        };
+    try {
+        // Gửi dữ liệu kèm tiến trình
+        await apiUpload(url, method, product);
+
+        updateUploadProgress(
+            100,
+            "Đang cập nhật danh sách sản phẩm..."
+        );
+
+        // Tải lại danh sách
+        products = await api("/api/products");
+        render();
+
+        // Đóng tiến trình
+        finishUploadProgress();
+
+        // Đặt lại form
+        reset();
+        closeProductModal();
+
+        // Thông báo thành công
+        await modalAlert(
+            isEditing
+                ? "Đã cập nhật sản phẩm thành công!"
+                : "Đã đăng sản phẩm lên cửa hàng!",
+            "success"
+        );
+
+    } catch (error) {
+        finishUploadProgress();
+
+        await modalAlert(
+            error.message,
+            "error"
+        );
+    }
+};
+
 
         /* =========================================
            21. ĐƯA SẢN PHẨM LÊN FORM ĐỂ SỬA
