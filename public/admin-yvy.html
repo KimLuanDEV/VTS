@@ -11,6 +11,17 @@
 
     <title>Quản lý sản phẩm | Yvy Shop</title>
 
+    
+<link rel="icon" type="image/png" href="/admin-icon-192.png">
+<link rel="apple-touch-icon" href="/admin-icon-512.png">
+<link rel="manifest" href="/admin-manifest.webmanifest">
+
+<meta name="theme-color" content="#16834a">
+<meta name="apple-mobile-web-app-title" content="QN Admin">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+
+
     <style>
         /* =========================================
            2. CÀI ĐẶT CHUNG
@@ -1090,7 +1101,6 @@ textarea {
 
 
 
-
 /* MODAL TIẾN TRÌNH ĐĂNG TẢI */
 
 .upload-modal {
@@ -1257,6 +1267,7 @@ textarea {
 
 
 
+
 /* ===== TIẾN TRÌNH TẢI DANH SÁCH SẢN PHẨM ===== */
 
 .product-loading {
@@ -1352,6 +1363,574 @@ textarea {
 
 
 
+/* ==============================================
+   Yvy SHOP - LUXURY ADMIN THEME
+   Đồng bộ giao diện với trang cửa hàng
+============================================== */
+
+:root {
+    --brand: #b79661;
+    --brand-dark: #94713e;
+    --surface: #fffefa;
+    --canvas: #faf7f2;
+    --line: #e9dfd2;
+    --ink: #302820;
+    --muted: #827568;
+    --shadow: 0 8px 30px rgba(82, 59, 34, .07);
+}
+
+body {
+    background: var(--canvas);
+    color: var(--ink);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+/* HEADER */
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255, 254, 250, .96);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 4px 24px rgba(70, 50, 25, .04);
+    color: var(--ink);
+    min-height: 76px;
+}
+
+header strong {
+    color: var(--ink);
+    font-size: 19px;
+    font-weight: 850;
+    letter-spacing: -.6px;
+}
+
+header a {
+    background: #f3eadc;
+    color: var(--brand-dark);
+    border: 1px solid #e9dcc8;
+    border-radius: 30px;
+    padding: 11px 18px;
+    text-decoration: none;
+    transition: .2s;
+}
+
+header a:hover {
+    background: var(--ink);
+    color: white;
+}
+
+/* MAIN */
+
+main {
+    max-width: 1360px;
+    margin: 38px auto;
+}
+
+main > h1 {
+    font-size: clamp(26px, 3vw, 36px);
+    color: var(--ink);
+    font-weight: 850;
+    letter-spacing: -1px;
+    margin-bottom: 26px;
+}
+
+/* THỐNG KÊ */
+
+.admin-stats {
+    gap: 18px;
+    margin-bottom: 28px;
+}
+
+.admin-stat {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(145deg, #fffefa, #faf4e9);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: var(--shadow);
+    transition: transform .2s, box-shadow .2s;
+}
+
+.admin-stat:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(82, 59, 34, .10);
+}
+
+.admin-stat::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(#d8bf92, #94713e);
+}
+
+.admin-stat-label {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.admin-stat-value,
+.admin-stat:nth-child(1) .admin-stat-value,
+.admin-stat:nth-child(3) .admin-stat-value {
+    color: var(--ink);
+    font-size: clamp(25px, 3vw, 34px);
+    margin-top: 12px;
+}
+
+/* KHUNG QUẢN LÝ */
+
+.layout {
+    display: block;
+}
+
+.panel {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    padding: 30px;
+    box-shadow: var(--shadow);
+}
+
+.panel h2 {
+    color: var(--ink);
+    border-bottom-color: var(--line);
+}
+
+.product-list-heading {
+    margin-bottom: 25px;
+}
+
+.product-list-heading h2 {
+    font-size: 22px;
+    letter-spacing: -.5px;
+}
+
+/* BUTTON */
+
+.btn,
+#openProductModal,
+.product-modal-actions #submitBtn {
+    background: var(--ink);
+    color: white;
+    border-radius: 12px;
+    border: 1px solid var(--ink);
+    font-weight: 750;
+    transition: background .2s, transform .2s, box-shadow .2s;
+}
+
+.btn:hover,
+#openProductModal:hover,
+.product-modal-actions #submitBtn:hover {
+    background: var(--brand-dark);
+    border-color: var(--brand-dark);
+    box-shadow: 0 6px 18px rgba(148, 113, 62, .16);
+}
+
+.btn.secondary {
+    background: #f3eadc;
+    border-color: #eadcc8;
+    color: var(--ink);
+}
+
+.btn.secondary:hover {
+    background: #e9dcc7;
+    border-color: #d9c7ab;
+}
+
+.btn.danger {
+    background: #fff0ed;
+    color: #b94a42;
+    border-color: #f3d7d2;
+}
+
+.btn.danger:hover {
+    background: #fbe1dc;
+    border-color: #e9bcb4;
+}
+
+/* INPUT */
+
+label {
+    color: var(--ink);
+}
+
+input,
+textarea,
+select {
+    background: #fffefa;
+    color: var(--ink);
+    border: 1px solid #e3d8ca;
+    border-radius: 12px;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    background: white;
+    border-color: var(--brand);
+    box-shadow: 0 0 0 4px rgba(183, 150, 97, .12);
+    outline: none;
+}
+
+.toolbar {
+    border-bottom-color: var(--line);
+}
+
+.toolbar input {
+    background: #faf7f2;
+    border-radius: 30px;
+    padding: 14px 18px;
+}
+
+.count {
+    background: #f3eadc;
+    color: var(--brand-dark);
+    border: 1px solid #eadcc8;
+}
+
+/* DANH SÁCH SẢN PHẨM */
+
+.item {
+    border-bottom: 1px solid var(--line);
+    padding: 21px 0;
+    transition: background .2s;
+}
+
+.item:hover {
+    background: #fdfaf5;
+}
+
+.item img {
+    background: #f7f1e8;
+    border: 1px solid var(--line);
+    border-radius: 15px;
+    padding: 8px;
+}
+
+.item h3 {
+    color: var(--ink);
+    font-weight: 800;
+}
+
+.item p {
+    color: var(--muted);
+}
+
+.item .price,
+.price {
+    color: var(--brand-dark);
+    font-weight: 850;
+}
+
+.item .actions .btn {
+    border-radius: 10px;
+}
+
+/* FORM THÊM SẢN PHẨM */
+
+.product-modal {
+    background: rgba(40, 31, 23, .65);
+}
+
+.product-modal-box {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 24px;
+}
+
+.product-modal-header {
+    background: #faf5ed;
+    border-bottom: 1px solid var(--line);
+}
+
+.product-modal-header h2 {
+    color: var(--ink);
+}
+
+.product-modal-header p {
+    color: var(--muted);
+}
+
+.product-modal-close {
+    background: #f0e5d5;
+    color: var(--ink);
+}
+
+.product-modal-body {
+    background: var(--surface);
+}
+
+.product-modal-actions {
+    background: var(--surface);
+    border-top-color: var(--line);
+}
+
+#image {
+    background: #faf6ef;
+    border: 1.5px dashed #cdb48e;
+}
+
+#image::file-selector-button {
+    background: #eee0ca;
+    color: #70512b;
+}
+
+.note {
+    background: #faf5eb;
+    color: var(--muted);
+    border: 1px solid var(--line);
+}
+
+.image-preview-item {
+    background: #fffefa;
+    border-color: var(--line);
+}
+
+/* MODAL THÔNG BÁO */
+
+.admin-modal {
+    background: rgba(40, 31, 23, .55);
+}
+
+.admin-modal-box {
+    background: var(--surface);
+    border: 1px solid var(--line);
+}
+
+.admin-modal-box h3 {
+    color: var(--ink);
+}
+
+.admin-modal-box p {
+    color: var(--muted);
+}
+
+.admin-modal-ok {
+    background: var(--ink);
+    color: white;
+}
+
+.admin-modal-cancel {
+    background: #f0e5d5;
+    color: var(--ink);
+}
+
+/* PHÂN TRANG */
+
+.product-pagination {
+    border-top-color: var(--line);
+}
+
+.product-page-btn {
+    background: var(--surface);
+    border-color: var(--line);
+    color: var(--ink);
+}
+
+.product-page-btn:hover:not(:disabled) {
+    background: #f3eadc;
+    border-color: var(--brand);
+    color: var(--brand-dark);
+}
+
+.product-page-btn.active {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: white;
+}
+
+/* TRẠNG THÁI ĐANG TẢI */
+
+.product-loading {
+    background: #faf6ef;
+    border-color: var(--line);
+}
+
+.product-loading-top strong {
+    color: var(--ink);
+}
+
+.product-loading-top p {
+    color: var(--muted);
+}
+
+.product-loading-spinner {
+    border-color: #e9dcc8;
+    border-top-color: var(--brand-dark);
+}
+
+.product-loading-track,
+.upload-progress-track {
+    background: #e9dcc8;
+}
+
+.upload-progress-bar {
+    background: linear-gradient(90deg, #94713e, #d6b982);
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+    header {
+        min-height: 66px;
+        padding: 14px 16px;
+        gap: 10px;
+    }
+
+    header strong {
+        font-size: 14px;
+        letter-spacing: -.3px;
+    }
+
+    header a {
+        padding: 9px 12px;
+        font-size: 11px;
+        white-space: nowrap;
+    }
+
+    main {
+        margin: 24px auto;
+        padding: 0 14px;
+    }
+
+    main > h1 {
+        font-size: 26px;
+        margin-bottom: 22px;
+    }
+
+    .admin-stats {
+        gap: 9px;
+    }
+
+    .admin-stat {
+        padding: 16px 10px 16px 13px;
+        border-radius: 14px;
+    }
+
+    .admin-stat-label {
+        font-size: 10px;
+        line-height: 1.4;
+    }
+
+    .admin-stat-value,
+    .admin-stat:nth-child(1) .admin-stat-value,
+    .admin-stat:nth-child(3) .admin-stat-value {
+        font-size: 24px;
+    }
+
+    .panel {
+        padding: 18px 15px;
+        border-radius: 18px;
+    }
+
+    .product-list-heading h2 {
+        font-size: 19px;
+    }
+
+    #openProductModal {
+        width: 100%;
+        padding: 14px;
+    }
+
+    .item img {
+        width: 78px;
+        height: 78px;
+    }
+
+    .product-modal-box {
+        border-radius: 18px;
+    }
+
+    .product-modal-header {
+        padding: 18px;
+    }
+
+    .product-modal-body {
+        padding: 18px;
+    }
+}
+
+
+
+
+/* TIẾN TRÌNH XỬ LÝ TỪNG ẢNH */
+
+.image-preview-item {
+    overflow: hidden;
+}
+
+.image-preview-item.is-processing img {
+    opacity: .65;
+}
+
+.image-progress-track {
+    height: 6px;
+    margin: 7px 0 4px;
+    background: #eee5d8;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.image-progress-fill {
+    width: 0;
+    height: 100%;
+    background: linear-gradient(90deg, #94713e, #d6b982);
+    border-radius: inherit;
+    transition: width .2s ease;
+}
+
+.image-preview-item.is-error .image-progress-fill {
+    background: #dc2626;
+}
+
+.image-status {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 700;
+    text-align: center;
+    color: #94713e;
+    min-height: 20px;
+}
+
+.image-preview-item.is-ready .image-status {
+    color: #15803d;
+}
+
+.image-preview-item.is-error .image-status {
+    color: #dc2626;
+}
+
+.image-spinner {
+    width: 13px;
+    height: 13px;
+    border: 2px solid #e8d8bd;
+    border-top-color: #94713e;
+    border-radius: 50%;
+    animation: imageSpin .7s linear infinite;
+}
+
+@keyframes imageSpin {
+    to { transform: rotate(360deg); }
+}
+
+#submitBtn:disabled {
+    opacity: .55;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+
+
+
+
     </style>
 </head>
 
@@ -1361,10 +1940,26 @@ textarea {
          9. HEADER ADMIN
     ========================================== -->
 
-    <header>
-        <strong>YVY SHOP · ADMIN</strong>
-        <a href="index.html">← Cửa hàng</a>
-    </header>
+
+<header>
+    <strong>
+        Yvy
+        <span style="color:#b79661">SHOP</span>
+        <small style="
+            display:block;
+            font-size:10px;
+            font-weight:650;
+            letter-spacing:2px;
+            color:#94713e;
+            margin-top:5px;
+        ">
+            ADMIN DASHBOARD
+        </small>
+    </strong>
+
+    <a href="index.html">← Về cửa hàng</a>
+</header>
+
 
     <!-- =========================================
          10. NỘI DUNG CHÍNH
@@ -1498,7 +2093,7 @@ textarea {
                     id="name"
                     maxlength="120"
                     required
-                    placeholder="Ví dụ: Vòng phong thủy..."
+                    placeholder="Ví dụ: Dây chuyền..."
                 >
 
                 <div class="product-form-grid">
@@ -1511,7 +2106,7 @@ textarea {
                             min="0"
                             step="1000"
                             required
-                            placeholder="199000"
+                            placeholder="99000"
                         >
                     </div>
 
@@ -1533,6 +2128,7 @@ textarea {
                 <select id="category" required>
                     <option value="">Chọn danh mục</option>
                     <option>Phong thủy</option>
+                    <option>Đồ ăn</option>
                     <option>Thời trang</option>
                     <option>Phụ kiện</option>
                     <option>Điện tử</option>
@@ -1604,6 +2200,7 @@ textarea {
     <!-- =========================================
          13. JAVASCRIPT QUẢN LÝ SẢN PHẨM
     ========================================== -->
+
 
 
 
@@ -1709,6 +2306,9 @@ textarea {
 ========================================= */
 
 let uploadInProgress = false;
+let imageProcessingCount = 0;
+let pendingImages = [];
+
 
 function updateUploadProgress(percent, status) {
     const value = Math.max(
@@ -1803,12 +2403,21 @@ function apiUpload(url, method, product) {
                 return;
             }
 
-            if (xhr.status < 200 || xhr.status >= 300) {
-                reject(new Error(
-                    data.error || "Không thể lưu sản phẩm."
-                ));
-                return;
-            }
+if (xhr.status < 200 || xhr.status >= 300) {
+    console.error("Lỗi đăng sản phẩm:", {
+        status: xhr.status,
+        response: data,
+        payloadBytes: new Blob([
+            JSON.stringify(product)
+        ]).size
+    });
+
+    reject(new Error(
+        (data.error || "Không thể lưu sản phẩm.") +
+        "\nMã lỗi HTTP: " + xhr.status
+    ));
+    return;
+}
 
             updateUploadProgress(
                 100,
@@ -1837,7 +2446,6 @@ function apiUpload(url, method, product) {
 }
 
 
-
 /* =========================================
    ĐIỀU KHIỂN MODAL SẢN PHẨM
 ========================================= */
@@ -1863,7 +2471,8 @@ function openProductModal() {
 
 
 function closeProductModal() {
-if (uploadInProgress) return;
+if (uploadInProgress || imageProcessingCount > 0) return;
+
     $("productModal").hidden = true;
     document.body.style.overflow = "";
 
@@ -2105,6 +2714,13 @@ async function load() {
 
 
 function reset() {
+    if (imageProcessingCount > 0 || uploadInProgress) return;
+
+pendingImages.forEach(item => {
+    URL.revokeObjectURL(item.preview);
+});
+pendingImages = [];
+
     editing = null;
     imagesData = [];
 
@@ -2116,6 +2732,9 @@ function reset() {
 
     $("formTitle").textContent = "Thêm sản phẩm mới";
     $("submitBtn").textContent = "Đăng sản phẩm";
+
+
+   updateImageSubmitState(); 
 }
 
 
@@ -2127,164 +2746,223 @@ $("resetBtn").onclick = reset;
 ========================================= */
 
 // Hiển thị danh sách ảnh đã chọn
-function renderImagePreviews() {
 
+function updateImageSubmitState() {
+    const processing = imageProcessingCount > 0;
+    const hasErrors = pendingImages.some(
+        item => item.status === "error"
+    );
+
+    const button = $("submitBtn");
+
+    button.disabled = uploadInProgress || processing || hasErrors;
+    $("image").disabled = uploadInProgress || processing;
+    $("resetBtn").disabled = uploadInProgress || processing;
+
+    if (!uploadInProgress) {
+        button.textContent = processing
+            ? `Đang xử lý ${pendingImages.filter(
+                item => item.status === "ready"
+            ).length}/${pendingImages.length} ảnh...`
+            : hasErrors
+                ? "Có ảnh bị lỗi - Hãy xóa ảnh lỗi"
+                : editing
+                    ? "Lưu thay đổi"
+                    : "Đăng sản phẩm";
+    }
+}
+
+function renderImagePreviews() {
     const container = $("imagePreviews");
     container.replaceChildren();
 
-    imagesData.forEach((src, index) => {
-
+    function createCard(src, labelText, status, progress, onRemove) {
         const item = document.createElement("div");
-        item.className = "image-preview-item";
+        item.className = "image-preview-item is-" + status;
 
         const img = document.createElement("img");
         img.src = src;
-        img.alt = "Ảnh sản phẩm " + (index + 1);
+        img.alt = labelText;
 
         const label = document.createElement("small");
-        label.textContent = index === 0
-            ? "Ảnh chính"
-            : "Ảnh phụ " + index;
+        label.textContent = labelText;
 
-        // Nút xóa từng ảnh
-        const removeButton = document.createElement("button");
-        removeButton.type = "button";
-        removeButton.textContent = "×";
-        removeButton.title = "Xóa ảnh";
+        const track = document.createElement("div");
+        track.className = "image-progress-track";
 
-        removeButton.onclick = () => {
+        const fill = document.createElement("div");
+        fill.className = "image-progress-fill";
+        fill.style.width = progress + "%";
+        track.appendChild(fill);
 
-            imagesData.splice(index, 1);
+        const statusLine = document.createElement("div");
+        statusLine.className = "image-status";
 
-            // Ảnh đầu tiên còn lại trở thành ảnh chính
-            renderImagePreviews();
-        };
+        if (status === "processing") {
+            const spinner = document.createElement("span");
+            spinner.className = "image-spinner";
+            statusLine.appendChild(spinner);
+            statusLine.appendChild(
+                document.createTextNode(` ${progress}% - Đang xử lý`)
+            );
+        } else if (status === "error") {
+            statusLine.textContent = "✕ " + (
+    pendingImages.find(e => e.preview === src)?.errorMessage
+    || "Xử lý thất bại"
+);
+        } else {
+            statusLine.textContent = "✓ Hoàn tất";
+        }
 
-        item.append(img, label, removeButton);
+        item.append(img, label, track, statusLine);
+
+        if (status !== "processing") {
+            const removeButton = document.createElement("button");
+            removeButton.type = "button";
+            removeButton.textContent = "×";
+            removeButton.title = "Xóa ảnh";
+
+            removeButton.onclick = onRemove;
+            item.appendChild(removeButton);
+        }
+
         container.appendChild(item);
+    }
+
+    imagesData.forEach((src, index) => {
+        createCard(
+            src,
+            index === 0 ? "Ảnh chính" : "Ảnh phụ " + index,
+            "ready",
+            100,
+            () => {
+                if (imageProcessingCount > 0) return;
+                imagesData.splice(index, 1);
+                renderImagePreviews();
+                updateImageSubmitState();
+            }
+        );
+    });
+
+    pendingImages.forEach((entry, index) => {
+        createCard(
+            entry.preview,
+            entry.file.name,
+            entry.status,
+            entry.progress,
+            () => {
+                if (imageProcessingCount > 0) return;
+                pendingImages.splice(index, 1);
+                renderImagePreviews();
+                updateImageSubmitState();
+            }
+        );
     });
 }
+
 
 
 /* =========================================================
    ĐỌC + TỰ ĐỘNG TỐI ƯU ẢNH
 ========================================================= */
 
-function optimizeImage(file) {
 
-    return new Promise((resolve, reject) => {
+async function optimizeImage(file, onProgress = () => {}) {
+    if (!file || !file.type.startsWith("image/")) {
+        throw new Error("File không phải hình ảnh");
+    }
 
-        const reader = new FileReader();
+    onProgress(10);
 
-        reader.onerror = () => {
-            reject(new Error("Không thể đọc ảnh"));
-        };
+    const bitmap = await createImageBitmap(file);
 
-        reader.onload = () => {
+    try {
+        const MAX_BYTES = 1024 * 1024;
+        let maxDimension = 1400;
 
-            const img = new Image();
+        for (let attempt = 0; attempt < 12; attempt++) {
+            const scale = Math.min(
+                1,
+                maxDimension / Math.max(bitmap.width, bitmap.height)
+            );
 
-            img.onerror = () => {
-                reject(new Error("Không thể xử lý ảnh"));
-            };
+            const width = Math.max(1, Math.round(bitmap.width * scale));
+            const height = Math.max(1, Math.round(bitmap.height * scale));
 
-            img.onload = () => {
+            const canvas = document.createElement("canvas");
+            canvas.width = width;
+            canvas.height = height;
 
-                // Kích thước tối đa của ảnh sau khi xử lý
-                const MAX_WIDTH = 1600;
-                const MAX_HEIGHT = 1600;
+            const ctx = canvas.getContext("2d");
 
-                let width = img.width;
-                let height = img.height;
+            if (!ctx) {
+                throw new Error("Không thể tạo Canvas");
+            }
 
-                // Thu nhỏ nhưng giữ nguyên tỷ lệ
-                const ratio = Math.min(
-                    MAX_WIDTH / width,
-                    MAX_HEIGHT / height,
-                    1
-                );
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(0, 0, width, height);
+            ctx.drawImage(bitmap, 0, 0, width, height);
 
-                width = Math.round(width * ratio);
-                height = Math.round(height * ratio);
+            const quality = Math.max(0.45, 0.85 - attempt * 0.05);
 
-                const canvas = document.createElement("canvas");
+            const blob = await new Promise(resolve => {
+                canvas.toBlob(resolve, "image/webp", quality);
+            });
 
-                canvas.width = width;
-                canvas.height = height;
+            if (!blob) {
+                throw new Error("Không thể nén ảnh");
+            }
 
-                const ctx = canvas.getContext("2d");
+            onProgress(Math.min(95, 20 + (attempt + 1) * 6));
 
-                // Nền trắng để xử lý ảnh PNG có trong suốt
-                ctx.fillStyle = "#ffffff";
-                ctx.fillRect(
-                    0,
-                    0,
-                    width,
-                    height
-                );
+            if (blob.size <= MAX_BYTES) {
+                const result = await new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result);
+                    reader.onerror = () => reject(
+                        new Error("Không thể đọc ảnh đã nén")
+                    );
+                    reader.readAsDataURL(blob);
+                });
 
-                ctx.drawImage(
-                    img,
-                    0,
-                    0,
-                    width,
-                    height
-                );
+                onProgress(100);
+                return result;
+            }
 
-                // Chuyển thành WebP để giảm dung lượng
-                const optimized = canvas.toDataURL(
-                    "image/webp",
-                    0.82
-                );
+            maxDimension = Math.max(
+                400,
+                Math.round(maxDimension * 0.8)
+            );
+        }
 
-                resolve(optimized);
-            };
-
-            img.src = reader.result;
-        };
-
-        reader.readAsDataURL(file);
-    });
+        throw new Error("Không thể giảm ảnh xuống dưới 1 MB");
+    } finally {
+        bitmap.close();
+    }
 }
-
 
 /* =========================================================
    CHỌN TỐI ĐA 5 ẢNH
 ========================================================= */
 
+
 $("image").onchange = async (event) => {
-
     const files = Array.from(event.target.files);
-
-    // Cho phép chọn thêm ảnh sau đó
     event.target.value = "";
 
-    if (files.length === 0) {
+    if (!files.length || imageProcessingCount > 0) return;
+
+    if (
+        imagesData.length +
+        pendingImages.length +
+        files.length > 5
+    ) {
+        await modalAlert(
+            "Mỗi sản phẩm chỉ được tối đa 5 ảnh.",
+            "warning"
+        );
         return;
     }
-
-
-    /* ================================
-       KIỂM TRA SỐ LƯỢNG
-    ================================= */
-
-    if (imagesData.length + files.length > 5) {
-
-await modalAlert(
-    "Mỗi sản phẩm chỉ được tối đa 5 ảnh.\n" +
-    "Hiện tại đã có " +
-    imagesData.length +
-    " ảnh.",
-    "warning"
-);
-
-        return;
-    }
-
-
-    /* ================================
-       KIỂM TRA ĐỊNH DẠNG
-    ================================= */
 
     const allowedTypes = [
         "image/jpeg",
@@ -2292,71 +2970,92 @@ await modalAlert(
         "image/webp"
     ];
 
-    // Cho phép ảnh gốc tối đa 10 MB
-    const MAX_ORIGINAL_SIZE =
-        10 * 1024 * 1024;
-
+    const maxSize = 10 * 1024 * 1024;
 
     for (const file of files) {
-
         if (!allowedTypes.includes(file.type)) {
-
-await modalAlert(
-    'Ảnh "' +
-    file.name +
-    '" không đúng định dạng.\n' +
-    "Chỉ hỗ trợ JPG, PNG và WebP.",
-    "error"
-);
-
+            await modalAlert(
+                `Ảnh "${file.name}" không đúng định dạng.`,
+                "error"
+            );
             return;
         }
 
-
-        if (file.size > MAX_ORIGINAL_SIZE) {
-
-await modalAlert(
-    'Ảnh "' +
-    file.name +
-    '" vượt quá 10 MB.\n' +
-    "Vui lòng chọn ảnh có dung lượng nhỏ hơn.",
-    "warning"
-);
-
+        if (file.size > maxSize) {
+            await modalAlert(
+                `Ảnh "${file.name}" vượt quá 10 MB.`,
+                "warning"
+            );
             return;
         }
     }
 
+    const batch = files.map(file => ({
+        file,
+        preview: URL.createObjectURL(file),
+        progress: 0,
+        status: "processing",
+        result: null
+    }));
 
-    /* ================================
-       TỐI ƯU ẢNH
-    ================================= */
+    pendingImages.push(...batch);
+    imageProcessingCount++;
+
+    renderImagePreviews();
+    updateImageSubmitState();
 
     try {
+        for (const entry of batch) {
+            try {
+                const result = await optimizeImage(
+                    entry.file,
+                    percent => {
+                        entry.progress = percent;
+                        renderImagePreviews();
+                        updateImageSubmitState();
+                    }
+                );
 
-        const newImages = [];
+                entry.result = result;
+                entry.progress = 100;
+                entry.status = "ready";
 
-        for (const file of files) {
+            } catch (error) {
+                console.error(
+                    "Lỗi xử lý ảnh:",
+                    entry.file.name,
+                    error
+                );
 
-            const optimized =
-                await optimizeImage(file);
+entry.status = "error";
+entry.progress = 0;
+entry.errorMessage = error.message || "Lỗi không xác định";
+            }
 
-            newImages.push(optimized);
+            renderImagePreviews();
+            updateImageSubmitState();
         }
 
+        // Chuyển ảnh thành công sang danh sách chính
+        for (const entry of batch) {
+            if (entry.status === "ready") {
+                imagesData.push(entry.result);
+                URL.revokeObjectURL(entry.preview);
+            }
+        }
 
-        imagesData.push(...newImages);
+        // Giữ lại ảnh lỗi để chủ shop nhìn thấy và xóa
+        pendingImages = pendingImages.filter(
+            entry => entry.status === "error"
+        );
 
+    } finally {
+        imageProcessingCount--;
         renderImagePreviews();
-
-
-    } catch (error) {
-
-        console.error(error);
-
-await modalAlert("Không thể xử lý hình ảnh.", "error");
+        updateImageSubmitState();
     }
 };
+
 
         /* =========================================
            19. YÊU CẦU MẬT KHẨU ADMIN
@@ -2391,12 +3090,28 @@ async function requireAdminPassword() {
            20. ĐĂNG / CẬP NHẬT SẢN PHẨM
         ========================================== */
 
- 
+
 $("productForm").onsubmit = async (event) => {
     event.preventDefault();
 
     // Chặn nhấn đăng nhiều lần
     if (uploadInProgress) return;
+
+    if (imageProcessingCount > 0) {
+    await modalAlert(
+        "Hình ảnh chưa xử lý xong. Vui lòng chờ.",
+        "warning"
+    );
+    return;
+}
+
+if (imagesData.length > 5) {
+    await modalAlert(
+        "Sản phẩm không được vượt quá 5 ảnh.",
+        "warning"
+    );
+    return;
+}
 
     if (!(await requireAdminPassword())) {
         return;
@@ -2411,6 +3126,30 @@ $("productForm").onsubmit = async (event) => {
         image: imagesData[0] || "",
         images: imagesData
     };
+
+
+    
+const payloadBytes = new Blob([
+    JSON.stringify(product)
+]).size;
+
+const maxPayloadBytes = 12 * 1024 * 1024;
+
+console.log(
+    "Dung lượng dữ liệu đăng sản phẩm:",
+    (payloadBytes / 1024 / 1024).toFixed(2),
+    "MB"
+);
+
+if (payloadBytes > maxPayloadBytes) {
+    await modalAlert(
+        "Tổng dung lượng ảnh quá lớn. " +
+        "Vui lòng giảm dung lượng ảnh trước khi đăng.",
+        "warning"
+    );
+    return;
+}
+
 
     const isEditing = Boolean(editing);
 
@@ -2495,6 +3234,7 @@ function editProduct(product) {
     $("formTitle").textContent = "Chỉnh sửa sản phẩm";
     $("submitBtn").textContent = "Lưu thay đổi";
 
+updateImageSubmitState();
 openProductModal();
 }
 
@@ -2607,7 +3347,7 @@ if (!(await requireAdminPassword())) {
            24. HIỂN THỊ DANH SÁCH SẢN PHẨM
         ========================================== */
 
-      
+
 /* =========================================
    PHÂN TRANG SẢN PHẨM - 5 SẢN PHẨM / TRANG
 ========================================= */
@@ -2772,6 +3512,7 @@ function render() {
     );
 }
 
+
         /* =========================================
            25. KHỞI TẠO TRANG ADMIN
         ========================================== */
@@ -2780,7 +3521,6 @@ function render() {
     currentProductPage = 1;
     render();
 };
-
 
 $("retryProductLoad").onclick = load;
 

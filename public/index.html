@@ -3,8 +3,17 @@
  <head>
   <meta charset="utf-8"/>
   <meta content="width=device-width,initial-scale=1" name="viewport"/>
+  
+<link rel="icon" type="image/png" sizes="192x192" href="/shop-icon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/shop-icon-512.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#faf7f2">
+<meta name="apple-mobile-web-app-title" content="Yvy Shop">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+
   <title>
-   Yvy Shop - Vòng Tái Sinh
+   Yvy SHOP &mdash; Cửa hàng trực tuyến
   </title>
 <style>
 /* NOVA Green — styles preserved in original cascade order */
@@ -1680,7 +1689,6 @@ footer {
 
 
 
-
 /* =========================================
    PHÂN TRANG SẢN PHẨM
 ========================================= */
@@ -1744,6 +1752,1699 @@ footer {
 
 
 
+/* ===================================================
+   YVY SHOP
+   LUXURY BEIGE & GOLD — PREMIUM REDESIGN
+   Giữ nguyên HTML ID và JavaScript hiện tại
+=================================================== */
+
+:root {
+    --ink: #302820;
+    --muted: #827568;
+    --line: #e9dfd2;
+    --bg: #faf7f2;
+    --accent: #b79661;
+
+    --luxury-bg: #faf7f2;
+    --luxury-white: #fffefa;
+    --luxury-cream: #f3eadc;
+    --luxury-gold: #b79661;
+    --luxury-gold-dark: #94713e;
+    --luxury-dark: #302820;
+    --luxury-muted: #827568;
+    --luxury-border: #e9dfd2;
+    --luxury-shadow: 0 12px 35px rgba(70, 49, 25, .07);
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 125px;
+}
+
+body {
+    background: var(--luxury-bg);
+    color: var(--luxury-dark);
+    font-family: "Segoe UI", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+button, input, textarea, select {
+    font: inherit;
+}
+
+button {
+    transition: background .25s ease,
+                color .25s ease,
+                transform .25s ease,
+                box-shadow .25s ease;
+}
+
+button:active {
+    transform: scale(.98);
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+    outline: 2px solid var(--luxury-gold);
+    outline-offset: 3px;
+}
+
+/* TOP ANNOUNCEMENT */
+
+.promo-strip {
+    background: #302820;
+    color: #f1dfc2;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    padding: 11px 15px;
+}
+
+/* HEADER */
+
+header {
+    background: rgba(255, 254, 250, .96);
+    border-bottom: 1px solid var(--luxury-border);
+    box-shadow: 0 5px 25px rgba(48, 40, 32, .035);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+}
+
+.bar {
+    max-width: 1280px;
+    padding: 20px 26px;
+    gap: 26px;
+}
+
+.logo {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 27px;
+    font-weight: 700;
+    letter-spacing: -.8px;
+    color: var(--luxury-dark);
+    white-space: nowrap;
+}
+
+.logo span {
+    color: var(--luxury-gold);
+}
+
+nav a {
+    color: #5d5043;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .3px;
+}
+
+nav a:hover {
+    color: var(--luxury-gold-dark);
+}
+
+.search {
+    background: #f7f2eb;
+    border: 1px solid #e8dfd3;
+    border-radius: 30px;
+    color: var(--luxury-dark);
+    padding: 13px 20px;
+}
+
+.search::placeholder {
+    color: #a39788;
+}
+
+.search:focus {
+    background: white;
+    border-color: var(--luxury-gold);
+    box-shadow: 0 0 0 4px rgba(183,150,97,.12);
+}
+
+.cartbtn {
+    background: var(--luxury-dark);
+    color: #fff9ee;
+    border: 1px solid var(--luxury-dark);
+    border-radius: 30px;
+    padding: 13px 20px;
+    box-shadow: none;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.cartbtn:hover {
+    background: var(--luxury-gold-dark);
+    border-color: var(--luxury-gold-dark);
+}
+
+/* MAIN CONTAINER */
+
+.wrap {
+    max-width: 1280px;
+    padding: 0 26px;
+}
+
+/* HERO BANNER */
+
+.hero {
+    min-height: 430px;
+    margin: 30px 0 65px;
+    border-radius: 26px;
+    overflow: hidden;
+    position: relative;
+    background: linear-gradient(
+        115deg,
+        #f0e4d3 0%,
+        #f9f4ec 52%,
+        #e4d1b6 100%
+    );
+    border: 1px solid #eadbc8;
+    box-shadow: var(--luxury-shadow);
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+    width: 360px;
+    height: 360px;
+    border: 1px solid rgba(183,150,97,.17);
+    border-radius: 50%;
+    top: -210px;
+    left: -140px;
+    pointer-events: none;
+}
+
+.hero-copy {
+    position: relative;
+    z-index: 1;
+    padding: 65px 58px;
+}
+
+.eyebrow {
+    color: var(--luxury-gold-dark);
+    font-size: 11px;
+    letter-spacing: 3px;
+    font-weight: 700;
+}
+
+.hero h1 {
+    color: var(--luxury-dark);
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: clamp(38px, 4.5vw, 62px);
+    font-weight: 700;
+    letter-spacing: -1.5px;
+    word-spacing: -3px;
+    line-height: 1.15;
+    margin: 20px 0;
+}
+
+.hero p {
+    color: #766858;
+    font-size: 15px;
+    line-height: 1.85;
+    max-width: 440px;
+}
+
+.primary {
+    background: var(--luxury-dark);
+    color: #fffaf1;
+    border: 1px solid var(--luxury-dark);
+    border-radius: 30px;
+    padding: 16px 28px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .3px;
+    box-shadow: none;
+}
+
+.primary:hover {
+    background: var(--luxury-gold-dark);
+    border-color: var(--luxury-gold-dark);
+    transform: translateY(-2px);
+}
+
+.hero-art {
+    background:
+        radial-gradient(
+            circle at center,
+            #f8ebd8 0%,
+            #e9d6b8 52%,
+            #d8bc94 100%
+        );
+    color: #a17d4b;
+    font-size: 125px;
+}
+
+/* SECTION HEADINGS */
+
+.section-head {
+    margin-bottom: 28px;
+}
+
+.section-head h2 {
+    color: var(--luxury-dark);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 34px;
+    font-weight: 600;
+    letter-spacing: -.7px;
+}
+
+.section-head p {
+    color: var(--luxury-muted);
+    line-height: 1.7;
+}
+
+.muted, #resultCount {
+    color: var(--luxury-muted);
+}
+
+/* CATEGORY FILTERS */
+
+.filters {
+    gap: 10px;
+    margin-bottom: 28px;
+    padding-bottom: 8px;
+}
+
+.filter {
+    background: #fffefa;
+    border: 1px solid #e5d9c8;
+    color: #796b59;
+    border-radius: 30px;
+    padding: 12px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    box-shadow: none;
+}
+
+.filter:hover {
+    border-color: var(--luxury-gold);
+    color: var(--luxury-gold-dark);
+    background: #faf3e8;
+}
+
+.filter.active {
+    background: var(--luxury-dark);
+    color: #fff8eb;
+    border-color: var(--luxury-dark);
+}
+
+/* PRODUCT GRID */
+
+.grid {
+    grid-template-columns: repeat(4, minmax(0,1fr));
+    gap: 24px;
+}
+
+.product {
+    min-width: 0;
+    background: var(--luxury-white);
+    border: 1px solid #ede4d8;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(48,40,32,.035);
+    transition: transform .3s ease,
+                box-shadow .3s ease,
+                border-color .3s ease;
+}
+
+.product:hover {
+    transform: translateY(-5px);
+    border-color: #d9c5a8;
+    box-shadow: 0 18px 38px rgba(70,49,25,.10);
+}
+
+.grid .product .visual {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    padding: 12px;
+    background: #f6f1e9;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.grid .product .visual img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    transform: none;
+    transition: transform .35s ease;
+}
+
+.grid .product:hover .visual img {
+    transform: scale(1.025);
+}
+
+.tag {
+    top: 12px;
+    left: 12px;
+    background: rgba(255,253,247,.95);
+    color: #9b7948;
+    border: 1px solid #e9dcc8;
+    border-radius: 30px;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 7px 12px;
+}
+
+.info {
+    padding: 20px;
+}
+
+.info small {
+    color: #9c8a74;
+    font-size: 11px;
+    letter-spacing: .2px;
+}
+
+.info h3 {
+    color: var(--luxury-dark);
+    font-size: 15px;
+    font-weight: 650;
+    line-height: 1.55;
+    margin: 10px 0 12px;
+}
+
+.price {
+    color: #9d753f;
+    font-size: 19px;
+    font-weight: 800;
+}
+
+.add {
+    width: 100%;
+    margin-top: 18px;
+    padding: 13px 10px;
+    border: 1px solid #dfcfb7;
+    border-radius: 12px;
+    background: #f5ebdc;
+    color: #775a35;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.add:hover {
+    background: var(--luxury-dark);
+    border-color: var(--luxury-dark);
+    color: #fffaf1;
+}
+
+/* PAGINATION */
+
+.product-pagination {
+    gap: 9px;
+    margin: 38px 0 18px;
+}
+
+.page-btn {
+    background: #fffefa;
+    border: 1px solid #e6dac8;
+    border-radius: 12px;
+    color: #75634d;
+    min-width: 42px;
+    height: 42px;
+}
+
+.page-btn:hover:not(:disabled) {
+    background: #f3e6d4;
+    border-color: var(--luxury-gold);
+}
+
+.page-btn.active {
+    background: var(--luxury-dark);
+    border-color: var(--luxury-dark);
+    color: white;
+}
+
+/* BENEFITS */
+
+.benefits {
+    margin: 75px 0 55px;
+    padding: 42px 30px;
+    background: #f1e7d8;
+    border: 1px solid #e8d8c2;
+    border-radius: 24px;
+    gap: 30px;
+}
+
+.benefits > div {
+    line-height: 1.7;
+}
+
+.benefits strong {
+    color: var(--luxury-dark);
+    font-size: 15px;
+}
+
+.benefits p {
+    color: #847361;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+/* FOOTER */
+
+footer {
+    background: #302820;
+    color: #dfcdb3;
+    border-top: 1px solid #4b4035;
+    padding: 32px 0;
+    line-height: 1.7;
+}
+
+/* CART DRAWER */
+
+.drawer {
+    z-index: 200;
+}
+
+.overlay {
+    background: rgba(25,20,15,.58);
+    backdrop-filter: blur(3px);
+}
+
+.panel {
+    background: #fffefa;
+    border-left: 1px solid #e7d8c2;
+    box-shadow: -15px 0 50px rgba(0,0,0,.1);
+    border-radius: 22px 0 0 22px;
+    padding: 28px;
+}
+
+.panel-head h2 {
+    font-family: Georgia, "Times New Roman", serif;
+    color: var(--luxury-dark);
+    font-size: 25px;
+}
+
+.x {
+    background: #f4eadc;
+    color: #68543d;
+    width: 38px;
+    height: 38px;
+}
+
+.x:hover {
+    background: #e8d8c1;
+}
+
+.cart-row {
+    border-bottom: 1px solid var(--luxury-border);
+}
+
+.cart-items .cart-row .thumb {
+    background: #f6f0e7;
+    border: 1px solid #eadfce;
+    border-radius: 12px;
+}
+
+.cart-meta strong {
+    color: var(--luxury-dark);
+}
+
+.cart-meta small {
+    color: var(--luxury-gold-dark);
+}
+
+.qty button {
+    border: 1px solid #e4d7c5;
+    background: #fffaf2;
+    color: var(--luxury-dark);
+    border-radius: 8px;
+}
+
+.total {
+    color: var(--luxury-dark);
+    border-top: 1px solid var(--luxury-border);
+}
+
+.checkout {
+    background: var(--luxury-dark);
+    color: #fff9ef;
+    border: 1px solid var(--luxury-dark);
+    border-radius: 13px;
+    padding: 16px;
+    box-shadow: none;
+    font-weight: 700;
+}
+
+.checkout:hover {
+    background: var(--luxury-gold-dark);
+    border-color: var(--luxury-gold-dark);
+}
+
+/* CHECKOUT MODAL */
+
+.modal {
+    z-index: 300;
+    background: rgba(25,20,15,.62);
+    backdrop-filter: blur(5px);
+}
+
+.modal-box {
+    background: #fffefa;
+    border: 1px solid #e9dcc8;
+    border-radius: 24px;
+    box-shadow: 0 25px 70px rgba(0,0,0,.16);
+    padding: 30px;
+}
+
+.modal-box input,
+.modal-box textarea {
+    background: #fcfaf6;
+    color: var(--luxury-dark);
+    border: 1px solid #e6dac9;
+    border-radius: 12px;
+    padding: 14px 16px;
+}
+
+.modal-box input:focus,
+.modal-box textarea:focus {
+    outline: none;
+    border-color: var(--luxury-gold);
+    box-shadow: 0 0 0 3px rgba(183,150,97,.12);
+}
+
+/* PRODUCT DETAIL */
+
+.product-detail-backdrop {
+    background: rgba(25,20,15,.68);
+    backdrop-filter: blur(5px);
+}
+
+.product-detail-box {
+    background: #fffefa;
+    border: 1px solid #e8dac7;
+    border-radius: 25px;
+    padding: 30px;
+    box-shadow: 0 30px 80px rgba(0,0,0,.18);
+}
+
+.product-detail-close {
+    background: #f2e8d9;
+    color: #5f4b35;
+}
+
+.product-detail-main {
+    background: #f6f0e7;
+    border: 1px solid #eee1cf;
+    border-radius: 18px;
+}
+
+.product-detail-main img {
+    object-fit: contain;
+}
+
+.product-detail-thumbnails button {
+    background: #fffaf2;
+    border: 2px solid #e9dcc8;
+    border-radius: 12px;
+}
+
+.product-detail-thumbnails button.active {
+    border-color: var(--luxury-gold);
+}
+
+.product-detail-info h2 {
+    font-family: Georgia, "Times New Roman", serif;
+    color: var(--luxury-dark);
+    line-height: 1.3;
+}
+
+.product-detail-price {
+    color: var(--luxury-gold-dark);
+    font-size: 28px;
+}
+
+.product-detail-info p {
+    color: #786b5e;
+    line-height: 1.85;
+}
+
+/* NOTIFICATION MODAL */
+
+.shop-alert {
+    background: rgba(25,20,15,.65);
+}
+
+.shop-alert-box {
+    background: #fffefa;
+    border: 1px solid #e9dcc8;
+    border-radius: 24px;
+}
+
+.shop-alert-title {
+    color: var(--luxury-dark);
+}
+
+.shop-alert-message {
+    color: var(--luxury-muted);
+}
+
+.shop-alert-button {
+    background: var(--luxury-dark);
+    color: white;
+    border-radius: 13px;
+}
+
+.shop-alert-button:hover {
+    background: var(--luxury-gold-dark);
+}
+
+/* CART TOAST */
+
+.cart-toast {
+    background: #fffefa;
+    border: 1px solid #e7d8c1;
+    border-left: 4px solid var(--luxury-gold);
+    border-radius: 15px;
+    box-shadow: var(--luxury-shadow);
+}
+
+.cart-toast-icon {
+    background: #f1e3cd;
+    color: #99703c;
+}
+
+.cart-toast-content strong {
+    color: var(--luxury-dark);
+}
+
+.cart-toast-content span {
+    color: var(--luxury-muted);
+}
+
+/* FLOATING CONTACT BUTTONS */
+
+.shop-call-button {
+    background: linear-gradient(135deg,#b79661,#44ff00);
+    box-shadow: 0 8px 25px rgba(137,100,53,.25);
+    z-index: 15;
+}
+
+.shop-call-button::before {
+    border-color: rgba(183,150,97,.35);
+}
+
+.shop-call-tooltip {
+    color: var(--luxury-gold-dark);
+    background: #fffefa;
+}
+
+.shop-zalo-button {
+    z-index: 15;
+}
+
+/* TABLET */
+
+@media (max-width: 900px) {
+    .grid {
+        grid-template-columns: repeat(2,minmax(0,1fr));
+        gap: 18px;
+    }
+
+    .hero-copy {
+        padding: 40px;
+    }
+
+    .hero {
+        min-height: 350px;
+    }
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+    body {
+        padding-bottom: calc(76px + env(safe-area-inset-bottom));
+    }
+
+    .promo-strip {
+        font-size: 9px;
+        line-height: 1.5;
+        letter-spacing: .2px;
+        padding: 9px 12px;
+    }
+
+    .bar {
+        display: grid;
+        grid-template-columns: minmax(0,1fr) auto;
+        gap: 13px;
+        padding: 15px 16px;
+    }
+
+    .logo {
+        font-size: 22px;
+        letter-spacing: -.6px;
+    }
+
+    .search {
+        grid-row: 2;
+        grid-column: 1 / 3;
+        width: 100%;
+        min-width: 0;
+        padding: 13px 17px;
+        border-radius: 14px;
+        font-size: 14px;
+    }
+
+    .cartbtn {
+        grid-row: 1;
+        grid-column: 2;
+        font-size: 12px;
+        padding: 11px 13px;
+        border-radius: 13px;
+    }
+
+    .wrap {
+        padding: 0 15px;
+    }
+
+    .hero {
+        grid-template-columns: minmax(0,1fr) 95px;
+        min-height: 235px;
+        margin: 17px 0 35px;
+        border-radius: 20px;
+    }
+
+    .hero-copy {
+        padding: 25px 0 25px 22px;
+    }
+
+    .eyebrow {
+        font-size: 9px;
+        letter-spacing: 1.3px;
+    }
+
+    .hero h1 {
+        font-size: clamp(26px,7vw,34px);
+        letter-spacing: -.8px;
+        margin: 12px 0;
+        word-spacing: -2px;
+    }
+
+    .hero p {
+        font-size: 12px;
+        line-height: 1.6;
+    }
+
+    .hero-art {
+        height: auto;
+        font-size: 56px;
+    }
+
+    .primary {
+        font-size: 11px;
+        padding: 12px 16px;
+        margin-top: 10px;
+    }
+
+    .section-head {
+        gap: 10px;
+        margin-bottom: 19px;
+    }
+
+    .section-head h2 {
+        font-size: 25px;
+    }
+
+    .section-head p {
+        font-size: 12px;
+    }
+
+    .filters {
+        gap: 8px;
+        margin-bottom: 20px;
+    }
+
+    .filter {
+        font-size: 12px;
+        padding: 10px 15px;
+    }
+
+    .grid {
+        grid-template-columns: repeat(2,minmax(0,1fr));
+        gap: 12px;
+    }
+
+    .product {
+        border-radius: 16px;
+    }
+
+    .grid .product .visual {
+        height: auto;
+        aspect-ratio: 1 / 1;
+        padding: 6px;
+    }
+
+    .grid .product .visual img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    .info {
+        padding: 12px;
+    }
+
+    .info small {
+        font-size: 10px;
+    }
+
+    .info h3 {
+        font-size: 13px;
+        line-height: 1.45;
+        min-height: 38px;
+        margin: 8px 0;
+    }
+
+    .price {
+        font-size: 16px;
+    }
+
+    .add {
+        padding: 11px 5px;
+        margin-top: 12px;
+        font-size: 11px;
+        border-radius: 10px;
+    }
+
+    .tag {
+        top: 7px;
+        left: 7px;
+        font-size: 9px;
+        padding: 5px 8px;
+    }
+
+    .benefits {
+        grid-template-columns: 1fr;
+        margin: 40px 0 25px;
+        padding: 28px 20px;
+        gap: 20px;
+        border-radius: 20px;
+    }
+
+    .mobile-nav {
+        display: flex;
+        position: fixed;
+        left: -35px;
+        right: 0;
+        bottom: 0;
+        z-index: 100;
+        background: rgba(255,254,250,.98);
+        border-top: 1px solid #e8dac6;
+        box-shadow: 0 -8px 30px rgba(48,40,32,.07);
+        justify-content: space-around;
+        padding: 10px 5px calc(10px + env(safe-area-inset-bottom));
+        backdrop-filter: blur(14px);
+    }
+
+    .mobile-nav a,
+    .mobile-nav button {
+        color: #95816a;
+        font-size: 10px;
+        font-weight: 600;
+        min-width: 58px;
+    }
+
+    .mobile-nav .active {
+        color: var(--luxury-gold-dark);
+    }
+
+    .mobile-nav .ico {
+        font-size: 22px;
+    }
+
+    .panel {
+        width: 100%;
+        top: 5%;
+        padding: 22px;
+        border-radius: 22px 22px 0 0;
+    }
+
+    .modal-box {
+        padding: 22px;
+    }
+
+    .product-detail-box {
+        padding: 18px;
+        border-radius: 20px;
+    }
+
+    .product-detail-layout {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .product-detail-main {
+        height: 260px;
+    }
+
+    .product-detail-info {
+        padding-top: 0;
+    }
+
+    .product-detail-price {
+        font-size: 24px;
+    }
+
+    .shop-call-button {
+        right: 16px;
+        bottom: calc(92px + env(safe-area-inset-bottom));
+    }
+
+    .shop-zalo-button {
+        right: 16px;
+        bottom: calc(160px + env(safe-area-inset-bottom));
+    }
+
+    footer {
+        font-size: 11px;
+    }
+}
+
+/* ACCESSIBILITY */
+
+@media (prefers-reduced-motion: reduce) {
+    .product,
+    .grid .product .visual img,
+    button {
+        transition: none;
+    }
+
+    .product:hover {
+        transform: none;
+    }
+}
+
+
+
+/* LUXURY HERO MONOGRAM */
+
+.luxury-hero-decoration {
+    width: 100%;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 20px;
+    text-align: center;
+}
+
+.luxury-hero-monogram {
+    font-family: Georgia, serif;
+    font-size: clamp(70px, 10vw, 145px);
+    font-weight: 400;
+    letter-spacing: -10px;
+    line-height: 1;
+    color: #94713e;
+    text-shadow: 2px 4px 20px rgba(255,255,255,.35);
+}
+
+.luxury-hero-line {
+    width: 55px;
+    height: 1px;
+    background: #a7834b;
+}
+
+.luxury-hero-label {
+    color: #745635;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+}
+
+.luxury-hero-subtitle {
+    color: #96774f;
+    font-size: 10px;
+    letter-spacing: 3px;
+}
+
+@media (max-width: 600px) {
+    .luxury-hero-decoration {
+        min-height: 0;
+        height: 100%;
+        gap: 8px;
+        padding: 8px 3px;
+    }
+
+    .luxury-hero-monogram {
+        font-size: 47px;
+        letter-spacing: -5px;
+    }
+
+    .luxury-hero-line {
+        width: 30px;
+    }
+
+    .luxury-hero-label {
+        font-size: 7px;
+        letter-spacing: .6px;
+    }
+
+    .luxury-hero-subtitle {
+        font-size: 6px;
+        letter-spacing: .5px;
+    }
+}
+
+
+
+/* ============================================
+   PREMIUM SERVICES — LUXURY BEIGE & GOLD
+============================================ */
+
+.benefits {
+    display: block;
+    position: relative;
+    margin: 75px 0 55px;
+    padding: 54px 48px 46px;
+    background: #fffefa;
+    border: 1px solid #e9dfd1;
+    border-radius: 22px;
+    box-shadow: 0 12px 38px rgba(65, 45, 25, 0.035);
+    text-align: center;
+    overflow: hidden;
+}
+
+/* Đường nhấn vàng phía trên */
+.benefits::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 140px;
+    height: 2px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        #b79661,
+        transparent
+    );
+}
+
+/* Phần tiêu đề */
+.benefits-heading {
+    margin-bottom: 42px;
+}
+
+.benefits-eyebrow {
+    display: block;
+    color: #aa8753;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2.3px;
+    margin-bottom: 14px;
+}
+
+.benefits-heading h2 {
+    margin: 0;
+    color: #302820;
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: clamp(24px, 3vw, 33px);
+    font-weight: 650;
+    letter-spacing: -0.8px;
+    line-height: 1.3;
+}
+
+.benefits-heading p {
+    margin: 12px 0 0;
+    color: #928373;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.benefits-line {
+    display: block;
+    width: 38px;
+    height: 1px;
+    margin: 22px auto 0;
+    background: #b79661;
+}
+
+/* Ba cột dịch vụ */
+.benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0;
+    text-align: center;
+}
+
+.benefit-item {
+    min-width: 0;
+    padding: 10px 34px 5px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Đường phân cách dọc */
+.benefit-item:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: 22px;
+    right: 0;
+    width: 1px;
+    height: calc(100% - 44px);
+    background: linear-gradient(
+        to bottom,
+        transparent,
+        #e4d6c1 20%,
+        #e4d6c1 80%,
+        transparent
+    );
+}
+
+/* Icon nét mảnh */
+.benefit-icon {
+    width: 68px;
+    height: 68px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 22px;
+    border-radius: 50%;
+    background: #f7f0e5;
+    border: 1px solid #efe3d1;
+    color: #a7834b;
+    transition:
+        background 0.3s ease,
+        border-color 0.3s ease,
+        transform 0.3s ease;
+}
+
+.benefit-icon svg {
+    width: 28px;
+    height: 28px;
+    display: block;
+}
+
+/* Tiêu đề từng dịch vụ */
+.benefit-item h3 {
+    margin: 0 0 12px;
+    color: #352d24;
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 650;
+    letter-spacing: -0.2px;
+    line-height: 1.4;
+}
+
+/* Mô tả */
+.benefit-item p {
+    margin: 0;
+    max-width: 255px;
+    color: #8b7c6d;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.8;
+}
+
+/* Hover tinh tế */
+.benefit-item:hover .benefit-icon {
+    background: #efe2cc;
+    border-color: #d7bd95;
+    transform: translateY(-4px);
+}
+
+/* TABLET */
+@media (max-width: 900px) {
+    .benefits {
+        padding: 42px 20px;
+    }
+
+    .benefit-item {
+        padding: 10px 17px 5px;
+    }
+
+    .benefit-item h3 {
+        font-size: 14px;
+    }
+
+    .benefit-item p {
+        font-size: 12px;
+    }
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+    .benefits {
+        margin: 40px 0 30px;
+        padding: 32px 22px 15px;
+        border-radius: 19px;
+    }
+
+    .benefits-heading {
+        margin-bottom: 24px;
+    }
+
+    .benefits-eyebrow {
+        font-size: 9px;
+        letter-spacing: 1.4px;
+        margin-bottom: 11px;
+    }
+
+    .benefits-heading h2 {
+        font-size: 23px;
+        letter-spacing: -0.5px;
+    }
+
+    .benefits-heading p {
+        font-size: 12px;
+        margin-top: 10px;
+    }
+
+    .benefits-line {
+        margin-top: 18px;
+    }
+
+    .benefits-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .benefit-item {
+        display: grid;
+        grid-template-columns: 52px minmax(0, 1fr);
+        grid-template-rows: auto auto;
+        column-gap: 16px;
+        row-gap: 5px;
+        align-items: center;
+        text-align: left;
+        padding: 21px 0;
+    }
+
+    .benefit-icon {
+        width: 52px;
+        height: 52px;
+        margin: 0;
+        grid-column: 1;
+        grid-row: 1 / 3;
+    }
+
+    .benefit-icon svg {
+        width: 23px;
+        height: 23px;
+    }
+
+    .benefit-item h3 {
+        grid-column: 2;
+        grid-row: 1;
+        margin: 0;
+        font-size: 14px;
+    }
+
+    .benefit-item p {
+        grid-column: 2;
+        grid-row: 2;
+        max-width: none;
+        margin: 0;
+        font-size: 12px;
+        line-height: 1.65;
+    }
+
+    .benefit-item:not(:last-child)::after {
+        top: auto;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 1px;
+        background: #eee4d7;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .benefit-icon {
+        transition: none;
+    }
+
+    .benefit-item:hover .benefit-icon {
+        transform: none;
+    }
+}
+
+
+
+/* THANH TIẾN TRÌNH TẢI SẢN PHẨM */
+
+.grid .product-loading {
+    grid-column: 1 / -1;
+    width: 100%;
+    max-width: 500px;
+    margin: 25px auto 45px;
+    padding: 30px;
+    background: #fffefa;
+    border: 1px solid #e9dfd2;
+    border-radius: 20px;
+    box-shadow: 0 12px 30px rgba(65, 45, 25, 0.05);
+}
+
+.product-loading-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 24px;
+}
+
+.product-loading-label {
+    color: #a7834b;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+}
+
+.product-loading-title {
+    color: #302820;
+    font-size: 19px;
+    font-weight: 650;
+    margin: 0;
+}
+
+.product-loading-icon {
+    width: 48px;
+    height: 48px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: #f7f0e5;
+    color: #a7834b;
+    font-size: 24px;
+}
+
+.product-loading-status {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+    color: #827568;
+    font-size: 12px;
+}
+
+.product-loading-percent {
+    color: #94713e;
+    font-weight: 750;
+    font-size: 15px;
+    font-variant-numeric: tabular-nums;
+}
+
+.product-loading-track {
+    height: 7px;
+    background: #eee5d8;
+    border-radius: 30px;
+    overflow: hidden;
+}
+
+.product-loading-bar {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        #d3bc96,
+        #a7834b
+    );
+    border-radius: inherit;
+    transition: width 0.3s ease;
+}
+
+.product-loading-note {
+    margin: 15px 0 0;
+    color: #a19587;
+    font-size: 11px;
+}
+
+@media (max-width: 600px) {
+    .grid .product-loading {
+        margin: 12px auto 25px;
+        padding: 24px 20px;
+    }
+
+    .product-loading-title {
+        font-size: 17px;
+    }
+}
+
+
+
+
+/* ===== POPUP CHÀO MỪNG Yvy SHOP ===== */
+
+.qn-welcome {
+    position: fixed;
+    inset: 0;
+    z-index: 200000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+    background: rgba(32, 25, 18, 0.72);
+    backdrop-filter: blur(7px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .35s, visibility .35s;
+}
+
+.qn-welcome.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.qn-welcome-box {
+    position: relative;
+    width: min(440px, 100%);
+    max-height: 90dvh;
+    overflow-y: auto;
+    padding: 38px 28px 28px;
+    border-radius: 24px;
+    border: 1px solid #d9bf95;
+    background: linear-gradient(155deg, #fffefa, #f7eee1);
+    text-align: center;
+    box-shadow: 0 25px 80px rgba(0,0,0,.3);
+    transform: translateY(30px) scale(.94);
+    transition: transform .4s ease;
+}
+
+.qn-welcome.show .qn-welcome-box {
+    transform: translateY(0) scale(1);
+}
+
+.qn-welcome-close {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    width: 34px;
+    height: 34px;
+    border: 0;
+    border-radius: 50%;
+    background: #f0e5d5;
+    color: #766858;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.qn-welcome-brand {
+    color: #94713e;
+    font-size: 11px;
+    font-weight: 750;
+    letter-spacing: 2px;
+}
+
+.qn-welcome-gift {
+    width: 82px;
+    height: 82px;
+    display: grid;
+    place-items: center;
+    margin: 25px auto 20px;
+    border-radius: 50%;
+    background: #f1e3cc;
+    color: #a7834b;
+    font-size: 40px;
+    animation: qnGiftFloat 3s ease-in-out infinite;
+}
+
+.qn-welcome-title {
+    margin: 0 0 10px;
+    color: #302820;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 30px;
+    line-height: 1.2;
+}
+
+.qn-welcome-subtitle {
+    color: #a7834b;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.qn-welcome-message {
+    margin: 20px 0;
+    color: #766858;
+    font-size: 14px;
+    line-height: 1.85;
+}
+
+.qn-welcome-wish {
+    padding: 15px;
+    border-radius: 13px;
+    background: #f1e6d7;
+    color: #94713e;
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.qn-welcome-start {
+    width: 100%;
+    margin-top: 24px;
+    padding: 16px;
+    border: 0;
+    border-radius: 30px;
+    background: #302820;
+    color: #fffaf1;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.qn-welcome-start:hover {
+    background: #94713e;
+}
+
+.qn-welcome-footer {
+    margin-top: 18px;
+    color: #a19587;
+    font-size: 11px;
+}
+
+@keyframes qnGiftFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-7px); }
+}
+
+@media (max-width: 600px) {
+    .qn-welcome-box {
+        padding: 32px 22px 24px;
+    }
+
+    .qn-welcome-title {
+        font-size: 26px;
+    }
+
+    .qn-welcome-gift {
+        margin: 18px auto;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .qn-welcome,
+    .qn-welcome-box {
+        transition: none;
+    }
+
+    .qn-welcome-gift {
+        animation: none;
+    }
+}
+
+
+
+
+/* NÚT THÊM SHOP VÀO MÀN HÌNH CHÍNH */
+.qn-install-btn {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 12px;
+    padding: 14px 12px;
+    border: 1px solid #c8a977;
+    border-radius: 30px;
+    background: #fff9ef;
+    color: #94713e;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.4;
+    cursor: pointer;
+}
+
+.qn-install-btn:hover {
+    background: #f1e5d2;
+}
+
+.qn-install-btn svg {
+    flex-shrink: 0;
+}
+
+.qn-install-btn[hidden] {
+    display: none !important;
+}
+
+/* HƯỚNG DẪN CÀI ĐẶT */
+.qn-install-guide {
+    position: fixed;
+    inset: 0;
+    z-index: 300000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 18px;
+    background: rgba(32,25,18,.72);
+    backdrop-filter: blur(6px);
+}
+
+.qn-install-guide[hidden] {
+    display: none !important;
+}
+
+.qn-install-guide-box {
+    width: min(400px,100%);
+    padding: 28px 24px;
+    border-radius: 22px;
+    background: #fffefa;
+    border: 1px solid #dfc9a5;
+    box-shadow: 0 20px 60px #0003;
+    text-align: center;
+}
+
+.qn-install-guide-box h3 {
+    margin: 0 0 14px;
+    color: #302820;
+    font-size: 21px;
+}
+
+.qn-install-guide-box p {
+    color: #766858;
+    font-size: 14px;
+    line-height: 1.8;
+    white-space: pre-line;
+}
+
+.qn-install-guide-close {
+    width: 100%;
+    padding: 14px;
+    margin-top: 14px;
+    border: 0;
+    border-radius: 30px;
+    background: #302820;
+    color: #fffaf1;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+
+
+
+
 </style>
  </head>
  <body>
@@ -1772,17 +3473,17 @@ footer {
 
 
 
-  <div class="promo-strip">
-   🌿 Mua sắm tiện lợi &bull; Sản phẩm được cập nhật mỗi ngày &bull; Giao hàng toàn quốc
-  </div>
+<div class="promo-strip">
+    ✦ YVY SHOP ✦
+    MUA SẮM TINH TẾ · GIAO HÀNG TOÀN QUỐC
+</div>
+
+
   <header>
    <div class="bar">
-    <div class="logo">
-     VÒNG TÁI SINH
-     <span>
-      .
-     </span>
-    </div>
+<div class="logo">
+    Yvy <span>Shop.</span>
+</div>
     <nav>
      <a href="#home">
       Trang chủ
@@ -1808,23 +3509,36 @@ footer {
    <section class="hero">
     <div class="hero-copy">
      <div class="eyebrow">
-      VÒNG TÁI SINH &middot; SHOP ONLINE
+      Yvy &middot; SHOP ONLINE
      </div>
-     <h1>
-      Khởi nguồn năng lượng.
-      <br/>
-      Cân bằng cuộc sống.
-     </h1>
-     <p>
-      Khám phá sản phẩm yêu thích với trải nghiệm mua sắm nhanh chóng, dễ dàng và thuận lợi.
-     </p>
+<h1>
+   Tinh tế trong<br>
+    từng lựa chọn.
+</h1>
+<p>
+    Khám phá những sản phẩm được lựa chọn
+    dành riêng cho bạn. Trải nghiệm mua sắm
+    tinh tế, tiện lợi tại Yvy Shop.
+</p>
      <button class="primary" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">
       Khám phá ngay &rarr;
      </button>
     </div>
-    <div class="hero-art">
-     🌿
+
+<div class="hero-art">
+    <div class="luxury-hero-decoration">
+        <span class="luxury-hero-monogram">YVY</span>
+        <span class="luxury-hero-line"></span>
+        <span class="luxury-hero-label">
+            YVY SHOP
+        </span>
+        <span class="luxury-hero-subtitle">
+            PREMIUM COLLECTION
+        </span>
     </div>
+</div>
+
+
    </section>
    <section id="products">
     <div class="section-head">
@@ -1847,39 +3561,113 @@ footer {
 
 <!-- PHÂN TRANG SẢN PHẨM -->
 <div id="productPagination" class="product-pagination"></div>
-
-
+    
    </section>
-   <section class="benefits" id="benefits">
 
-    <div>
-     🚚
-     <strong>
-      Giao hàng toàn quốc
-     </strong>
-     <p>
-      Đóng gói cẩn thận, vận chuyển thuận tiện.
-     </p>
+ 
+<section class="benefits" id="benefits">
+
+    <div class="benefits-heading">
+        <span class="benefits-eyebrow">
+            THE YVY EXPERIENCE
+        </span>
+
+        <h2>Trọn vẹn từng trải nghiệm</h2>
+
+        <p>
+            Sự an tâm của bạn là điều chúng tôi trân trọng.
+        </p>
+
+        <span class="benefits-line"></span>
     </div>
-    <div>
-     🔒
-     <strong>
-      Thông tin an toàn.
-     </strong>
-     <p>
-      Không thu thập dữ liệu, thanh toán khi nhận hàng.
-     </p>
+
+    <div class="benefits-grid">
+
+        <!-- GIAO HÀNG -->
+        <div class="benefit-item">
+
+            <div class="benefit-icon">
+                <svg viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="1.5"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     aria-hidden="true">
+                    <path d="M3 5h11v12H3z"/>
+                    <path d="M14 9h4l3 4v4h-7"/>
+                    <circle cx="7.5" cy="17" r="2"/>
+                    <circle cx="17.5" cy="17" r="2"/>
+                </svg>
+            </div>
+
+            <h3>Giao hàng tận tâm</h3>
+
+            <p>
+                Đóng gói chỉn chu, vận chuyển thuận tiện
+                đến mọi miền đất nước.
+            </p>
+
+        </div>
+
+        <!-- THANH TOÁN -->
+        <div class="benefit-item">
+
+            <div class="benefit-icon">
+                <svg viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="1.5"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     aria-hidden="true">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    <path d="m9 12 2 2 4-4"/>
+                </svg>
+            </div>
+
+            <h3>Mua sắm an tâm</h3>
+
+            <p>
+                Thanh toán khi nhận hàng, thông tin
+                đặt mua được bảo vệ cẩn trọng.
+            </p>
+
+        </div>
+
+        <!-- HỖ TRỢ -->
+        <div class="benefit-item">
+
+            <div class="benefit-icon">
+                <svg viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="1.5"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     aria-hidden="true">
+                    <path d="M4 13v-1a8 8 0 0 1 16 0v1"/>
+                    <rect x="2" y="12" width="4" height="7" rx="2"/>
+                    <rect x="18" y="12" width="4" height="7" rx="2"/>
+                    <path d="M20 19c0 2-3 3-6 3h-2"/>
+                </svg>
+            </div>
+
+            <h3>Hỗ trợ chu đáo</h3>
+
+            <p>
+                Lắng nghe, tư vấn và đồng hành cùng bạn
+                trong suốt quá trình mua sắm.
+            </p>
+
+        </div>
+
     </div>
-    <div>
-     💬
-     <strong>
-      Hỗ trợ khách hàng
-     </strong>
-     <p>
-      Đồng hành cùng bạn khi mua sắm.
-     </p>
-    </div>
-   </section>
+
+</section>
+
+
+
   </main>
   <footer>
    <div class="wrap">
@@ -1981,7 +3769,7 @@ footer {
 ========================================== -->
 
 <a
-    href="https://zalo.me/0981890136"
+    href="https://zalo.me/0911845555"
     class="shop-zalo-button"
     target="_blank"
     rel="noopener noreferrer"
@@ -2022,7 +3810,7 @@ footer {
 ========================================== -->
 
 <a
-    href="tel:0981890136"
+    href="tel:0911845555"
     class="shop-call-button"
     aria-label="Gọi điện cho chủ shop"
     title="Gọi ngay cho chủ shop"
@@ -2119,6 +3907,90 @@ footer {
                 type="button">
             Đã hiểu
         </button>
+
+    </div>
+</div>
+
+
+
+
+<!-- POPUP CHÀO MỪNG KHÁCH HÀNG -->
+<div class="qn-welcome" id="qnWelcome"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="qnWelcomeTitle"
+     aria-hidden="true">
+
+    <div class="qn-welcome-box">
+
+        <button class="qn-welcome-close"
+                type="button"
+                id="qnWelcomeClose"
+                aria-label="Đóng lời chào">
+            &times;
+        </button>
+
+        <div class="qn-welcome-brand">
+            ✦ YVY SHOP ✦
+        </div>
+
+        <div class="qn-welcome-gift">
+            ♡
+        </div>
+
+        <h2 class="qn-welcome-title"
+            id="qnWelcomeTitle">
+            Chào mừng quý khách!
+        </h2>
+
+        <div class="qn-welcome-subtitle">
+            Rất vui được đón tiếp bạn
+        </div>
+
+        <p class="qn-welcome-message">
+            Cảm ơn bạn đã ghé thăm
+            <strong>Yvy Shop</strong>.
+            Sự hiện diện của bạn là niềm vui
+            và động lực của chúng tôi.
+            <br><br>
+            Chúc bạn có những phút giây
+            mua sắm thật vui vẻ và tìm được
+            những sản phẩm thật ưng ý!
+        </p>
+
+        <div class="qn-welcome-wish">
+            ✦ Chúc bạn một ngày thật nhiều
+            niềm vui, hạnh phúc và may mắn ✦
+        </div>
+
+        <button class="qn-welcome-start"
+                type="button"
+                id="qnWelcomeStart">
+            BẮT ĐẦU KHÁM PHÁ CỬA HÀNG →
+        </button>
+
+        
+<button class="qn-install-btn"
+        id="qnInstallBtn"
+        type="button">
+    <svg width="20" height="20" viewBox="0 0 24 24"
+         fill="none" stroke="currentColor"
+         stroke-width="1.8"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         aria-hidden="true">
+        <path d="M12 3v12"/>
+        <path d="m7 10 5 5 5-5"/>
+        <path d="M5 17v3h14v-3"/>
+    </svg>
+    <span>Thêm cửa hàng vào màn hình chính</span>
+</button>
+
+
+        <div class="qn-welcome-footer">
+            Cảm ơn bạn đã tin tưởng và
+            đồng hành cùng shop ♡
+        </div>
 
     </div>
 </div>
@@ -2330,23 +4202,134 @@ function updateCount() {
    4. TẢI SẢN PHẨM TỪ API RENDER
 ========================================================= */
 
+
 async function loadProducts() {
     const grid = $("grid");
 
-    grid.textContent = "Đang tải sản phẩm...";
+    // Giao diện thanh tiến trình
+    grid.innerHTML = `
+        <div class="product-loading" role="status">
+            <div class="product-loading-top">
+                <div>
+                    <div class="product-loading-label">
+                        YVY SHOP
+                    </div>
+                    <h3 class="product-loading-title">
+                        Đang chuẩn bị sản phẩm
+                    </h3>
+                </div>
+                <div class="product-loading-icon">✦</div>
+            </div>
+
+            <div class="product-loading-status">
+                <span id="loadingStatus">
+                    Đang kết nối cửa hàng...
+                </span>
+                <span class="product-loading-percent"
+                      id="loadingPercent">0%</span>
+            </div>
+
+            <div class="product-loading-track"
+                 role="progressbar"
+                 aria-label="Tiến trình tải sản phẩm"
+                 aria-valuemin="0"
+                 aria-valuemax="100"
+                 aria-valuenow="0"
+                 id="loadingProgress">
+                <div class="product-loading-bar"
+                     id="loadingBar"></div>
+            </div>
+
+            <p class="product-loading-note">
+                Một chút chờ đợi cho trải nghiệm mua sắm tốt hơn.
+            </p>
+        </div>
+    `;
+
+    let progress = 0;
+    let targetProgress = 10;
+
+    const setProgress = (value, status) => {
+        targetProgress = Math.max(
+            targetProgress,
+            Math.min(100, value)
+        );
+
+        const statusEl = $("loadingStatus");
+        if (status && statusEl) {
+            statusEl.textContent = status;
+        }
+    };
+
+    // Chạy mượt đến mục tiêu hiện tại
+    const timer = setInterval(() => {
+        if (progress >= targetProgress) return;
+
+        progress = Math.min(
+            targetProgress,
+            progress + Math.max(
+                1,
+                Math.ceil((targetProgress - progress) / 8)
+            )
+        );
+
+        const bar = $("loadingBar");
+        const percent = $("loadingPercent");
+        const progressEl = $("loadingProgress");
+
+        if (bar) bar.style.width = progress + "%";
+        if (percent) percent.textContent = progress + "%";
+        if (progressEl) {
+            progressEl.setAttribute(
+                "aria-valuenow",
+                progress
+            );
+        }
+    }, 60);
 
     try {
-        const response = await fetch(PRODUCTS_API);
+        // Trong khi chờ phản hồi API,
+        // tiến trình chỉ chạy ước lượng đến 85%.
+        setProgress(
+            15,
+            "Đang kết nối đến cửa hàng..."
+        );
+
+        const waitingTimer = setInterval(() => {
+            if (targetProgress < 85) {
+                targetProgress += 1;
+            }
+        }, 350);
+
+        let response;
+
+        try {
+            response = await fetch(PRODUCTS_API);
+        } finally {
+            clearInterval(waitingTimer);
+        }
 
         if (!response.ok) {
             throw new Error("Không tải được sản phẩm");
         }
 
+        setProgress(
+            90,
+            "Đang tiếp nhận dữ liệu sản phẩm..."
+        );
+
         const data = await response.json();
 
         if (!Array.isArray(data)) {
-            throw new Error("Dữ liệu sản phẩm không hợp lệ");
+            throw new Error(
+                "Dữ liệu sản phẩm không hợp lệ"
+            );
         }
+
+        setProgress(
+            95,
+            "Đang sắp xếp danh sách sản phẩm..."
+        );
 
         products = data;
 
@@ -2355,12 +4338,25 @@ async function loadProducts() {
         renderCart();
         updateCount();
 
+        // Hoàn tất sau khi sản phẩm đã được render
+        setProgress(100);
+
     } catch (error) {
         console.error("Lỗi tải sản phẩm:", error);
 
-        grid.textContent = error.message;
+        grid.innerHTML = "";
+
+        const message = document.createElement("p");
+        message.className = "empty";
+        message.textContent = error.message;
+
+        grid.appendChild(message);
+
+    } finally {
+        clearInterval(timer);
     }
 }
+
 
 
 /* =========================================================
@@ -2414,6 +4410,7 @@ function setCategory(selectedCategory) {
     renderFilters();
     renderProducts();
 }
+
 
 /* =========================================================
    6. TÌM KIẾM VÀ LỌC SẢN PHẨM
@@ -2514,7 +4511,6 @@ function createProductCard(product) {
     `;
 }
 
-// Hiển thị toàn bộ sản phẩm
 
 /* =========================================
    PHÂN TRANG - 6 SẢN PHẨM / TRANG
@@ -3323,6 +5319,179 @@ document.addEventListener("keydown", event => {
         closeProductDetail();
     }
 });
+
+
+
+(function () {
+    const popup = document.getElementById("qnWelcome");
+    const closeBtn = document.getElementById("qnWelcomeClose");
+    const startBtn = document.getElementById("qnWelcomeStart");
+
+    if (!popup || !closeBtn || !startBtn) return;
+
+    const STORAGE_KEY = "yvy_shop_welcomed";
+
+    // true: Chỉ hiện một lần trên cùng trình duyệt
+    // false: Hiện mỗi lần mở trang
+   
+const SHOW_ONCE = true;
+
+
+    function alreadyWelcomed() {
+        try {
+            return localStorage.getItem(STORAGE_KEY) === "yes";
+        } catch {
+            return false;
+        }
+    }
+
+    function markWelcomed() {
+        try {
+            localStorage.setItem(STORAGE_KEY, "yes");
+        } catch {}
+    }
+
+    function showWelcome() {
+        popup.classList.add("show");
+        popup.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+        closeBtn.focus();
+    }
+
+    function closeWelcome() {
+        popup.classList.remove("show");
+        popup.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+        markWelcomed();
+    }
+
+    closeBtn.addEventListener("click", closeWelcome);
+    startBtn.addEventListener("click", closeWelcome);
+
+    popup.addEventListener("click", function (e) {
+        if (e.target === popup) closeWelcome();
+    });
+
+    document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && popup.classList.contains("show")) {
+            closeWelcome();
+        }
+    });
+
+    window.addEventListener("load", function () {
+        if (SHOW_ONCE && alreadyWelcomed()) return;
+
+        setTimeout(showWelcome, 900);
+    });
+})();
+
+
+
+
+/* ===== THÊM YVY SHOP VÀO MÀN HÌNH CHÍNH ===== */
+(function () {
+    const installBtn = document.getElementById("qnInstallBtn");
+    if (!installBtn) return;
+
+    let installPrompt = null;
+
+    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const isStandalone =
+        window.matchMedia("(display-mode: standalone)").matches ||
+        window.navigator.standalone === true;
+
+    if (isStandalone) {
+        installBtn.hidden = true;
+        return;
+    }
+
+    // Chrome/Edge Android có thể cung cấp hộp thoại cài đặt.
+    window.addEventListener("beforeinstallprompt", function (event) {
+        event.preventDefault();
+        installPrompt = event;
+    });
+
+    const guide = document.createElement("div");
+    guide.className = "qn-install-guide";
+    guide.hidden = true;
+    guide.innerHTML = `
+        <div class="qn-install-guide-box"
+             role="dialog"
+             aria-modal="true"
+             aria-labelledby="qnInstallGuideTitle">
+            <h3 id="qnInstallGuideTitle">
+                Thêm Yvy Shop
+            </h3>
+            <p id="qnInstallGuideText"></p>
+            <button class="qn-install-guide-close"
+                    type="button">
+                Đã hiểu
+            </button>
+        </div>
+    `;
+
+    document.body.appendChild(guide);
+
+    const guideText = guide.querySelector("#qnInstallGuideText");
+
+    function showGuide(message) {
+        guideText.textContent = message;
+        guide.hidden = false;
+    }
+
+    function closeGuide() {
+        guide.hidden = true;
+    }
+
+    guide.querySelector(".qn-install-guide-close")
+        .addEventListener("click", closeGuide);
+
+    guide.addEventListener("click", function (event) {
+        if (event.target === guide) closeGuide();
+    });
+
+    installBtn.addEventListener("click", async function () {
+        if (installPrompt) {
+            const promptEvent = installPrompt;
+            installPrompt = null;
+
+            try {
+                await promptEvent.prompt();
+                await promptEvent.userChoice;
+            } catch (error) {
+                console.warn("Không mở được hộp thoại cài đặt:", error);
+            }
+            return;
+        }
+
+        if (isIOS) {
+            showGuide(
+                "Trên iPhone hoặc iPad:\n\n" +
+                "1. Mở cửa hàng bằng Safari.\n" +
+                "2. Nhấn biểu tượng Chia sẻ.\n" +
+                "3. Chọn Thêm vào Màn hình chính.\n" +
+                "4. Nhấn Thêm để hoàn tất.\n\n" +
+                "Sau đó, bạn có thể mở shop từ màn hình chính."
+            );
+        } else {
+            showGuide(
+                "Để thêm Yvy Shop vào màn hình chính:\n\n" +
+                "1. Mở website bằng Chrome hoặc trình duyệt hỗ trợ.\n" +
+                "2. Nhấn menu ⋮ của trình duyệt.\n" +
+                "3. Chọn Thêm vào màn hình chính hoặc Cài đặt ứng dụng.\n" +
+                "4. Xác nhận để hoàn tất."
+            );
+        }
+    });
+
+    window.addEventListener("appinstalled", function () {
+        installPrompt = null;
+        installBtn.hidden = true;
+        closeGuide();
+    });
+})();
+
+
 
 
 
