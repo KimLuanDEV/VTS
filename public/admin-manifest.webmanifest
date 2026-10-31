@@ -2,7 +2,7 @@
 {
   "id": "/admin-yvy.html",
   "name": "Yvy Shop - Admin",
-  "short_name": "QN Admin",
+  "short_name": "YVY Admin",
   "description": "Quản lý sản phẩm Yvy Shop",
   "start_url": "/admin-yvy.html",
   "scope": "/",
