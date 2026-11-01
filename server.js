@@ -232,7 +232,7 @@ if (stock < quantity) {
 
         // 4. Tạo mã đơn hàng
         const orderId =
-            "Yvy-" +
+            "YVY-" +
             Date.now() +
             "-" +
             Math.random().toString(36).slice(2, 8).toUpperCase();
@@ -241,7 +241,7 @@ if (stock < quantity) {
 
         // 5. Tạo nội dung Telegram
         const message = [
-            "🛒 <b>ĐƠN HÀNG MỚI - Yvy Shop</b>",
+            "🛒 <b>ĐƠN HÀNG MỚI - YVY Shop</b>",
             "",
             `🆔 Mã đơn: <code>${orderId}</code>`,
             `🕒 Thời gian: ${createdAt.toLocaleString("vi-VN", {
@@ -286,7 +286,18 @@ if (stock < quantity) {
 
 const {DATABASE_URL,ADMIN_PASSWORD}=process.env;
 if(!DATABASE_URL||!ADMIN_PASSWORD){console.error('Missing DATABASE_URL or ADMIN_PASSWORD');process.exit(1)}
-const db=new pg.Pool({connectionString:DATABASE_URL,ssl:DATABASE_URL.includes('localhost')?false:{rejectUnauthorized:false}});
+
+const db = new pg.Pool({
+    connectionString: DATABASE_URL,
+    ssl: DATABASE_URL.includes("localhost")
+        ? false
+        : { rejectUnauthorized: false },
+    max: 3,
+    idleTimeoutMillis: 10000,
+    connectionTimeoutMillis: 10000
+});
+
+
 await db.query('CREATE TABLE IF NOT EXISTS products (id TEXT PRIMARY KEY, name TEXT NOT NULL, price NUMERIC NOT NULL, category TEXT NOT NULL, stock INTEGER NOT NULL, description TEXT NOT NULL DEFAULT \'\', image TEXT NOT NULL DEFAULT \'\', created_at TIMESTAMPTZ NOT NULL DEFAULT now())');
 await db.query(`
     ALTER TABLE products
@@ -307,7 +318,264 @@ const format = (r) => ({
         : r.image ? [r.image] : []
 });
 
+
+
+
+/* ==========================================
+   PHÂN TRANG KHÁCH HÀNG - 6 SẢN PHẨM
+========================================== */
+
+app.get("/api/products-page", async (req, res) => {
+    try {
+        const page = Math.max(
+            1,
+            Math.min(100000, parseInt(req.query.page, 10) || 1)
+        );
+
+        const limit = 6;
+        const offset = (page - 1) * limit;
+        const category = String(req.query.category || "Tất cả");
+        const search = String(req.query.search || "")
+            .trim()
+            .slice(0, 120);
+
+        const conditions = [];
+        const params = [];
+
+        if (category !== "Tất cả") {
+            params.push(category);
+            conditions.push(`category = $${params.length}`);
+        }
+
+        if (search) {
+            params.push("%" + search + "%");
+            conditions.push(`name ILIKE $${params.length}`);
+        }
+
+        const where = conditions.length
+            ? "WHERE " + conditions.join(" AND ")
+            : "";
+
+        const countResult = await db.query(
+            `SELECT COUNT(*)::int AS total
+             FROM products ${where}`,
+            params
+        );
+
+        const total = countResult.rows[0].total;
+
+        // Chỉ đọc ảnh chính, KHÔNG đọc cả 5 ảnh.
+        const result = await db.query(
+
+            `SELECT
+    id, name, price, category, stock,
+    description, image
+FROM products
+
+             ${where}
+             ORDER BY created_at DESC, id DESC
+             LIMIT $${params.length + 1}
+             OFFSET $${params.length + 2}`,
+            [...params, limit, offset]
+        );
+
+        res.json({
+            products: result.rows.map(row => ({
+                ...row,
+                price: Number(row.price),
+                images: row.image ? [row.image] : []
+            })),
+            page,
+            limit,
+            total,
+            totalPages: Math.ceil(total / limit)
+        });
+
+    } catch (error) {
+        console.error("Lỗi phân trang:", error);
+        res.status(500).json({
+            error: "Không tải được trang sản phẩm"
+        });
+    }
+});
+
+
+/* DANH MỤC - KHÔNG TẢI ẢNH */
+
+app.get("/api/product-categories", async (req, res) => {
+    try {
+        const result = await db.query(`
+            SELECT DISTINCT category
+            FROM products
+            WHERE category <> ''
+            ORDER BY category
+        `);
+
+        res.json([
+            "Tất cả",
+            ...result.rows.map(row => row.category)
+        ]);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            error: "Không tải được danh mục"
+        });
+    }
+});
+
+
+/* CHI TIẾT - CHỈ TẢI 5 ẢNH KHI KHÁCH MỞ */
+
+app.get("/api/product-detail/:id", async (req, res) => {
+    try {
+        const result = await db.query(
+            `SELECT id, name, price, category, stock,
+                    description, image, images
+             FROM products WHERE id = $1`,
+            [req.params.id]
+        );
+
+        if (!result.rows.length) {
+            return res.status(404).json({
+                error: "Không tìm thấy sản phẩm"
+            });
+        }
+
+        res.json(format(result.rows[0]));
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            error: "Không tải được chi tiết sản phẩm"
+        });
+    }
+});
+
+
+/* GIỎ HÀNG - LẤY SẢN PHẨM THEO ID */
+
+app.post("/api/cart-products", async (req, res) => {
+    try {
+        const ids = Array.isArray(req.body?.ids)
+            ? [...new Set(
+                req.body.ids.map(String).filter(id => id.length <= 100)
+            )].slice(0, 50)
+            : [];
+
+        if (!ids.length) return res.json([]);
+
+        const result = await db.query(
+            `SELECT id, name, price, category, stock,
+                    description, image
+             FROM products
+             WHERE id = ANY($1::text[])`,
+            [ids]
+        );
+
+        res.json(result.rows.map(row => ({
+            ...row,
+            price: Number(row.price),
+            images: row.image ? [row.image] : []
+        })));
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            error: "Không tải được giỏ hàng"
+        });
+    }
+});
+
+
+
 app.get('/api/products',async(req,res)=>{try{const r=await db.query('SELECT * FROM products ORDER BY created_at DESC');res.json(r.rows.map(format))}catch(e){console.error(e);res.status(500).json({error:'Không tải được sản phẩm'})}});
+
+
+app.get("/api/admin/product-detail/:id", auth, async (req, res) => {
+    try {
+        const result = await db.query(
+            `SELECT *
+             FROM products
+             WHERE id = $1`,
+            [req.params.id]
+        );
+
+        if (!result.rows.length) {
+            return res.status(404).json({
+                error: "Không tìm thấy sản phẩm"
+            });
+        }
+
+        res.json({
+            product: format(result.rows[0])
+        });
+
+    } catch (error) {
+        console.error("Lỗi chi tiết sản phẩm:", error);
+
+        res.status(500).json({
+            error: "Không tải được chi tiết sản phẩm"
+        });
+    }
+});
+
+
+app.get("/api/admin/products-page", auth, async (req, res) => {
+    try {
+        const page = Math.max(
+            1,
+            Math.min(100000, parseInt(req.query.page, 10) || 1)
+        );
+
+        const limit = 5;
+        const offset = (page - 1) * limit;
+
+        const search = String(req.query.search || "")
+            .trim()
+            .slice(0, 120);
+
+        const searchPattern =
+            "%" + search.replace(/[\\%_]/g, "\\$&") + "%";
+
+        const statsResult = await db.query(`
+            SELECT
+                COUNT(*)::int AS total,
+                COUNT(*) FILTER (WHERE stock > 0)::int AS available,
+                COUNT(*) FILTER (WHERE stock = 0)::int AS out_of_stock
+            FROM products
+        `);
+
+        const countResult = await db.query(`
+            SELECT COUNT(*)::int AS total
+            FROM products
+            WHERE name ILIKE $1 ESCAPE '\\'
+        `, [searchPattern]);
+
+const productsResult = await db.query(`
+    SELECT
+        id, name, price, category, stock,
+        description, image
+    FROM products
+    WHERE name ILIKE $1 ESCAPE '\\'
+    ORDER BY created_at DESC, id DESC
+    LIMIT $2 OFFSET $3
+`, [searchPattern, limit, offset]);
+
+        return res.json({
+            products: productsResult.rows.map(format),
+            page,
+            limit,
+            total: countResult.rows[0].total,
+            stats: statsResult.rows[0]
+        });
+
+    } catch (error) {
+        console.error("Lỗi phân trang Admin:", error);
+
+        return res.status(500).json({
+            error: "Không tải được danh sách sản phẩm"
+        });
+    }
+});
+
 
 function validate(p) {
     if (
@@ -358,8 +626,33 @@ return Array.isArray(images) &&
 
 
 
+let productWriteBusy = false;
 
-app.post("/api/products", auth, async (req, res) => {
+function productWriteLock(req, res, next) {
+    if (productWriteBusy) {
+        return res.status(503).json({
+            error: "Máy chủ đang xử lý sản phẩm khác. Vui lòng thử lại sau."
+        });
+    }
+
+    productWriteBusy = true;
+
+    let released = false;
+
+    const release = () => {
+        if (released) return;
+        released = true;
+        productWriteBusy = false;
+    };
+
+    res.once("finish", release);
+    res.once("close", release);
+
+    next();
+}
+
+
+app.post("/api/products", auth, productWriteLock, async (req, res) => {
     const p = req.body;
 
     if (!validate(p)) {
@@ -396,7 +689,7 @@ app.post("/api/products", auth, async (req, res) => {
 });
 
 
-app.put("/api/products/:id", auth, async (req, res) => {
+app.put("/api/products/:id", auth, productWriteLock, async (req, res) => {
     const p = req.body;
 
     if (!validate(p)) {
@@ -448,4 +741,29 @@ app.put("/api/products/:id", auth, async (req, res) => {
 
 
 app.delete('/api/products/:id',auth,async(req,res)=>{try{await db.query('DELETE FROM products WHERE id=$1',[req.params.id]);res.json({ok:true})}catch(e){console.error(e);res.status(500).json({error:'Không xóa được'})}});
+
+
+function formatMB(bytes) {
+    return (bytes / 1024 / 1024).toFixed(1);
+}
+
+setInterval(() => {
+    const memory = process.memoryUsage();
+
+    console.log(
+        "[MEMORY]",
+        "RSS:", formatMB(memory.rss) + " MB",
+        "| Heap:", formatMB(memory.heapUsed) + " MB",
+        "| External:", formatMB(memory.external) + " MB"
+    );
+
+    if (memory.rss > 400 * 1024 * 1024) {
+        console.warn(
+            "[WARNING] RAM đang vượt 400 MB!"
+        );
+    }
+}, 60000).unref();
+
+
+
 app.use(express.static(root));app.listen(process.env.PORT||3000,'0.0.0.0',()=>console.log('Shop3D running'));
