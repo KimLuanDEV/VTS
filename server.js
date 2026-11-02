@@ -148,9 +148,10 @@ app.post("/api/orders", async (req, res) => {
 
         const queryResult = await db.query(
             `
-                SELECT id, name, price, stock
-                FROM products
-                WHERE id::text = ANY($1::text[])
+SELECT id, name, price, stock
+FROM products
+WHERE id::text = ANY($1::text[])
+  AND is_visible = TRUE
             `,
             [ids]
         );
@@ -303,9 +304,18 @@ await db.query(`
     ALTER TABLE products
     ADD COLUMN IF NOT EXISTS images JSONB NOT NULL DEFAULT '[]'::jsonb
 `);
+
+
+await db.query(`
+    ALTER TABLE products
+    ADD COLUMN IF NOT EXISTS is_visible BOOLEAN NOT NULL DEFAULT TRUE
+`);
+
+
 const auth=(req,res,next)=>{const supplied=req.get('x-admin-password')||'';const a=Buffer.from(supplied),b=Buffer.from(ADMIN_PASSWORD);if(a.length!==b.length||!crypto.timingSafeEqual(a,b))return res.status(401).json({error:'Sai mật khẩu Admin'});next()};
 
 const format = (r) => ({
+    is_visible: r.is_visible !== false,
     id: r.id,
     name: r.name,
     price: Number(r.price),
@@ -339,7 +349,7 @@ app.get("/api/products-page", async (req, res) => {
             .trim()
             .slice(0, 120);
 
-        const conditions = [];
+        const conditions = ["is_visible = TRUE"];
         const params = [];
 
         if (category !== "Tất cả") {
@@ -407,7 +417,7 @@ app.get("/api/product-categories", async (req, res) => {
         const result = await db.query(`
             SELECT DISTINCT category
             FROM products
-            WHERE category <> ''
+            WHERE category <> '' AND is_visible = TRUE
             ORDER BY category
         `);
 
@@ -431,7 +441,7 @@ app.get("/api/product-detail/:id", async (req, res) => {
         const result = await db.query(
             `SELECT id, name, price, category, stock,
                     description, image, images
-             FROM products WHERE id = $1`,
+             FROM products WHERE id = $1 AND is_visible = TRUE`,
             [req.params.id]
         );
 
@@ -467,7 +477,8 @@ app.post("/api/cart-products", async (req, res) => {
             `SELECT id, name, price, category, stock,
                     description, image
              FROM products
-             WHERE id = ANY($1::text[])`,
+             WHERE id = ANY($1::text[])
+  AND is_visible = TRUE`,
             [ids]
         );
 
@@ -486,7 +497,31 @@ app.post("/api/cart-products", async (req, res) => {
 
 
 
-app.get('/api/products',async(req,res)=>{try{const r=await db.query('SELECT * FROM products ORDER BY created_at DESC');res.json(r.rows.map(format))}catch(e){console.error(e);res.status(500).json({error:'Không tải được sản phẩm'})}});
+
+/* ==========================================
+   API SẢN PHẨM - CHỈ HIỆN SẢN PHẨM ĐANG BẬT
+========================================== */
+
+app.get('/api/products', async (req, res) => {
+    try {
+        const r = await db.query(`
+            SELECT *
+            FROM products
+            WHERE is_visible = TRUE
+            ORDER BY created_at DESC
+        `);
+
+        res.json(r.rows.map(format));
+
+    } catch (e) {
+        console.error("Lỗi tải sản phẩm:", e);
+
+        res.status(500).json({
+            error: 'Không tải được sản phẩm'
+        });
+    }
+});
+
 
 
 app.get("/api/admin/product-detail/:id", auth, async (req, res) => {
@@ -550,10 +585,11 @@ app.get("/api/admin/products-page", auth, async (req, res) => {
         `, [searchPattern]);
 
 const productsResult = await db.query(`
-    SELECT
-        id, name, price, category, stock,
-        description, image
-    FROM products
+SELECT
+    id, name, price, category, stock,
+    description, image, is_visible
+FROM products
+    
     WHERE name ILIKE $1 ESCAPE '\\'
     ORDER BY created_at DESC, id DESC
     LIMIT $2 OFFSET $3
@@ -735,6 +771,53 @@ app.put("/api/products/:id", auth, productWriteLock, async (req, res) => {
         console.error(error);
         res.status(500).json({
             error: "Không cập nhật được sản phẩm"
+        });
+    }
+});
+
+
+
+/* ==========================================
+   ADMIN - ẨN / HIỆN SẢN PHẨM
+========================================== */
+
+app.patch("/api/admin/products/:id/visibility", auth, async (req, res) => {
+    try {
+        const { is_visible } = req.body || {};
+
+        if (typeof is_visible !== "boolean") {
+            return res.status(400).json({
+                error: "Trạng thái hiển thị không hợp lệ"
+            });
+        }
+
+        const result = await db.query(`
+            UPDATE products
+            SET is_visible = $1
+            WHERE id = $2
+            RETURNING id, is_visible
+        `, [
+            is_visible,
+            req.params.id
+        ]);
+
+        if (!result.rowCount) {
+            return res.status(404).json({
+                error: "Không tìm thấy sản phẩm"
+            });
+        }
+
+        return res.json({
+            ok: true,
+            id: result.rows[0].id,
+            is_visible: result.rows[0].is_visible
+        });
+
+    } catch (error) {
+        console.error("Lỗi thay đổi hiển thị:", error);
+
+        return res.status(500).json({
+            error: "Không thể thay đổi trạng thái sản phẩm"
         });
     }
 });

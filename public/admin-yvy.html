@@ -17,7 +17,7 @@
 <link rel="manifest" href="/admin-manifest.webmanifest">
 
 <meta name="theme-color" content="#16834a">
-<meta name="apple-mobile-web-app-title" content="QN Admin">
+<meta name="apple-mobile-web-app-title" content="YVY Admin">
 <meta name="apple-mobile-web-app-capable" content="yes">
 
 
@@ -1929,6 +1929,59 @@ select:focus {
 
 
 
+/* ===== TRẠNG THÁI HIỂN THỊ SẢN PHẨM ===== */
+
+.btn-visibility {
+    border: 1px solid transparent;
+    border-radius: 10px;
+    padding: 9px 15px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.btn-visibility.is-visible {
+    background: #fff1f2;
+    color: #be123c;
+    border-color: #fecdd3;
+}
+
+.btn-visibility.is-hidden {
+    background: #ecfdf5;
+    color: #047857;
+    border-color: #a7f3d0;
+}
+
+.btn-visibility:disabled {
+    opacity: .5;
+    cursor: wait;
+}
+
+.item.product-hidden {
+    opacity: .7;
+}
+
+.product-status {
+    display: inline-block;
+    margin-top: 7px;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 750;
+}
+
+.product-status.visible {
+    color: #15803d;
+    background: #dcfce7;
+}
+
+.product-status.hidden-status {
+    color: #be123c;
+    background: #ffe4e6;
+}
+
+
 
 
     </style>
@@ -3363,13 +3416,76 @@ await load();
             }
         }
 
+
+
+
+
+
         /* =========================================
            23. TẠO GIAO DIỆN MỘT SẢN PHẨM
         ========================================== */
 
+
+/* =========================================
+   ẨN / HIỆN SẢN PHẨM
+========================================= */
+
+async function toggleProductVisibility(product, button) {
+    const currentlyVisible = product.is_visible !== false;
+    const nextVisible = !currentlyVisible;
+
+    const action = nextVisible ? "hiện" : "ẩn";
+
+    const confirmed = await modalConfirm(
+        `Bạn có chắc muốn ${action} sản phẩm "${product.name}" không?`
+    );
+
+    if (!confirmed) return;
+
+    button.disabled = true;
+    const oldText = button.textContent;
+    button.textContent = "Đang xử lý...";
+
+    try {
+        const result = await api(
+            "/api/admin/products/" +
+            encodeURIComponent(product.id) +
+            "/visibility",
+            {
+                method: "PATCH",
+                body: JSON.stringify({
+                    is_visible: nextVisible
+                })
+            }
+        );
+
+        product.is_visible = result.is_visible;
+
+        await load();
+
+    } catch (error) {
+        button.disabled = false;
+        button.textContent = oldText;
+
+        await modalAlert(
+            error.message || "Không thể cập nhật trạng thái",
+            "error"
+        );
+    }
+}
+
+
+
         function createProductItem(product) {
+
             const item = document.createElement("div");
             item.className = "item";
+
+            const isVisible = product.is_visible !== false;
+
+if (!isVisible) {
+    item.classList.add("product-hidden");
+}
 
             // Hình ảnh
             const img = document.createElement("img");
@@ -3416,7 +3532,39 @@ await load();
                 deleteProduct(product);
             };
 
-            actions.append(editButton, deleteButton);
+            
+const visibilityButton = document.createElement("button");
+
+visibilityButton.type = "button";
+
+visibilityButton.className =
+    "btn-visibility " +
+    (isVisible ? "is-visible" : "is-hidden");
+
+visibilityButton.textContent =
+    isVisible ? "Ẩn sản phẩm" : "Hiện sản phẩm";
+
+visibilityButton.onclick = () => {
+    toggleProductVisibility(product, visibilityButton);
+};
+
+const status = document.createElement("span");
+
+status.className =
+    "product-status " +
+    (isVisible ? "visible" : "hidden-status");
+
+status.textContent =
+    isVisible ? "● Đang hiển thị" : "● Đã ẩn";
+
+content.append(status);
+
+actions.append(
+    editButton,
+    visibilityButton,
+    deleteButton
+);
+
 
             content.append(
                 title,
