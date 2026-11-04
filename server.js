@@ -312,6 +312,36 @@ await db.query(`
 `);
 
 
+
+/* THỨ TỰ HIỂN THỊ SẢN PHẨM */
+
+await db.query(`
+    ALTER TABLE products
+    ADD COLUMN IF NOT EXISTS display_order BIGINT
+`);
+
+await db.query(`
+    WITH ranked AS (
+        SELECT id,
+               ROW_NUMBER() OVER (
+                   ORDER BY created_at DESC, id DESC
+               ) AS position
+        FROM products
+    )
+    UPDATE products p
+    SET display_order = ranked.position
+    FROM ranked
+    WHERE p.id = ranked.id
+      AND p.display_order IS NULL
+`);
+
+await db.query(`
+    CREATE INDEX IF NOT EXISTS idx_products_display_order
+    ON products (display_order, id)
+`);
+
+
+
 const auth=(req,res,next)=>{const supplied=req.get('x-admin-password')||'';const a=Buffer.from(supplied),b=Buffer.from(ADMIN_PASSWORD);if(a.length!==b.length||!crypto.timingSafeEqual(a,b))return res.status(401).json({error:'Sai mật khẩu Admin'});next()};
 
 const format = (r) => ({
@@ -383,7 +413,7 @@ app.get("/api/products-page", async (req, res) => {
 FROM products
 
              ${where}
-             ORDER BY created_at DESC, id DESC
+             ORDER BY display_order ASC NULLS LAST, id ASC
              LIMIT $${params.length + 1}
              OFFSET $${params.length + 2}`,
             [...params, limit, offset]
@@ -508,7 +538,7 @@ app.get('/api/products', async (req, res) => {
             SELECT *
             FROM products
             WHERE is_visible = TRUE
-            ORDER BY created_at DESC
+            ORDER BY display_order ASC NULLS LAST, id ASC
         `);
 
         res.json(r.rows.map(format));
@@ -560,7 +590,7 @@ app.get("/api/admin/products-page", auth, async (req, res) => {
             Math.min(100000, parseInt(req.query.page, 10) || 1)
         );
 
-        const limit = 5;
+        const limit = 6;
         const offset = (page - 1) * limit;
 
         const search = String(req.query.search || "")
@@ -591,7 +621,7 @@ SELECT
 FROM products
     
     WHERE name ILIKE $1 ESCAPE '\\'
-    ORDER BY created_at DESC, id DESC
+    ORDER BY display_order ASC NULLS LAST, id ASC
     LIMIT $2 OFFSET $3
 `, [searchPattern, limit, offset]);
 
@@ -703,9 +733,18 @@ app.post("/api/products", auth, productWriteLock, async (req, res) => {
         const image = images[0] || "";
 
         await db.query(`
-            INSERT INTO products
-            (id, name, price, category, stock, description, image, images)
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8::jsonb)
+
+INSERT INTO products
+(id, name, price, category, stock, description,
+ image, images, display_order)
+VALUES (
+    $1, $2, $3, $4, $5, $6, $7, $8::jsonb,
+    (
+        SELECT COALESCE(MAX(display_order), 0) + 1
+        FROM products
+    )
+)
+
         `, [
             id,
             p.name.trim(),
@@ -821,6 +860,95 @@ app.patch("/api/admin/products/:id/visibility", auth, async (req, res) => {
         });
     }
 });
+
+
+
+
+/* =========================================
+   ADMIN - SẮP XẾP VỊ TRÍ SẢN PHẨM
+========================================= */
+
+app.patch(
+    "/api/admin/products/:id/position",
+    auth,
+    productWriteLock,
+    async (req, res) => {
+        const { id } = req.params;
+        const position = req.body?.position;
+
+        if (
+            !Number.isSafeInteger(position) ||
+            position < 1
+        ) {
+            return res.status(400).json({
+                error: "Vị trí không hợp lệ"
+            });
+        }
+
+        const client = await db.connect();
+
+        try {
+            await client.query("BEGIN");
+
+            // Khóa bảng để không bị xung đột thứ tự.
+            await client.query(
+                "LOCK TABLE products IN SHARE ROW EXCLUSIVE MODE"
+            );
+
+            const result = await client.query(`
+                SELECT id
+                FROM products
+                ORDER BY display_order ASC NULLS LAST, id ASC
+            `);
+
+            const ids = result.rows.map(row => row.id);
+            const oldIndex = ids.indexOf(id);
+
+            if (oldIndex === -1) {
+                await client.query("ROLLBACK");
+                return res.status(404).json({
+                    error: "Không tìm thấy sản phẩm"
+                });
+            }
+
+            const newIndex = Math.min(
+                position - 1,
+                ids.length - 1
+            );
+
+            ids.splice(oldIndex, 1);
+            ids.splice(newIndex, 0, id);
+
+            // Lưu thứ tự mới theo một câu lệnh.
+            await client.query(`
+                UPDATE products AS p
+                SET display_order = ordered.position
+                FROM unnest($1::text[])
+                     WITH ORDINALITY AS ordered(id, position)
+                WHERE p.id = ordered.id
+            `, [ids]);
+
+            await client.query("COMMIT");
+
+            res.json({
+                ok: true,
+                position: newIndex + 1,
+                page: Math.floor(newIndex / 6) + 1
+            });
+
+        } catch (error) {
+            await client.query("ROLLBACK");
+            console.error("Lỗi sắp xếp:", error);
+
+            res.status(500).json({
+                error: "Không lưu được thứ tự sản phẩm"
+            });
+        } finally {
+            client.release();
+        }
+    }
+);
+
 
 
 app.delete('/api/products/:id',auth,async(req,res)=>{try{await db.query('DELETE FROM products WHERE id=$1',[req.params.id]);res.json({ok:true})}catch(e){console.error(e);res.status(500).json({error:'Không xóa được'})}});

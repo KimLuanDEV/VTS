@@ -1983,6 +1983,42 @@ select:focus {
 
 
 
+/* NÚT SẮP XẾP SẢN PHẨM */
+
+.item .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.item .actions button {
+    min-height: 36px;
+    border-radius: 9px;
+    transition: .2s ease;
+}
+
+.item .actions button:disabled {
+    opacity: .35;
+    cursor: not-allowed;
+}
+
+.item .actions button:not(:disabled):active {
+    transform: scale(.96);
+}
+
+@media (max-width: 600px) {
+    .item .actions {
+        gap: 6px;
+    }
+
+    .item .actions button {
+        font-size: 11px;
+        padding: 8px 10px;
+    }
+}
+
+
+
 
     </style>
 </head>
@@ -2146,7 +2182,7 @@ select:focus {
                     id="name"
                     maxlength="120"
                     required
-                    placeholder="Ví dụ: Dây chuyền..."
+                    placeholder="Ví dụ: Bánh ngọt..."
                 >
 
                 <div class="product-form-grid">
@@ -2767,7 +2803,7 @@ const requestId = ++productLoadRequestId;
         "Đang tải danh sách sản phẩm...";
 
     $("productLoadingDescription").textContent =
-        "Đang lấy 5 sản phẩm từ máy chủ.";
+        "Đang lấy 6 sản phẩm từ máy chủ.";
 
     retryButton.hidden = true;
     list.hidden = true;
@@ -3559,7 +3595,47 @@ status.textContent =
 
 content.append(status);
 
+
+const moveUpButton = document.createElement("button");
+moveUpButton.type = "button";
+moveUpButton.className = "btn secondary";
+moveUpButton.textContent = "↑ Lên";
+
+const moveDownButton = document.createElement("button");
+moveDownButton.type = "button";
+moveDownButton.className = "btn secondary";
+moveDownButton.textContent = "↓ Xuống";
+
+const index = products.findIndex(
+    p => p.id === product.id
+);
+
+const currentPosition =
+    (currentProductPage - 1) * PRODUCTS_PER_PAGE
+    + index + 1;
+
+moveUpButton.disabled = currentPosition <= 1;
+moveDownButton.disabled = currentPosition >= productTotal;
+
+moveUpButton.onclick = () =>
+    moveProductToPosition(product, currentPosition - 1);
+
+moveDownButton.onclick = () =>
+    moveProductToPosition(product, currentPosition + 1);
+
+const movePageButton = document.createElement("button");
+movePageButton.type = "button";
+movePageButton.className = "btn secondary";
+movePageButton.textContent = "Chuyển trang";
+
+movePageButton.onclick = () => {
+    chooseProductPage(product);
+};
+
 actions.append(
+    moveUpButton,
+    moveDownButton,
+    movePageButton,
     editButton,
     visibilityButton,
     deleteButton
@@ -3584,11 +3660,11 @@ actions.append(
 
 
 /* =========================================
-   PHÂN TRANG SẢN PHẨM - 5 SẢN PHẨM / TRANG
+   PHÂN TRANG SẢN PHẨM - 6 SẢN PHẨM / TRANG
 ========================================= */
 
 
-const PRODUCTS_PER_PAGE = 5;
+const PRODUCTS_PER_PAGE = 6;
 let currentProductPage = 1;
 
 async function changeProductPage(page) {
@@ -3604,6 +3680,86 @@ async function changeProductPage(page) {
 
     await load();
 }
+
+
+
+/* =========================================
+   DI CHUYỂN VỊ TRÍ SẢN PHẨM
+========================================= */
+
+let productMoveBusy = false;
+
+async function moveProductToPosition(product, position) {
+    if (productMoveBusy) return;
+
+    productMoveBusy = true;
+
+    try {
+        const result = await api(
+            "/api/admin/products/" +
+            encodeURIComponent(product.id) +
+            "/position",
+            {
+                method: "PATCH",
+                body: JSON.stringify({ position })
+            }
+        );
+
+        currentProductPage = result.page;
+        await load();
+
+    } catch (error) {
+        await modalAlert(
+            "Không thể di chuyển sản phẩm: " +
+            error.message,
+            "error"
+        );
+    } finally {
+        productMoveBusy = false;
+    }
+}
+
+/* CHỌN TRANG ĐÍCH */
+
+async function chooseProductPage(product) {
+    if (productMoveBusy) return;
+
+    const totalPages = Math.max(
+        1,
+        Math.ceil(productTotal / PRODUCTS_PER_PAGE)
+    );
+
+    const value = await modalPrompt(
+        `Chuyển "${product.name}" đến trang nào?\n` +
+        `Nhập số từ 1 đến ${totalPages}:`
+    );
+
+    if (value === null || String(value).trim() === "") {
+        return;
+    }
+
+    const page = Number(value);
+
+    if (
+        !Number.isSafeInteger(page) ||
+        page < 1 ||
+        page > totalPages
+    ) {
+        await modalAlert(
+            "Số trang không hợp lệ.",
+            "warning"
+        );
+        return;
+    }
+
+    // Đưa sản phẩm lên đầu trang được chọn.
+    const position =
+        (page - 1) * PRODUCTS_PER_PAGE + 1;
+
+    await moveProductToPosition(product, position);
+}
+
+
 
 function render() {
     $("count").textContent =
